@@ -47,7 +47,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="flex space-x-8">
-              {['HOME', 'ABOUT', 'EDUCATION', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item) => (
+              {['HOME', 'ABOUT', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -105,7 +105,7 @@ export default function Navbar() {
         <div className="fixed top-0 right-0 w-full h-full bg-blue-700 z-30 md:hidden flex flex-col transition-all duration-500 ease-in-out">
           <div className="flex flex-col items-start justify-center h-full px-6">
             <div className="flex flex-col items-start space-y-8 py-8 w-full">
-              {['HOME', 'ABOUT', 'EDUCATION', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item, index) => (
+              {['HOME', 'ABOUT', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item, index) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -127,7 +127,7 @@ export default function Navbar() {
               }}>
                 {/* GitHub */}
                 <a
-                  href="https://github.com"
+                  href="https://github.com/umarnaxir"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-aos="fade-up"
@@ -157,7 +157,7 @@ export default function Navbar() {
 
                 {/* LinkedIn */}
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/umar-nazir19/"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-aos="fade-up"
@@ -181,7 +181,7 @@ export default function Navbar() {
 
                 {/* Instagram */}
                 <a
-                  href="https://www.instagram.com/eliteexpressdeliveryservices"
+                  href="https://www.instagram.com/umar_naxir/"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-aos="fade-up"
@@ -208,7 +208,7 @@ export default function Navbar() {
 
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me"
+                  href="https://wa.me/qr/JXOWE54MG6HWN1"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-aos="fade-up"
