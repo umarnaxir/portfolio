@@ -6,15 +6,18 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const ContactMe = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', contact: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 600, // Shorter duration for performance
       once: true,
-      easing: 'ease-out-cubic',
+      easing: 'ease-out',
+      disable: 'mobile', // Disable animations on mobile (<768px)
+      offset: 50, // Smaller offset for compact layout
     });
   }, []);
 
@@ -25,16 +28,53 @@ const ContactMe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch('/app/api/send/route.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: 'erumarnazir@gmail.com',
+          subject: `New Contact Form Submission from ${formData.name}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+              <h2 style="color: #333; text-align: center; margin-bottom: 20px;">New Contact Form Submission</h2>
+              <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                <h3 style="color: #495057; margin-top: 0;">Contact Details:</h3>
+                <p><strong>Name:</strong> ${formData.name}</p>
+                <p><strong>Email:</strong> ${formData.email}</p>
+                <p><strong>Contact Number:</strong> ${formData.contact}</p>
+              </div>
+              <div style="background-color: #fff; padding: 15px; border: 1px solid #e9ecef; border-radius: 6px;">
+                <h3 style="color: #495057; margin-top: 0;">Message:</h3>
+                <p style="line-height: 1.5; color: #6c757d;">${formData.message}</p>
+              </div>
+              <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e9ecef;">
+                <p style="color: #6c757d; font-size: 12px;">Sent from portfolio contact form.</p>
+              </div>
+            </div>
+          `
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email');
+      }
+
       setSubmitted(true);
+      setFormData({ name: '', email: '', contact: '', message: '' });
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setError('Failed to send message. Please try again or contact me directly at erumarnazir@gmail.com or call +917051732616.');
+    } finally {
       setIsLoading(false);
-      setFormData({ name: '', email: '', message: '' });
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
+    }
   };
 
   const contactInfo = [
@@ -96,67 +136,82 @@ const ContactMe = () => {
   ];
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+    <section id="contact" className="py-4 px-6 bg-gray-50 relative overflow-hidden sm:py-12 sm:px-4">
       {/* Background Decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-200/10 rounded-full blur-3xl animate-pulse animation-delay-4000"></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
+        <div className="absolute top-10 right-10 w-32 h-32 bg-blue-200 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-purple-200 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-20 max-w-7xl relative z-10">
+      <div className="container mx-auto max-w-5xl relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-blue-800 px-6 py-3 rounded-full text-sm font-medium shadow-lg border border-blue-100 mb-6">
-            <Sparkles className="w-4 h-4 animate-spin" />
+        <div className="text-center mb-8" data-aos="fade-up">
+          <div className="inline-flex items-center gap-1 bg-white/80 px-2 py-1 rounded-full text-blue-800 text-xs font-medium border border-blue-100 mb-4">
+            <Sparkles className="w-3 h-3" />
             Get In Touch
           </div>
-          <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Let's <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Connect</span>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4 sm:text-4xl">
+            Let's <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Connect</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Ready to bring your ideas to life? I'd love to hear about your project and discuss how we can work together.
+          <p className="text-sm text-gray-600 max-w-xl mx-auto leading-relaxed sm:text-base">
+            Ready to bring your ideas to life? Let's discuss your project.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mt-6"></div>
+          <div className="w-16 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mt-4"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left Side - Contact Form */}
           <div data-aos="fade-right">
-            <div className="bg-white/80 backdrop-blur-sm p-8 lg:p-12 rounded-3xl shadow-2xl border border-gray-100">
-              <div className="mb-8">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                  <MessageCircle className="w-8 h-8 text-blue-500" />
+            <div className="bg-white/80 p-4 rounded-2xl border border-gray-100 shadow-md sm:p-6">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2 sm:text-2xl">
+                  <MessageCircle className="w-5 h-5 text-blue-500" />
                   Send Message
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Fill out the form below and I'll get back to you within 24 hours.
+                <p className="text-xs text-gray-600 leading-relaxed sm:text-sm">
+                  I'll respond within 24 hours.
                 </p>
               </div>
 
               {submitted && (
-                <div className="mb-6 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-800 rounded-2xl animate-pulse" data-aos="fade-in">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg" data-aos="fade-in">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                     </div>
                     <div>
-                      <p className="font-semibold">Message sent successfully!</p>
-                      <p className="text-sm opacity-80">I'll get back to you shortly.</p>
+                      <p className="text-sm font-semibold">Message sent!</p>
+                      <p className="text-xs opacity-80">I'll reply soon.</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg" data-aos="fade-in">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Error</p>
+                      <p className="text-xs opacity-80">{error}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-4">
                 <div className="relative">
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-xs font-semibold text-gray-700 mb-1 sm:text-sm">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="text"
                       name="name"
@@ -164,18 +219,18 @@ const ContactMe = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-gray-50 focus:bg-white"
-                      placeholder="Enter your full name"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all bg-gray-50 focus:bg-white text-sm sm:text-base"
+                      placeholder="Your name"
                     />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email Address
+                  <label htmlFor="email" className="block text-xs font-semibold text-gray-700 mb-1 sm:text-sm">
+                    Email
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="email"
                       name="email"
@@ -183,27 +238,45 @@ const ContactMe = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-gray-50 focus:bg-white"
-                      placeholder="Enter your email address"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all bg-gray-50 focus:bg-white text-sm sm:text-base"
+                      placeholder="Your email"
                     />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="contact" className="block text-xs font-semibold text-gray-700 mb-1 sm:text-sm">
+                    Contact
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="tel"
+                      name="contact"
+                      id="contact"
+                      value={formData.contact}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all bg-gray-50 focus:bg-white text-sm sm:text-base"
+                      placeholder="Your contact number"
+                    />
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="message" className="block text-xs font-semibold text-gray-700 mb-1 sm:text-sm">
                     Message
                   </label>
                   <div className="relative">
-                    <MessageCircle className="absolute left-4 top-6 w-5 h-5 text-gray-400" />
+                    <MessageCircle className="absolute left-3 top-4 w-4 h-4 text-gray-400" />
                     <textarea
                       name="message"
                       id="message"
-                      rows="6"
+                      rows="4"
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-gray-50 focus:bg-white resize-none"
-                      placeholder="Tell me about your project..."
+                      className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all bg-gray-50 focus:bg-white text-sm sm:text-base resize-none"
+                      placeholder="Your project details..."
                     />
                   </div>
                 </div>
@@ -211,43 +284,43 @@ const ContactMe = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="group w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-8 rounded-2xl font-semibold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                   {isLoading ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       Sending...
                     </>
                   ) : (
                     <>
-                      Send Message
-                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      Send
+                      <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                     </>
                   )}
                 </button>
-              </form>
+              </div>
             </div>
           </div>
 
           {/* Right Side - Contact Details */}
           <div data-aos="fade-left">
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Contact Information Cards */}
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {contactInfo.map((info, index) => (
                   <div
                     key={index}
-                    className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+                    className="group bg-white/80 p-4 rounded-2xl border border-gray-100 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all sm:p-5"
                     data-aos="fade-up"
                     data-aos-delay={index * 100}
                   >
-                    <a href={info.href} className="flex items-center gap-6">
-                      <div className={`w-16 h-16 bg-gradient-to-br ${info.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        <info.icon className="w-8 h-8 text-white" />
+                    <a href={info.href} className="flex items-center gap-4">
+                      <div className={`w-10 h-10 bg-gradient-to-br ${info.color} rounded-lg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform`}>
+                        <info.icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900 text-lg mb-1">{info.label}</h4>
-                        <p className="text-gray-600 group-hover:text-blue-600 transition-colors duration-300">
+                        <h4 className="font-bold text-gray-900 text-base sm:text-lg">{info.label}</h4>
+                        <p className="text-xs text-gray-600 group-hover:text-blue-600 transition-colors sm:text-sm">
                           {info.value}
                         </p>
                       </div>
@@ -257,11 +330,11 @@ const ContactMe = () => {
               </div>
 
               {/* Social Media Section */}
-              <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-gray-100">
-                <h4 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  Follow Me On
+              <div className="bg-white/80 p-4 rounded-2xl border border-gray-100 shadow-md sm:p-5">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 text-center sm:text-xl">
+                  Follow Me
                 </h4>
-                <div className="flex justify-center gap-4">
+                <div className="flex justify-center gap-3">
                   {socialLinks.map(({ href, iconFill, color, label, svgPath }, idx) => (
                     <a
                       key={label}
@@ -269,7 +342,7 @@ const ContactMe = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center ${color} transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 border border-gray-100`}
+                      className={`w-10 h-10 bg-white rounded-lg flex items-center justify-center ${color} transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-100`}
                       data-aos="zoom-in"
                       data-aos-delay={100 * (idx + 1)}
                     >
@@ -277,7 +350,7 @@ const ContactMe = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill={iconFill}
                         viewBox="0 0 24 24"
-                        className="w-7 h-7"
+                        className="w-5 h-5"
                       >
                         <path d={svgPath} />
                       </svg>
@@ -287,17 +360,16 @@ const ContactMe = () => {
               </div>
 
               {/* Quote/CTA Card */}
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-3xl text-white shadow-2xl" data-aos="fade-up" data-aos-delay="600">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl text-white shadow-md" data-aos="fade-up" data-aos-delay="400">
                 <div className="text-center">
-                  <h4 className="text-2xl font-bold mb-4">Ready to Start?</h4>
-                  <p className="text-lg opacity-90 mb-6 leading-relaxed">
-                    Whether you need a website, mobile app, or digital marketing solution, 
-                    I'm here to help bring your vision to life!
+                  <h4 className="text-lg font-bold mb-2 sm:text-xl">Ready to Start?</h4>
+                  <p className="text-xs opacity-90 mb-4 leading-relaxed sm:text-sm">
+                    Need a website, app, or digital marketing? Let's bring your vision to life!
                   </p>
                   <div className="flex items-center justify-center gap-2 text-yellow-300">
-                    <Sparkles className="w-5 h-5 animate-pulse" />
-                    <span className="font-semibold">Let's create something amazing together!</span>
-                    <Sparkles className="w-5 h-5 animate-pulse" />
+                    <Sparkles className="w-4 h-4" />
+                    <span className="text-sm font-medium">Let's create something amazing!</span>
+                    <Sparkles className="w-4 h-4" />
                   </div>
                 </div>
               </div>
@@ -305,17 +377,6 @@ const ContactMe = () => {
           </div>
         </div>
       </div>
-
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </section>
   );
 };

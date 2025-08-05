@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { Montserrat } from 'next/font/google';
 
@@ -11,6 +12,15 @@ const montserrat = Montserrat({
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const navItems = [
+    { label: 'HOME', id: 'home' },
+    { label: 'ABOUT', id: 'about' },
+    { label: 'EDUCATION', id: 'education' },
+    { label: 'SKILLS', id: 'skills' },
+    { label: 'EXPERIENCE', id: 'experience' },
+    { label: 'PROJECTS', id: 'projects' }
+  ];
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -39,23 +49,22 @@ export default function Navbar() {
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
-          <div className="text-xl font-bold tracking-wider relative z-50">
-            <span className={`space-x-5 ${scrolled ? "text-blue-700" : "text-white"}`}>Umar Nazir</span>
-            <span className={`${scrolled ? "text-blue-700" : "text-white"}`}>/</span>
+          <div className="text-3xl font-bold tracking-wider relative z-50">
+            <span className={`space-x-5 ${scrolled ? "text-blue-700" : "text-white"}`}>UN.</span>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="flex space-x-8">
-              {['HOME', 'ABOUT', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item) => (
+              {navItems.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.id}
+                  href={`#${item.id}`}
                   className={`relative font-medium text-sm group uppercase tracking-wider ${
                     scrolled ? "text-gray-700" : "text-white"
                   }`}
                 >
-                  {item}
+                  {item.label}
                   <span
                     className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full`}
                   />
@@ -64,13 +73,16 @@ export default function Navbar() {
             </div>
             
             {/* Contact Button */}
-            <button className={`px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg font-bold uppercase tracking-wider text-sm ${
-              scrolled 
-                ? " bg-blue-700  hover:bg-blue-700 text-white" 
-                : "bg-white hover:bg-white text-blue-700"
-            }`}>
+            <a
+              href="#contact"
+              className={`px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg font-bold uppercase tracking-wider text-sm ${
+                scrolled 
+                  ? "bg-blue-700 hover:bg-blue-700 text-white" 
+                  : "bg-white hover:bg-white text-blue-700"
+              }`}
+            >
               CONTACT ME
-            </button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -105,10 +117,10 @@ export default function Navbar() {
         <div className="fixed top-0 right-0 w-full h-full bg-blue-700 z-30 md:hidden flex flex-col transition-all duration-500 ease-in-out">
           <div className="flex flex-col items-start justify-center h-full px-6">
             <div className="flex flex-col items-start space-y-8 py-8 w-full">
-              {['HOME', 'ABOUT', 'SKILLS', 'EXPERIENCE', 'PROJECTS'].map((item, index) => (
+              {navItems.map((item, index) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.id}
+                  href={`#${item.id}`}
                   onClick={() => setIsOpen(false)}
                   className="text-white text-2xl font-medium uppercase tracking-wider transform hover:scale-105 hover:text-blue-200 transition-all duration-300"
                   style={{
@@ -116,13 +128,24 @@ export default function Navbar() {
                     animation: isOpen ? 'slideInFromRight 0.6s ease-out forwards' : 'none'
                   }}
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
+              {/* <a
+                href="#contact"
+                onClick={() => setIsOpen(false)}
+                className="text-white text-2xl font-medium uppercase tracking-wider transform hover:scale-105 hover:text-blue-200 transition-all duration-300"
+                style={{
+                  animationDelay: `${navItems.length * 100}ms`,
+                  animation: isOpen ? 'slideInFromRight 0.6s ease-out forwards' : 'none'
+                }}
+              >
+                CONTACT
+              </a> */}
               
               {/* Social Media Icons */}
               <div className="flex items-center gap-3 mt-6" style={{
-                animationDelay: '600ms',
+                animationDelay: `${(navItems.length + 1) * 100}ms`,
                 animation: isOpen ? 'slideInFromRight 0.6s ease-out forwards' : 'none'
               }}>
                 {/* GitHub */}
