@@ -214,8 +214,8 @@ const Skills = () => {
         {/* Skills Summary */}
         <div className="bg-white/60 backdrop-blur-sm rounded-lg md:rounded-3xl p-3 md:p-8 shadow-sm md:shadow-xl border border-gray-100" data-aos="fade-up">
           <div className="text-center">
-            <h3 className="text-base md:text-2xl font-bold text-gray-900 mb-1 md:mb-4">Frontend Developer Expertise</h3>
-            <p className="text-xs md:text-base text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-1 md:mb-4">Frontend Developer Expertise</h3>
+            <p className="text-[18px] md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Specialized in creating modern, responsive web applications with a focus on user experience, 
               performance optimization, and SEO-friendly solutions.
             </p>

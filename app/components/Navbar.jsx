@@ -43,8 +43,8 @@ export default function Navbar() {
     <>
       {/* Main Navbar */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md ${montserrat.variable} font-sans ${
-          scrolled ? "bg-white/95 shadow-lg py-2" : "bg-black/30 py-4"
+        className={`fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md py-4 ${montserrat.variable} font-sans ${
+          scrolled ? "bg-white/95 shadow-lg" : "bg-black/30"
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">

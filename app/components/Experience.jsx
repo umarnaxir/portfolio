@@ -1,31 +1,21 @@
 'use client';
-import { useEffect } from "react";
-import { Briefcase, Calendar, MapPin, Award, Code, Search, Palette, Users } from "lucide-react";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useEffect, useState } from "react";
+import { Briefcase, Calendar, MapPin, Award, Code, Search, Palette, Users, ChevronDown, ChevronUp } from "lucide-react";
 
 export default function Experience() {
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({
-      duration: 600, // Shorter duration for mobile performance
-      once: true, // Animations run only once
-      disable: 'mobile', // Disable animations on mobile (<768px)
-      offset: 50, // Smaller offset for mobile
-    });
-  }, []);
+  const [showAllExperiences, setShowAllExperiences] = useState(false);
 
   const experiences = [
     {
       id: 1,
-      company: "Digitlia",
+      company: "Harmukh Technologies (OPC) Pvt Ltd",
       role: "Frontend Developer",
       type: "Full-time",
-      duration: "Feb 2025 - Present",
-      location: "Quebec, Canada (Remote)",
+      duration: "Jul 2024 - Present",
+      location: "Srinagar, J&K (On-site)",
       current: true,
-      skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-      description: "Developing modern web applications with focus on performance and user experience.",
+      skills: ["HTML", "CSS","Tailwind", "JavaScript", "React", "Next", "TypeScript","SEO", "More.." ],
+      description: "Developing responsive, user-friendly websites and implementing advanced SEO strategies to enhance online visibility.",
       icon: <Code className="w-4 h-4" />
     },
     {
@@ -42,14 +32,14 @@ export default function Experience() {
     },
     {
       id: 3,
-      company: "Harmukh Technologies (OPC) Pvt Ltd",
+      company: "Digitlia",
       role: "Frontend Developer",
       type: "Full-time",
-      duration: "Jul 2024 - Present",
-      location: "Srinagar, J&K (On-site)",
+      duration: "Feb 2025 - Present",
+      location: "Quebec, Canada (Remote)",
       current: true,
-      skills: ["HTML5", "CSS3", "JavaScript", "React", "SEO", "Responsive Design"],
-      description: "Developing responsive, user-friendly websites and implementing advanced SEO strategies to enhance online visibility.",
+      skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+      description: "Developing modern web applications with focus on performance and user experience.",
       icon: <Code className="w-4 h-4" />
     },
     {
@@ -61,7 +51,7 @@ export default function Experience() {
       location: "Srinagar, J&K",
       current: false,
       skills: ["Machine Learning", "Python", "Data Analysis", "AI Development"],
-      description: "Gained hands-on experience in machine learning algorithms and AI development practices.",
+      description: "Gained hands-on experience in machine learning algorithms and AI development practices. Worked on various projects including predictive modeling, natural language processing, and computer vision applications. Collaborated with a team to develop AI solutions for real-world problems.",
       icon: <Award className="w-4 h-4" />
     },
     {
@@ -97,6 +87,10 @@ export default function Experience() {
     { label: "Technologies Mastered", value: "15+", icon: <Code className="w-4 h-4" /> }
   ];
 
+  // Show only first 2 experiences initially (Digitlia and NexGen Developers)
+  const visibleExperiences = showAllExperiences ? experiences : experiences.slice(0, 2);
+  const hiddenExperiencesCount = experiences.length - 2;
+
   return (
     <section id="experience" className="py-8 px-6 bg-gray-50 relative overflow-hidden sm:py-12 sm:px-4">
       {/* Background decorations */}
@@ -107,7 +101,7 @@ export default function Experience() {
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-8" data-aos="fade-up">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-1 bg-white/80 px-2 py-1 rounded-full border border-gray-200 mb-4">
             <Briefcase className="w-3 h-3 text-blue-600" />
             <span className="text-xs font-medium text-gray-700">Professional Journey</span>
@@ -121,9 +115,9 @@ export default function Experience() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-8 sm:gap-6" data-aos="fade-up" data-aos-delay="100">
+        <div className="grid grid-cols-2 gap-4 mb-8 sm:gap-6">
           {stats.map((stat, index) => (
-            <div key={index} className="bg-white/80 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-all duration-300" data-aos="zoom-in" data-aos-delay={`${100 + index * 100}`}>
+            <div key={index} className="bg-white/80 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-all duration-300">
               <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-2 mx-auto">
                 <div className="text-white">{stat.icon}</div>
               </div>
@@ -141,8 +135,8 @@ export default function Experience() {
           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 to-gray-300 sm:left-8"></div>
 
           <div className="space-y-6">
-            {experiences.map((exp, index) => (
-              <div key={exp.id} className="relative flex items-start gap-4 group" data-aos="fade-right" data-aos-delay={`${200 + index * 100}`}>
+            {visibleExperiences.map((exp, index) => (
+              <div key={exp.id} className="relative flex items-start gap-4 group">
                 {/* Timeline dot */}
                 <div className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-lg border-2 ${
                   exp.current 
@@ -168,7 +162,9 @@ export default function Experience() {
                           )}
                         </div>
                         <h4 className="text-sm font-semibold text-blue-600 mb-1 sm:text-base">{exp.company}</h4>
-                        <p className="text-xs text-gray-600 leading-relaxed sm:text-sm">{exp.description}</p>
+                        <p className="text-xs text-gray-600 leading-relaxed sm:text-sm">
+                          {exp.description}
+                        </p>
                       </div>
 
                       <div className="flex flex-col gap-1">
@@ -202,6 +198,28 @@ export default function Experience() {
               </div>
             ))}
           </div>
+
+          {/* Read More/Less Button */}
+          {hiddenExperiencesCount > 0 && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={() => setShowAllExperiences(!showAllExperiences)}
+                className="inline-flex items-center gap-2 bg-white/90 hover:bg-white border border-gray-200 hover:border-blue-300 px-6 py-3 rounded-lg text-sm font-medium text-gray-700 hover:text-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
+              >
+                {showAllExperiences ? (
+                  <>
+                    <span>Show Less</span>
+                    <ChevronUp className="w-4 h-4" />
+                  </>
+                ) : (
+                  <>
+                    <span>View {hiddenExperiencesCount} More Experience{hiddenExperiencesCount > 1 ? 's' : ''}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

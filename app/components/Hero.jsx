@@ -17,7 +17,24 @@ const HeroSection = () => {
   const pauseTime = 2000;
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: false });
+    // Initialize AOS with mobile-specific settings
+    AOS.init({
+      duration: 1000,
+      once: false,
+      disable: false, // Ensure AOS is not disabled
+      startEvent: 'DOMContentLoaded', // Initialize when DOM loads
+      offset: 120, // Change offset for mobile
+      delay: 0, // No delay
+      easing: 'ease', // Default easing
+      mirror: false, // Don't mirror animations
+      anchorPlacement: 'top-bottom', // Default anchor placement
+      mobile: true, // Enable on mobile
+    });
+
+    // Reinitialize AOS on resize to handle mobile/desktop switches
+    window.addEventListener('resize', () => {
+      AOS.refresh();
+    });
 
     const handleTyping = () => {
       const currentRole = roles[index % roles.length];
@@ -41,7 +58,10 @@ const HeroSection = () => {
       handleTyping,
       isDeleting ? deletingSpeed : typingSpeed
     );
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', () => AOS.refresh());
+    };
   }, [text, isDeleting, index]);
 
   return (
@@ -66,14 +86,16 @@ const HeroSection = () => {
           <h1
             className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg"
             data-aos="fade-right"
+            data-aos-once="true"
           >
             Hi, I'm{" "}
-            <span className="underline decoration-blue-400">Umar Nazir</span>
+            <span className="underline">Umar Nazir</span>
           </h1>
           <h2
             className="mt-10 text-base sm:text-xl md:text-2xl font-semibold uppercase tracking-wider inline-block overflow-hidden whitespace-nowrap border-r-4 border-blue-400 pr-3 select-none text-white"
             data-aos="fade-up"
             data-aos-delay="200"
+            data-aos-once="true"
           >
             I'm a {text}
           </h2>
@@ -83,6 +105,7 @@ const HeroSection = () => {
             className="mt-8 flex justify-start gap-4"
             data-aos="fade-up"
             data-aos-delay="400"
+            data-aos-once="true"
           >
             {[
               {
@@ -127,6 +150,7 @@ const HeroSection = () => {
                 className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition shadow-lg"
                 data-aos="zoom-in"
                 data-aos-delay={100 * (idx + 1)}
+                data-aos-once="true"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -145,6 +169,7 @@ const HeroSection = () => {
             className="mt-10 flex flex-col sm:flex-row gap-6 justify-start"
             data-aos="fade-up"
             data-aos-delay="600"
+            data-aos-once="true"
           >
             <a
               href="#projects"

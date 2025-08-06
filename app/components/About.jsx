@@ -25,7 +25,7 @@ const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(0);
 
-  const skills = ['Frontend Dev', 'SEO Expert', 'Graphic Designer', 'AI Enthusiast'];
+  const skills = ['Frontend Dev', 'SEO Executive', 'Graphic Designer', 'AI Enthusiast'];
   
   useEffect(() => {
     AOS.init({ duration: 1000, once: true, easing: 'ease-out-cubic' });
@@ -159,7 +159,7 @@ const About = () => {
             </div>
 
             {/* Contact Info & Social Links */}
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <div className="flex flex-wrap gap-6 text-gray-600">
                 <div className="flex items-center gap-2 hover:text-blue-600 transition-colors duration-300">
                   <MapPin className="w-5 h-5 text-blue-500" />
@@ -169,9 +169,9 @@ const About = () => {
                   <Mail className="w-5 h-5 text-green-500" />
                   <span>Available for projects</span>
                 </div>
-              </div>
+              </div> */}
 
-            </div>
+            {/* </div> */}
 
             {/* Floating Quote */}
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 p-6 rounded-r-2xl shadow-lg">
