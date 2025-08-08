@@ -25,17 +25,18 @@ export const metadata = {
     "Tailwind CSS",
     "Graphic Designer",
     "Web Developer from Kashmir",
-    "Digital Marketing Portfolio"
+    "Digital Marketing Portfolio",
   ],
+  metadataBase: new URL("https://umarnazir.vercel.app"),
   openGraph: {
     title: "Umar Nazir | Software Engineer & SEO Executive",
     description:
       "Professional portfolio showcasing Umar Nazir's work in web development, SEO, graphic design, and more.",
-    url: "https://your-website-url.com",
+    url: "https://umarnazir.vercel.app",
     siteName: "Umar Nazir Portfolio",
     images: [
       {
-        url: "https://your-website-url.com/og-image.jpg",
+        url: "/images/DP.jpg",
         width: 1200,
         height: 630,
         alt: "Umar Nazir Portfolio",
@@ -44,19 +45,27 @@ export const metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Umar Nazir | Software Engineer & SEO Executive",
+    description:
+      "Professional portfolio showcasing Umar Nazir's work in web development, SEO, graphic design, and more.",
+    images: ["/images/DP.jpg"],
+  },
   robots: {
     index: true,
     follow: true,
     nocache: false,
+  },
+  icons: {
+    icon: "/favicon.png",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
