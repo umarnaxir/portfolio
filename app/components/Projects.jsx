@@ -20,6 +20,8 @@ import {
   ArrowRight,
   Eye
 } from 'lucide-react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ProjectsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -122,8 +124,16 @@ const ProjectsCarousel = () => {
     },
   ];
 
-  // Mouse movement tracking for interactive effects
+  // Initialize AOS and mouse movement tracking
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-out',
+      once: false,
+      mirror: true,
+      offset: 100,
+    });
+
     const handleMouseMove = (e) => {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect();
@@ -154,7 +164,7 @@ const ProjectsCarousel = () => {
 
   const scrollToProject = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = window.innerWidth >= 768 ? 280 : 250;
+      const cardWidth = window.innerWidth >= 768 ? 320 : 250;
       const gap = 20;
       scrollContainerRef.current.scrollTo({
         left: index * (cardWidth + gap),
@@ -178,11 +188,11 @@ const ProjectsCarousel = () => {
     <section 
       ref={sectionRef}
       id="projects" 
-      className="relative h-[60vh] bg-purple-100 overflow-hidden"
+      className="relative py-16 md:py-24 bg-purple-100 overflow-hidden"
+      data-aos="fade-up"
     >
       {/* Enhanced visible blue line graphics background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Dynamic animated lines */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -195,10 +205,8 @@ const ProjectsCarousel = () => {
             </linearGradient>
           </defs>
           
-          {/* Grid pattern */}
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect width="100%" height="100%" fill="url(#grid)" data-aos="zoom-in" data-aos-delay="200" />
           
-          {/* Animated diagonal lines */}
           <g className="opacity-60">
             <line 
               x1="0" y1="0" 
@@ -210,6 +218,8 @@ const ProjectsCarousel = () => {
                 transform: `translateX(${mousePosition.x * 20}px)`,
                 transition: 'transform 0.3s ease-out'
               }}
+              data-aos="fade-right"
+              data-aos-delay="300"
             />
             <line 
               x1="20%" y1="0" 
@@ -220,6 +230,8 @@ const ProjectsCarousel = () => {
                 transform: `translateX(${-mousePosition.x * 15}px)`,
                 transition: 'transform 0.4s ease-out'
               }}
+              data-aos="fade-left"
+              data-aos-delay="400"
             />
             <line 
               x1="0" y1="70%" 
@@ -230,16 +242,19 @@ const ProjectsCarousel = () => {
                 transform: `translateY(${mousePosition.y * 10}px)`,
                 transition: 'transform 0.5s ease-out'
               }}
+              data-aos="fade-up"
+              data-aos-delay="500"
             />
           </g>
           
-          {/* Flowing curves */}
           <path 
             d={`M 0,${100 + mousePosition.y * 50} Q 300,${150 + mousePosition.x * 30} 600,${80 + mousePosition.y * 40} T 100%,${120 + mousePosition.x * 20}`}
             fill="none" 
             stroke="rgba(59, 130, 246, 0.1)" 
             strokeWidth="2"
             className="transition-all duration-700 ease-out"
+            data-aos="fade-down"
+            data-aos-delay="600"
           />
           <path 
             d={`M 0,${200 + mousePosition.x * 40} Q 400,${100 + mousePosition.y * 50} 800,${180 + mousePosition.x * 30} T 100%,${140 + mousePosition.y * 25}`}
@@ -247,10 +262,11 @@ const ProjectsCarousel = () => {
             stroke="rgba(59, 130, 246, 0.08)" 
             strokeWidth="1.5"
             className="transition-all duration-500 ease-out"
+            data-aos="fade-up"
+            data-aos-delay="700"
           />
         </svg>
 
-        {/* Floating geometric elements */}
         <div 
           className="absolute w-20 h-20 border-2 border-blue-500/20 rounded-full animate-spin"
           style={{
@@ -259,6 +275,8 @@ const ProjectsCarousel = () => {
             animationDuration: '20s',
             transform: `scale(${1 + mousePosition.y * 0.2})`
           }}
+          data-aos="zoom-in"
+          data-aos-delay="800"
         />
         <div 
           className="absolute w-12 h-12 bg-blue-500/10 rotate-45 animate-pulse"
@@ -267,22 +285,22 @@ const ProjectsCarousel = () => {
             left: `${15 + mousePosition.x * 15}%`,
             transform: `rotate(${45 + mousePosition.x * 20}deg) scale(${1 + mousePosition.y * 0.3})`
           }}
+          data-aos="zoom-out"
+          data-aos-delay="900"
         />
       </div>
 
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Compact header */}
-        <div className="text-center py-6">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">
+      <div className="relative z-10 container mx-auto px-4 md:px-8">
+        <div className="text-center mb-12" data-aos="fade-up" data-aos-delay="100">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2" data-aos="fade-up" data-aos-delay="200">
             Featured <span className="text-blue-600">Projects</span>
           </h2>
-          <p className="text-slate-600 text-sm md:text-base max-w-xl mx-auto">
+          <p className="text-slate-600 text-sm md:text-base max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="300">
             Explore my innovative digital solutions crafted with precision
           </p>
         </div>
 
-        {/* Control panel */}
-        <div className="flex items-center justify-between md:px-26 mb-4 px-6">
+        <div className="flex items-center justify-between mb-6" data-aos="fade-up" data-aos-delay="400">
           <button
             onClick={() => setIsAutoPlay(!isAutoPlay)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -290,12 +308,14 @@ const ProjectsCarousel = () => {
                 ? 'bg-blue-500 text-white shadow-md' 
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
+            data-aos="fade-right"
+            data-aos-delay="500"
           >
             {isAutoPlay ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             {isAutoPlay ? 'Pause' : 'Play'}
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-aos="fade-left" data-aos-delay="600">
             <button
               onClick={handlePrev}
               className="p-2 bg-white border border-slate-200 rounded-full hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 shadow-sm"
@@ -311,11 +331,10 @@ const ProjectsCarousel = () => {
           </div>
         </div>
 
-        {/* Projects carousel - flex-1 to fill remaining space */}
-        <div className="flex-1 px-6 md:px-26">
+        <div className="mb-8" data-aos="fade-up" data-aos-delay="700">
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-5 h-full pb-4"
+            className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-5 pb-6"
             style={{ scrollBehavior: 'smooth' }}
             onMouseEnter={() => setIsAutoPlay(false)}
             onMouseLeave={() => setIsAutoPlay(true)}
@@ -328,35 +347,34 @@ const ProjectsCarousel = () => {
               return (
                 <div
                   key={project.id}
-                  className={`group relative flex-shrink-0 snap-center w-64 md:w-72 cursor-pointer transition-all duration-500 ${
-                    isActive ? 'scale-105' : 'hover:scale-105'
+                  className={`group relative flex-shrink-0 snap-center w-[250px] md:w-[320px] cursor-pointer transition-all duration-500 ${
+                    isActive ? 'scale-105' : ''
                   }`}
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                   onClick={() => scrollToProject(index)}
+                  data-aos="fade-up"
+                  data-aos-delay={800 + index * 100}
                 >
-                  <div className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border h-full ${
+                  <div className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border flex flex-col h-[360px] md:h-[400px] ${
                     isActive ? 'border-blue-200 shadow-blue-500/20' : 'border-slate-100'
                   }`}>
-                    
-                    {/* Image section */}
-                    <div className="relative h-32 overflow-hidden">
+                    <div className="relative h-48 md:h-56 overflow-hidden flex-shrink-0">
                       <img
                         src={project.image}
                         alt={project.title}
-                        className={`w-full h-full object-cover transition-transform duration-500 ${
-                          isHovered ? 'scale-110' : ''
-                        }`}
+                        className="w-full h-full object-cover"
                         loading="lazy"
+                        data-aos="zoom-in"
+                        data-aos-delay={900 + index * 100}
                       />
                       
-                      {/* Status badge */}
                       <div className="absolute top-3 left-3">
                         <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
                           project.status === 'Live' 
                             ? 'bg-green-100/90 text-green-700' 
                             : 'bg-amber-100/90 text-amber-700'
-                        }`}>
+                        }`} data-aos="fade-right" data-aos-delay={1000 + index * 100}>
                           <span className={`w-1.5 h-1.5 rounded-full ${
                             project.status === 'Live' ? 'bg-green-500' : 'bg-amber-500'
                           }`} />
@@ -364,66 +382,57 @@ const ProjectsCarousel = () => {
                         </span>
                       </div>
 
-                      {/* Icon overlay */}
                       <div className="absolute top-3 right-3">
-                        <div className={`p-2 bg-white/80 backdrop-blur-sm rounded-lg transition-all duration-300 ${
-                          isHovered ? 'scale-110 rotate-12' : ''
-                        }`}>
+                        <div className="p-2 bg-white/80 backdrop-blur-sm rounded-lg transition-all duration-300" data-aos="fade-left" data-aos-delay={1100 + index * 100}>
                           <Icon className="w-4 h-4 text-blue-600" />
                         </div>
                       </div>
 
-                      {/* Hover overlay */}
-                      <div className={`absolute inset-0 bg-blue-600/80 backdrop-blur-sm transition-opacity duration-300 flex items-center justify-center ${
-                        isHovered ? 'opacity-100' : 'opacity-0'
-                      }`}>
-                        <Eye className="w-6 h-6 text-white animate-pulse" />
-                      </div>
                     </div>
 
-                    {/* Content section */}
-                    <div className="p-4 flex flex-col justify-between flex-1">
-                      <div>
-                        <h3 className="font-bold text-slate-900 text-sm mb-2 leading-tight line-clamp-2">
+                    <div className="p-5 flex flex-col flex-grow">
+                      <div className="mb-4">
+                        <h3 className="font-bold text-slate-900 text-sm md:text-base mb-2 leading-tight line-clamp-2" data-aos="fade-up" data-aos-delay={1300 + index * 100}>
                           {project.title}
                         </h3>
-                        <p className="text-xs text-slate-600 mb-3 line-clamp-2">
+                        <p className="text-xs md:text-sm text-slate-600 line-clamp-2" data-aos="fade-up" data-aos-delay={1400 + index * 100}>
                           {project.description}
                         </p>
                       </div>
 
-                      {/* Action button */}
+                      <div className="flex-grow"></div>
+
                       {project.url !== '#' ? (
                         <a
                           href={project.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition-all duration-300 justify-center mt-auto"
+                          className="group inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-lg text-xs md:text-sm font-medium hover:bg-blue-600 transition-all duration-300 justify-center mt-auto"
                           onClick={(e) => e.stopPropagation()}
+                          data-aos="fade-up"
+                          data-aos-delay={1500 + index * 100}
                         >
                           <span>View Project</span>
                           <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                         </a>
                       ) : (
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-500 rounded-lg text-xs font-medium justify-center cursor-not-allowed mt-auto">
+                        <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-200 text-slate-500 rounded-lg text-xs md:text-sm font-medium justify-center cursor-not-allowed mt-auto" data-aos="fade-up" data-aos-delay={1500 + index * 100}>
                           <span>Coming Soon</span>
                         </div>
                       )}
                     </div>
-                  </div>
 
-                  {/* Active indicator */}
-                  {isActive && (
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-500 rounded-full" />
-                  )}
+                    {isActive && (
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-500 rounded-full" data-aos="fade-up" data-aos-delay={1600 + index * 100} />
+                    )}
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Progress indicators */}
-        <div className="flex justify-center py-4 space-x-2">
+        <div className="flex justify-center space-x-2" data-aos="fade-up" data-aos-delay="1700">
           {projects.map((_, index) => (
             <button
               key={index}
@@ -433,6 +442,8 @@ const ProjectsCarousel = () => {
                   ? 'w-8 h-2 bg-blue-500' 
                   : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
               }`}
+              data-aos="fade-up"
+              data-aos-delay={1800 + index * 50}
             />
           ))}
         </div>

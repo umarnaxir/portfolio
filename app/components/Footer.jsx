@@ -1,4 +1,6 @@
+
 "use client";
+
 
 import { Mail, Phone, Heart, ArrowUp } from "lucide-react";
 
@@ -34,7 +36,7 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="text-center md:text-left">
               <div className="text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="text-gray-300">
                   Umar Nazir
                 </span>
               </div>
@@ -169,11 +171,11 @@ const Footer = () => {
               <span className="flex items-center gap-2 text-gray-300 group">
                 Crafted with
                 <Heart 
-                  className="w-4 h-4 white mx-1 animate-pulse group-hover:scale-125 transition-transform duration-300" 
+                  className="w-5 h-5 white mx-1 animate-pulse group-hover:scale-125 transition-transform duration-300" 
                   fill="currentColor" 
                 />
                 in Kashmir by 
-                <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold">
+                <span className="text-gray-300 font-semibold">
                   Umar Nazir
                 </span>
               </span>
