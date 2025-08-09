@@ -236,7 +236,7 @@ export default function Navbar() {
                 CONTACT ME
               </a>
               <a
-                href="/resume.pdf"
+                href="/cv/Umar Nazir.pdf"
                 download
                 onClick={() => {
                   setIsOpen(false);

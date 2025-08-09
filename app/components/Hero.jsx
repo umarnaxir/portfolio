@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import {
@@ -24,6 +24,9 @@ const HeroSection = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [index, setIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const heroRef = useRef(null);
 
   const roles = [
     "Software Developer",
@@ -80,8 +83,40 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, [text, isDeleting, index]);
 
+  // Mouse move handler for cloud effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+      }
+    };
+
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener('mousemove', handleMouseMove);
+      heroElement.addEventListener('mouseenter', handleMouseEnter);
+      heroElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (heroElement) {
+        heroElement.removeEventListener('mousemove', handleMouseMove);
+        heroElement.removeEventListener('mouseenter', handleMouseEnter);
+        heroElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, []);
+
   return (
     <section
+      ref={heroRef}
       id="home"
       className={`relative flex items-end justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 transition-all duration-1500 ${
         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -96,6 +131,8 @@ const HeroSection = () => {
       aria-label="Hero section"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/75 to-black/80" />
+      
+      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div
           className="absolute top-1/4 left-1/4 w-40 h-40 bg-blue-500/8 rounded-full blur-3xl animate-pulse"
@@ -107,6 +144,96 @@ const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:6rem_6rem] opacity-20" />
       </div>
+
+      {/* Mouse Hover Cloud Effects - Highly Visible */}
+      {isHovering && (
+        <>
+          {/* Main Visible Cloud */}
+          <div
+            className="absolute pointer-events-none transition-all duration-500 ease-out"
+            style={{
+              left: mousePosition.x - 120,
+              top: mousePosition.y - 80,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="relative w-60 h-40">
+              {/* Cloud Shape 1 */}
+              <div className="absolute left-0 top-4 w-16 h-16 bg-white/25 rounded-full blur-sm animate-float-slow" />
+              <div className="absolute left-8 top-0 w-20 h-20 bg-white/30 rounded-full blur-sm animate-float-medium" />
+              <div className="absolute left-16 top-2 w-24 h-24 bg-white/35 rounded-full blur-sm animate-float-slow" />
+              <div className="absolute left-28 top-0 w-18 h-18 bg-white/25 rounded-full blur-sm animate-float-fast" />
+              <div className="absolute left-36 top-4 w-16 h-16 bg-white/20 rounded-full blur-sm animate-float-medium" />
+              
+              {/* Fog overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-200/20 via-white/15 to-cyan-200/20 rounded-full blur-md animate-pulse" 
+                   style={{ animationDuration: '3s' }} />
+            </div>
+          </div>
+
+          {/* Secondary Trailing Cloud */}
+          <div
+            className="absolute pointer-events-none transition-all duration-800 ease-out"
+            style={{
+              left: mousePosition.x - 160,
+              top: mousePosition.y - 60,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="relative w-40 h-25">
+              <div className="absolute left-2 top-2 w-12 h-12 bg-blue-100/20 rounded-full blur-sm animate-float-slow" />
+              <div className="absolute left-8 top-0 w-14 h-14 bg-white/15 rounded-full blur-sm animate-float-medium" />
+              <div className="absolute left-16 top-1 w-16 h-16 bg-cyan-100/18 rounded-full blur-sm animate-float-fast" />
+              <div className="absolute left-24 top-3 w-10 h-10 bg-white/12 rounded-full blur-sm animate-float-slow" />
+            </div>
+          </div>
+
+          {/* Smaller Accent Clouds */}
+          <div
+            className="absolute pointer-events-none transition-all duration-300 ease-out"
+            style={{
+              left: mousePosition.x + 80,
+              top: mousePosition.y - 40,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="relative w-24 h-16">
+              <div className="absolute left-0 top-2 w-8 h-8 bg-white/30 rounded-full blur-sm animate-float-fast" />
+              <div className="absolute left-4 top-0 w-10 h-10 bg-blue-100/25 rounded-full blur-sm animate-float-medium" />
+              <div className="absolute left-10 top-1 w-8 h-8 bg-white/20 rounded-full blur-sm animate-float-slow" />
+            </div>
+          </div>
+
+          {/* Bottom trailing fog */}
+          <div
+            className="absolute pointer-events-none transition-all duration-1000 ease-out"
+            style={{
+              left: mousePosition.x - 80,
+              top: mousePosition.y + 40,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="relative w-32 h-20">
+              <div className="absolute inset-0 bg-gradient-to-t from-white/8 via-blue-50/12 to-transparent rounded-full blur-lg animate-pulse" 
+                   style={{ animationDuration: '4s' }} />
+            </div>
+          </div>
+
+          {/* Sparkle particles */}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute pointer-events-none w-2 h-2 bg-white/60 rounded-full animate-twinkle"
+              style={{
+                left: mousePosition.x + (Math.cos((i * 30) * Math.PI / 180) * (80 + Math.random() * 40)),
+                top: mousePosition.y + (Math.sin((i * 30) * Math.PI / 180) * (80 + Math.random() * 40)),
+                animationDelay: `${i * 0.2}s`,
+                animationDuration: `${2 + Math.random()}s`,
+              }}
+            />
+          ))}
+        </>
+      )}
 
       <div className="relative z-20 w-full h-full flex flex-col justify-end pb-12 md:pb-16">
         <div className="w-full max-w-7xl mx-auto px-4">
@@ -148,7 +275,6 @@ const HeroSection = () => {
                     <span className="text-white font-bold min-w-[200px] text-left">
                       {text}
                     </span>
-                    {/* <span className="w-0.5 h-5 bg-blue-400 ml-1 animate-pulse" /> */}
                   </div>
                 </div>
 
@@ -285,7 +411,7 @@ const HeroSection = () => {
               </a>
 
               <a
-                href="#contact"
+                href="/cv/Umar Nazir.pdf"
                 className="group w-48 px-4 py-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/20 hover:border-blue-400/40 text-white rounded-lg font-semibold text-base text-center transition-all duration-300 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1"
               >
                 Download CV
@@ -330,7 +456,6 @@ const HeroSection = () => {
                   <span className="text-white font-bold min-w-[160px] text-left">
                     {text}
                   </span>
-                  {/* <span className="w-0.5 h-4 bg-blue-400 ml-1 animate-pulse" /> */}
                 </div>
               </div>
 
@@ -431,6 +556,60 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          25% { transform: translateY(-8px) translateX(3px); }
+          50% { transform: translateY(-4px) translateX(-2px); }
+          75% { transform: translateY(-12px) translateX(1px); }
+        }
+
+        @keyframes float-medium {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          33% { transform: translateY(-6px) translateX(-3px); }
+          66% { transform: translateY(-10px) translateX(2px); }
+        }
+
+        @keyframes float-fast {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          20% { transform: translateY(-5px) translateX(2px); }
+          40% { transform: translateY(-8px) translateX(-1px); }
+          60% { transform: translateY(-3px) translateX(3px); }
+          80% { transform: translateY(-7px) translateX(-2px); }
+        }
+
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          50% { 
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .animate-float-slow {
+          animation: float-slow 4s ease-in-out infinite;
+        }
+
+        .animate-float-medium {
+          animation: float-medium 3s ease-in-out infinite;
+        }
+
+        .animate-float-fast {
+          animation: float-fast 2.5s ease-in-out infinite;
+        }
+
+        .animate-twinkle {
+          animation: twinkle 2s ease-in-out infinite;
+        }
+
+        .bg-gradient-radial {
+          background-image: radial-gradient(circle, var(--tw-gradient-stops));
+        }
+      `}</style>
     </section>
   );
 };
