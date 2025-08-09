@@ -100,16 +100,16 @@ const HeroSection = () => {
 
     const heroElement = heroRef.current;
     if (heroElement) {
-      heroElement.addEventListener('mousemove', handleMouseMove);
-      heroElement.addEventListener('mouseenter', handleMouseEnter);
-      heroElement.addEventListener('mouseleave', handleMouseLeave);
+      heroElement.addEventListener("mousemove", handleMouseMove);
+      heroElement.addEventListener("mouseenter", handleMouseEnter);
+      heroElement.addEventListener("mouseleave", handleMouseLeave);
     }
 
     return () => {
       if (heroElement) {
-        heroElement.removeEventListener('mousemove', handleMouseMove);
-        heroElement.removeEventListener('mouseenter', handleMouseEnter);
-        heroElement.removeEventListener('mouseleave', handleMouseLeave);
+        heroElement.removeEventListener("mousemove", handleMouseMove);
+        heroElement.removeEventListener("mouseenter", handleMouseEnter);
+        heroElement.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
   }, []);
@@ -120,18 +120,21 @@ const HeroSection = () => {
       id="home"
       className={`relative flex items-end justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 transition-all duration-1500 ${
         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      } h-[75vh] md:h-[100vh]`}
-      style={{
-        backgroundImage: "url(/images/my-profile.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "640px",
-      }}
+      } h-[80vh] md:h-[100vh]`}
       aria-label="Hero section"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/75 to-black/80" />
-      
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+      >
+        <source src="/video/vid.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div className="absolute inset-0 bg-gradient-to-br from-black/45 via-black/85 to-black/40" />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div
@@ -145,93 +148,44 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:6rem_6rem] opacity-20" />
       </div>
 
-      {/* Mouse Hover Cloud Effects - Highly Visible */}
+      {/* Simple Elegant Fog Effect */}
       {isHovering && (
         <>
-          {/* Main Visible Cloud */}
+          {/* Main Fog Layer */}
           <div
-            className="absolute pointer-events-none transition-all duration-500 ease-out"
+            className="absolute pointer-events-none transition-all duration-700 ease-out opacity-0 animate-fade-in"
             style={{
-              left: mousePosition.x - 120,
-              top: mousePosition.y - 80,
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            <div className="relative w-60 h-40">
-              {/* Cloud Shape 1 */}
-              <div className="absolute left-0 top-4 w-16 h-16 bg-white/25 rounded-full blur-sm animate-float-slow" />
-              <div className="absolute left-8 top-0 w-20 h-20 bg-white/30 rounded-full blur-sm animate-float-medium" />
-              <div className="absolute left-16 top-2 w-24 h-24 bg-white/35 rounded-full blur-sm animate-float-slow" />
-              <div className="absolute left-28 top-0 w-18 h-18 bg-white/25 rounded-full blur-sm animate-float-fast" />
-              <div className="absolute left-36 top-4 w-16 h-16 bg-white/20 rounded-full blur-sm animate-float-medium" />
-              
-              {/* Fog overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-200/20 via-white/15 to-cyan-200/20 rounded-full blur-md animate-pulse" 
-                   style={{ animationDuration: '3s' }} />
-            </div>
-          </div>
-
-          {/* Secondary Trailing Cloud */}
-          <div
-            className="absolute pointer-events-none transition-all duration-800 ease-out"
-            style={{
-              left: mousePosition.x - 160,
+              left: mousePosition.x - 100,
               top: mousePosition.y - 60,
-              transform: 'translate(-50%, -50%)',
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <div className="relative w-40 h-25">
-              <div className="absolute left-2 top-2 w-12 h-12 bg-blue-100/20 rounded-full blur-sm animate-float-slow" />
-              <div className="absolute left-8 top-0 w-14 h-14 bg-white/15 rounded-full blur-sm animate-float-medium" />
-              <div className="absolute left-16 top-1 w-16 h-16 bg-cyan-100/18 rounded-full blur-sm animate-float-fast" />
-              <div className="absolute left-24 top-3 w-10 h-10 bg-white/12 rounded-full blur-sm animate-float-slow" />
-            </div>
+            <div className="fog-main" />
           </div>
 
-          {/* Smaller Accent Clouds */}
+          {/* Secondary Fog Layer */}
           <div
-            className="absolute pointer-events-none transition-all duration-300 ease-out"
+            className="absolute pointer-events-none transition-all duration-900 ease-out opacity-0 animate-fade-in-delayed"
             style={{
-              left: mousePosition.x + 80,
+              left: mousePosition.x - 140,
               top: mousePosition.y - 40,
-              transform: 'translate(-50%, -50%)',
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <div className="relative w-24 h-16">
-              <div className="absolute left-0 top-2 w-8 h-8 bg-white/30 rounded-full blur-sm animate-float-fast" />
-              <div className="absolute left-4 top-0 w-10 h-10 bg-blue-100/25 rounded-full blur-sm animate-float-medium" />
-              <div className="absolute left-10 top-1 w-8 h-8 bg-white/20 rounded-full blur-sm animate-float-slow" />
-            </div>
+            <div className="fog-secondary" />
           </div>
 
-          {/* Bottom trailing fog */}
+          {/* Trailing Fog */}
           <div
-            className="absolute pointer-events-none transition-all duration-1000 ease-out"
+            className="absolute pointer-events-none transition-all duration-1100 ease-out opacity-0 animate-fade-in-late"
             style={{
-              left: mousePosition.x - 80,
-              top: mousePosition.y + 40,
-              transform: 'translate(-50%, -50%)',
+              left: mousePosition.x + 60,
+              top: mousePosition.y - 20,
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <div className="relative w-32 h-20">
-              <div className="absolute inset-0 bg-gradient-to-t from-white/8 via-blue-50/12 to-transparent rounded-full blur-lg animate-pulse" 
-                   style={{ animationDuration: '4s' }} />
-            </div>
+            <div className="fog-trailing" />
           </div>
-
-          {/* Sparkle particles */}
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute pointer-events-none w-2 h-2 bg-white/60 rounded-full animate-twinkle"
-              style={{
-                left: mousePosition.x + (Math.cos((i * 30) * Math.PI / 180) * (80 + Math.random() * 40)),
-                top: mousePosition.y + (Math.sin((i * 30) * Math.PI / 180) * (80 + Math.random() * 40)),
-                animationDelay: `${i * 0.2}s`,
-                animationDuration: `${2 + Math.random()}s`,
-              }}
-            />
-          ))}
         </>
       )}
 
@@ -428,13 +382,13 @@ const HeroSection = () => {
                 data-aos="fade-up"
                 data-aos-delay="200"
               >
-                <span className="text-blue-400 text-base font-medium tracking-wide">
+                <span className="text-blue-400 text-xl font-medium tracking-wide">
                   Hello, I'm
                 </span>
               </div>
 
               <h1
-                className="text-white text-4xl font-bold tracking-tight mb-2 leading-tight"
+                className="text-white text-5xl font-bold tracking-tight mb-2 leading-tight"
                 data-aos="fade-up"
                 data-aos-delay="400"
               >
@@ -450,7 +404,7 @@ const HeroSection = () => {
             </div>
 
             <div className="mb-4" data-aos="fade-up" data-aos-delay="700">
-              <div className="flex flex-col items-center gap-1 text-xl font-medium mb-18">
+              <div className="flex flex-col items-center gap-1 text-2xl font-medium mb-18">
                 <span className="text-gray-300">I'm a</span>
                 <div className="flex items-center">
                   <span className="text-white font-bold min-w-[160px] text-left">
@@ -558,56 +512,105 @@ const HeroSection = () => {
       </div>
 
       <style jsx>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          25% { transform: translateY(-8px) translateX(3px); }
-          50% { transform: translateY(-4px) translateX(-2px); }
-          75% { transform: translateY(-12px) translateX(1px); }
+        /* Simple Fog Effects */
+        .fog-main {
+          width: 200px;
+          height: 120px;
+          background: radial-gradient(
+            ellipse,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.08) 40%,
+            transparent 70%
+          );
+          border-radius: 50%;
+          filter: blur(15px);
+          animation: fog-drift 4s ease-in-out infinite;
         }
 
-        @keyframes float-medium {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          33% { transform: translateY(-6px) translateX(-3px); }
-          66% { transform: translateY(-10px) translateX(2px); }
+        .fog-secondary {
+          width: 160px;
+          height: 80px;
+          background: radial-gradient(
+            ellipse,
+            rgba(173, 216, 230, 0.12) 0%,
+            rgba(173, 216, 230, 0.06) 50%,
+            transparent 80%
+          );
+          border-radius: 50%;
+          filter: blur(12px);
+          animation: fog-drift 5s ease-in-out infinite reverse;
         }
 
-        @keyframes float-fast {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          20% { transform: translateY(-5px) translateX(2px); }
-          40% { transform: translateY(-8px) translateX(-1px); }
-          60% { transform: translateY(-3px) translateX(3px); }
-          80% { transform: translateY(-7px) translateX(-2px); }
+        .fog-trailing {
+          width: 120px;
+          height: 60px;
+          background: radial-gradient(
+            ellipse,
+            rgba(240, 248, 255, 0.1) 0%,
+            rgba(240, 248, 255, 0.04) 60%,
+            transparent 90%
+          );
+          border-radius: 50%;
+          filter: blur(10px);
+          animation: fog-drift 3.5s ease-in-out infinite;
         }
 
-        @keyframes twinkle {
-          0%, 100% { 
+        /* Fog Animations */
+        @keyframes fog-drift {
+          0%,
+          100% {
+            transform: translateY(0px) scaleX(1);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translateY(-15px) scaleX(1.1);
+            opacity: 0.9;
+          }
+        }
+
+        @keyframes fade-in {
+          0% {
             opacity: 0;
-            transform: scale(0.5);
+            transform: translate(-50%, -50%) scale(0.8);
           }
-          50% { 
+          100% {
             opacity: 1;
-            transform: scale(1);
+            transform: translate(-50%, -50%) scale(1);
           }
         }
 
-        .animate-float-slow {
-          animation: float-slow 4s ease-in-out infinite;
+        @keyframes fade-in-delayed {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
         }
 
-        .animate-float-medium {
-          animation: float-medium 3s ease-in-out infinite;
+        @keyframes fade-in-late {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.7);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
         }
 
-        .animate-float-fast {
-          animation: float-fast 2.5s ease-in-out infinite;
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out forwards;
         }
 
-        .animate-twinkle {
-          animation: twinkle 2s ease-in-out infinite;
+        .animate-fade-in-delayed {
+          animation: fade-in-delayed 1s ease-out 0.3s forwards;
         }
 
-        .bg-gradient-radial {
-          background-image: radial-gradient(circle, var(--tw-gradient-stops));
+        .animate-fade-in-late {
+          animation: fade-in-late 1.2s ease-out 0.6s forwards;
         }
       `}</style>
     </section>

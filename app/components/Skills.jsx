@@ -14,7 +14,8 @@ import {
   Camera,
   Target,
   Settings,
-  Sparkles
+  Sparkles,
+  Trophy
 } from 'lucide-react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -211,14 +212,34 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Skills Summary */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-lg md:rounded-3xl p-3 md:p-8 shadow-sm md:shadow-xl border border-gray-100" data-aos="fade-up">
-          <div className="text-center">
-            <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-1 md:mb-4">Frontend Developer Expertise</h3>
-            <p className="text-[18px] md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        {/* Enhanced Skills Summary */}
+        <div className="relative group bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-10 border border-white/50 shadow-xl hover:shadow-2xl hover:shadow-blue-100/30 transition-all duration-500 overflow-hidden">
+          <div className={`absolute inset-0 bg-gradient-to-br ${currentCategory.color}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
+          
+          <div className="relative z-10 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Trophy className="w-8 h-8 text-yellow-500" />
+              <h3 className="text-2xl md:text-4xl font-bold text-slate-800">Frontend Developer Expertise</h3>
+              <Trophy className="w-8 h-8 text-yellow-500" />
+            </div>
+            
+            <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
               Specialized in creating modern, responsive web applications with a focus on user experience, 
-              performance optimization, and SEO-friendly solutions.
+              performance optimization, and SEO-friendly solutions that drive business growth.
             </p>
+
+            {/* Stats or badges */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+              <div className="px-4 py-2 bg-blue-100/50 text-blue-700 rounded-full text-sm font-semibold">
+                50+ Projects Completed
+              </div>
+              <div className="px-4 py-2 bg-purple-100/50 text-purple-700 rounded-full text-sm font-semibold">
+                2+ Years Experience
+              </div>
+              <div className="px-4 py-2 bg-green-100/50 text-green-700 rounded-full text-sm font-semibold">
+                Modern Tech Stack
+              </div>
+            </div>
           </div>
         </div>
       </div>

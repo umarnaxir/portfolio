@@ -102,10 +102,6 @@ export default function Experience() {
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1 bg-white/80 px-2 py-1 rounded-full border border-gray-200 mb-4">
-            <Briefcase className="w-3 h-3 text-blue-600" />
-            <span className="text-xs font-medium text-gray-700">Professional Journey</span>
-          </div>
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent sm:text-4xl">
             Experience & Expertise
           </h2>

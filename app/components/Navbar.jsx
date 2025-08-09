@@ -61,14 +61,18 @@ export default function Navbar() {
     <>
       {/* Main Navbar */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md py-4 ${montserrat.variable} font-sans ${
+        className={`fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md py-2 ${montserrat.variable} font-sans ${
           scrolled ? "bg-white/95 shadow-lg" : "bg-black/30"
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-          {/* Logo */}
-          <div className="text-3xl font-bold tracking-wider relative z-50">
-            <span className={`space-x-5 ${scrolled ? "text-blue-700" : "text-white"}`}>UN.</span>
+          {/* Logo - Updated with image */}
+          <div className="relative z-50">
+            <img 
+              src="/fevicon.png" 
+              alt="Logo" 
+              className="w-15 h-15 rounded-full object-cover transition-all duration-300 hover:scale-110 cursor-pointer shadow-lg"
+            />
           </div>
 
           {/* Desktop Navigation */}
@@ -95,8 +99,8 @@ export default function Navbar() {
               href="#contact"
               className={`px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg font-bold uppercase tracking-wider text-sm ${
                 scrolled 
-                  ? "bg-blue-700 hover:bg-blue-700 text-white" 
-                  : "bg-white hover:bg-white text-blue-700"
+                  ? "bg-black hover:bg-black text-white" 
+                  : "bg-white hover:bg-white text-black"
               }`}
             >
               CONTACT ME
@@ -113,28 +117,28 @@ export default function Navbar() {
               <span className={`w-6 h-0.5 transition-all duration-300 transform origin-center ${
                 isOpen 
                   ? scrolled 
-                    ? 'rotate-45 translate-y-[3px] bg-blue-700' 
+                    ? 'rotate-45 translate-y-[3px] bg-black' 
                     : 'rotate-45 translate-y-[3px] bg-white'
                   : scrolled 
-                    ? "translate-y-0 bg-blue-700" 
+                    ? "translate-y-0 bg-black" 
                     : "translate-y-0 bg-white"
               }`}></span>
               <span className={`w-4 h-0.5 transition-all duration-300 ${
                 isOpen 
                   ? scrolled 
-                    ? 'opacity-0 bg-blue-700' 
+                    ? 'opacity-0 bg-black' 
                     : 'opacity-0 bg-white'
                   : scrolled 
-                    ? "opacity-100 bg-blue-700" 
+                    ? "opacity-100 bg-black" 
                     : "opacity-100 bg-white"
               }`}></span>
               <span className={`w-6 h-0.5 transition-all duration-300 transform origin-center ${
                 isOpen 
                   ? scrolled 
-                    ? '-rotate-45 translate-y-[-3px] bg-blue-700' 
+                    ? '-rotate-45 translate-y-[-3px] bg-black' 
                     : '-rotate-45 translate-y-[-3px] bg-white'
                   : scrolled 
-                    ? "translate-y-0 bg-blue-700" 
+                    ? "translate-y-0 bg-black" 
                     : "translate-y-0 bg-white"
               }`}></span>
             </div>
