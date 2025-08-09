@@ -15,141 +15,155 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
-  Star
+  Play,
+  Pause,
+  ArrowRight,
+  Eye
 } from 'lucide-react';
 
 const ProjectsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const scrollContainerRef = useRef(null);
+  const sectionRef = useRef(null);
 
   const projects = [
     {
       id: 1,
       title: 'Kindness Towards Humanity',
-      description: 'A compassionate platform dedicated to humanitarian causes and social welfare initiatives spreading love globally.',
+      description: 'A compassionate platform dedicated to humanitarian causes and social welfare initiatives.',
       url: 'https://kindnesstowardshumanity.in/',
       icon: Heart,
-      color: 'from-rose-400 via-pink-500 to-red-500',
-      bgColor: 'bg-rose-50',
       category: 'Social Impact',
       image: '/images/kindness.png',
+      status: 'Live'
     },
     {
       id: 2,
       title: 'Ninemash',
-      description: 'Premium travel and tourism platform offering curated travel experiences with modern digital solutions and booking services.',
+      description: 'Premium travel and tourism platform offering curated travel experiences.',
       url: 'https://ninemash.com/',
       icon: MapPin,
-      color: 'from-blue-400 via-cyan-500 to-teal-500',
-      bgColor: 'bg-blue-50',
       category: 'Travel & Tourism',
       image: '/images/ninemash.png',
+      status: 'Live'
     },
     {
       id: 3,
       title: 'Kashmir Tickets',
-      description: 'Ultimate Kashmir tourism platform with seamless ticket reservations, travel packages, and authentic local experiences.',
+      description: 'Ultimate Kashmir tourism platform with seamless ticket reservations.',
       url: 'https://kashmirtickets.com/',
       icon: Plane,
-      color: 'from-emerald-400 via-green-500 to-teal-600',
-      bgColor: 'bg-green-50',
       category: 'Travel & Tourism',
       image: '/images/kashmirtickets.png',
+      status: 'Live'
     },
     {
       id: 4,
       title: 'The Hotel Sea View',
-      description: 'Luxury beachfront hotel with breathtaking sea views, premium accommodations, and world-class hospitality services.',
+      description: 'Luxury beachfront hotel with breathtaking sea views and hospitality services.',
       url: 'https://thehotelseaview.in/',
       icon: Hotel,
-      color: 'from-blue-400 via-indigo-500 to-purple-600',
-      bgColor: 'bg-indigo-50',
       category: 'Hospitality',
       image: '/images/hotel.png',
+      status: 'Live'
     },
     {
       id: 5,
       title: 'Elite Express Delivery',
-      description: 'Premium courier service with lightning-fast delivery, real-time tracking, and comprehensive logistics management.',
+      description: 'Premium courier service with lightning-fast delivery and logistics management.',
       url: 'https://eliteexpressdeliveryservices.com/',
       icon: Truck,
-      color: 'from-purple-400 via-violet-500 to-indigo-600',
-      bgColor: 'bg-purple-50',
       category: 'Logistics',
       image: '/images/elite.png',
+      status: 'Live'
     },
     {
       id: 6,
       title: 'Rush Expedited Courier',
-      description: 'Lightning-fast courier services with same-day delivery, advanced tracking systems, and customer management solutions.',
+      description: 'Lightning-fast courier services with same-day delivery and tracking systems.',
       url: 'https://re-courier.com/',
       icon: Zap,
-      color: 'from-amber-400 via-orange-500 to-red-500',
-      bgColor: 'bg-amber-50',
       category: 'Logistics',
       image: '/images/recourer.png',
+      status: 'Live'
     },
     {
       id: 7,
       title: 'Altaf Hospital',
-      description: 'Advanced healthcare management system with digital patient records, smart appointment scheduling, and telemedicine.',
+      description: 'Advanced healthcare management system with digital patient records.',
       url: 'https://altafhospital.com/',
       icon: Building,
-      color: 'from-emerald-400 via-teal-500 to-cyan-600',
-      bgColor: 'bg-emerald-50',
       category: 'Healthcare',
       image: '/images/altafhospital.png',
+      status: 'Live'
     },
     {
       id: 8,
       title: 'Digitlia',
-      description: 'Full-service digital marketing agency delivering innovative online solutions, brand growth, and comprehensive marketing strategies.',
+      description: 'Full-service digital marketing agency delivering innovative online solutions.',
       url: 'https://digitlia.com/',
       icon: Globe,
-      color: 'from-teal-400 via-cyan-500 to-blue-600',
-      bgColor: 'bg-cyan-50',
       category: 'Digital Marketing',
       image: '/images/harmukh.png',
+      status: 'Live'
     },
     {
       id: 9,
       title: 'Office Management Pro',
-      description: 'Next-generation office management solution with AI-powered automation, streamlined workflows, and business intelligence.',
+      description: 'Next-generation office management solution with AI-powered automation.',
       url: '#',
       icon: Briefcase,
-      color: 'from-gray-400 via-slate-500 to-zinc-600',
-      bgColor: 'bg-gray-50',
       category: 'Business Software',
       image: '/images/comming.png',
+      status: 'Coming Soon'
     },
   ];
 
-  // Auto-scroll carousel
+  // Mouse movement tracking for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
+        });
+      }
+    };
+
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener('mousemove', handleMouseMove);
+      return () => section.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
+  // Auto-scroll functionality
   useEffect(() => {
     if (!isAutoPlay) return;
     
     const interval = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 4000);
     
     return () => clearInterval(interval);
   }, [currentIndex, isAutoPlay]);
 
-  // Scroll to specific project index
   const scrollToProject = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = window.innerWidth >= 768 ? 416 : 352;
+      const cardWidth = window.innerWidth >= 768 ? 280 : 250;
+      const gap = 20;
       scrollContainerRef.current.scrollTo({
-        left: index * cardWidth,
+        left: index * (cardWidth + gap),
         behavior: 'smooth',
       });
       setCurrentIndex(index);
     }
   };
 
-  // Navigation handlers
   const handleNext = () => {
     const nextIndex = currentIndex < projects.length - 1 ? currentIndex + 1 : 0;
     scrollToProject(nextIndex);
@@ -162,263 +176,281 @@ const ProjectsCarousel = () => {
 
   return (
     <section 
+      ref={sectionRef}
       id="projects" 
-      className="py-16 px-4 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 sm:py-20 sm:px-6 lg:px-8 relative overflow-hidden"
+      className="relative h-[60vh] bg-purple-100 overflow-hidden"
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-pink-200/20 to-orange-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyan-200/10 to-indigo-200/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      {/* Enhanced visible blue line graphics background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Dynamic animated lines */}
+        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(59, 130, 246, 0.1)" strokeWidth="1"/>
+            </pattern>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(59, 130, 246, 0.3)" />
+              <stop offset="50%" stopColor="rgba(59, 130, 246, 0.1)" />
+              <stop offset="100%" stopColor="rgba(59, 130, 246, 0.3)" />
+            </linearGradient>
+          </defs>
+          
+          {/* Grid pattern */}
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          
+          {/* Animated diagonal lines */}
+          <g className="opacity-60">
+            <line 
+              x1="0" y1="0" 
+              x2="100%" y2="50%" 
+              stroke="url(#lineGradient)" 
+              strokeWidth="2"
+              className="animate-pulse"
+              style={{
+                transform: `translateX(${mousePosition.x * 20}px)`,
+                transition: 'transform 0.3s ease-out'
+              }}
+            />
+            <line 
+              x1="20%" y1="0" 
+              x2="100%" y2="80%" 
+              stroke="rgba(59, 130, 246, 0.2)" 
+              strokeWidth="1"
+              style={{
+                transform: `translateX(${-mousePosition.x * 15}px)`,
+                transition: 'transform 0.4s ease-out'
+              }}
+            />
+            <line 
+              x1="0" y1="70%" 
+              x2="80%" y2="0" 
+              stroke="rgba(59, 130, 246, 0.15)" 
+              strokeWidth="1.5"
+              style={{
+                transform: `translateY(${mousePosition.y * 10}px)`,
+                transition: 'transform 0.5s ease-out'
+              }}
+            />
+          </g>
+          
+          {/* Flowing curves */}
+          <path 
+            d={`M 0,${100 + mousePosition.y * 50} Q 300,${150 + mousePosition.x * 30} 600,${80 + mousePosition.y * 40} T 100%,${120 + mousePosition.x * 20}`}
+            fill="none" 
+            stroke="rgba(59, 130, 246, 0.1)" 
+            strokeWidth="2"
+            className="transition-all duration-700 ease-out"
+          />
+          <path 
+            d={`M 0,${200 + mousePosition.x * 40} Q 400,${100 + mousePosition.y * 50} 800,${180 + mousePosition.x * 30} T 100%,${140 + mousePosition.y * 25}`}
+            fill="none" 
+            stroke="rgba(59, 130, 246, 0.08)" 
+            strokeWidth="1.5"
+            className="transition-all duration-500 ease-out"
+          />
+        </svg>
+
+        {/* Floating geometric elements */}
+        <div 
+          className="absolute w-20 h-20 border-2 border-blue-500/20 rounded-full animate-spin"
+          style={{
+            top: '20%',
+            right: `${20 + mousePosition.x * 10}%`,
+            animationDuration: '20s',
+            transform: `scale(${1 + mousePosition.y * 0.2})`
+          }}
+        />
+        <div 
+          className="absolute w-12 h-12 bg-blue-500/10 rotate-45 animate-pulse"
+          style={{
+            bottom: '30%',
+            left: `${15 + mousePosition.x * 15}%`,
+            transform: `rotate(${45 + mousePosition.x * 20}deg) scale(${1 + mousePosition.y * 0.3})`
+          }}
+        />
       </div>
 
-      <div className="mx-auto max-w-7xl relative z-10">
-        {/* Section title */}
-        <div className="text-center mb-16">
-          {/* <div className="inline-flex items-center gap-3 mb-4 px-6 py-3 bg-white/70 backdrop-blur-sm rounded-full border border-white/50 shadow-lg">
-            <Star className="w-5 h-5 text-yellow-500" />
-            <span className="text-sm font-medium text-gray-700 tracking-wide uppercase">Portfolio</span>
-            <Star className="w-5 h-5 text-yellow-500" />
-          </div> */}
-          <h2 className="text-3xl font-black text-gray-900 tracking-tight sm:text-6xl lg:text-5xl mb-6">
-            My{' '}
-            <span className="bg-gradient-to-r from-blue-500 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-              Amazing Projects
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-800 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-            </span>
+      <div className="relative z-10 h-full flex flex-col">
+        {/* Compact header */}
+        <div className="text-center py-6">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">
+            Featured <span className="text-blue-600">Projects</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover my portfolio of innovative digital solutions, from compassionate platforms to cutting-edge business tools.
+          <p className="text-slate-600 text-sm md:text-base max-w-xl mx-auto">
+            Explore my innovative digital solutions crafted with precision
           </p>
         </div>
 
-        {/* Auto-play control */}
-        <div className="flex justify-center mb-8">
+        {/* Control panel */}
+        <div className="flex items-center justify-between md:px-26 mb-4 px-6">
           <button
             onClick={() => setIsAutoPlay(!isAutoPlay)}
-            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               isAutoPlay 
-                ? 'bg-green-500 text-white shadow-lg shadow-green-500/25 hover:bg-green-600' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-blue-500 text-white shadow-md' 
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
-            {isAutoPlay ? '⏸️ Pause Auto-play' : '▶️ Start Auto-play'}
+            {isAutoPlay ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            {isAutoPlay ? 'Pause' : 'Play'}
           </button>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrev}
+              className="p-2 bg-white border border-slate-200 rounded-full hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 shadow-sm"
+            >
+              <ChevronLeft className="w-4 h-4 text-slate-600" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="p-2 bg-white border border-slate-200 rounded-full hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 shadow-sm"
+            >
+              <ChevronRight className="w-4 h-4 text-slate-600" />
+            </button>
+          </div>
         </div>
 
-        {/* Carousel with arrows */}
-        <div className="relative">
-          {/* Left arrow */}
-          <button
-            onClick={handlePrev}
-            aria-label="Previous project"
-            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl hover:bg-blue-50 hover:shadow-blue-500/25 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 group"
-          >
-            <ChevronLeft className="w-8 h-8 text-gray-700 group-hover:text-blue-600 transition-colors" />
-          </button>
-
-          {/* Right arrow */}
-          <button
-            onClick={handleNext}
-            aria-label="Next project"
-            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl hover:bg-blue-50 hover:shadow-blue-500/25 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 group"
-          >
-            <ChevronRight className="w-8 h-8 text-gray-700 group-hover:text-blue-600 transition-colors" />
-          </button>
-
-          {/* Scroll container */}
+        {/* Projects carousel - flex-1 to fill remaining space */}
+        <div className="flex-1 px-6 md:px-26">
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200 scrollbar-thumb-rounded hover:scrollbar-thumb-blue-600 transition-colors pb-8"
+            className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-5 h-full pb-4"
             style={{ scrollBehavior: 'smooth' }}
             onMouseEnter={() => setIsAutoPlay(false)}
             onMouseLeave={() => setIsAutoPlay(true)}
           >
             {projects.map((project, index) => {
               const Icon = project.icon;
+              const isActive = currentIndex === index;
               const isHovered = hoveredCard === index;
               
               return (
                 <div
                   key={project.id}
-                  className={`flex-shrink-0 snap-center ${project.bgColor} rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 w-[320px] sm:w-80 md:w-96 mx-4 cursor-pointer group overflow-hidden ${
-                    isHovered ? 'transform scale-105 shadow-2xl' : 'hover:transform hover:scale-105'
+                  className={`group relative flex-shrink-0 snap-center w-64 md:w-72 cursor-pointer transition-all duration-500 ${
+                    isActive ? 'scale-105' : 'hover:scale-105'
                   }`}
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                   onClick={() => scrollToProject(index)}
                 >
-                  {/* Image with overlay */}
-                  <div className="relative h-52 overflow-hidden">
-                    {project.image ? (
-                      <>
-                        <img
-                          src={project.image}
-                          alt={`${project.title} preview`}
-                          className={`w-full h-full object-cover transition-transform duration-700 ${
-                            isHovered ? 'scale-110' : 'group-hover:scale-110'
-                          }`}
-                          loading="lazy"
-                        />
-                        {/* Gradient overlay */}
-                        <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 ${
-                          isHovered ? 'opacity-90' : 'opacity-60'
-                        }`} />
-                      </>
-                    ) : (
-                      <div className={`h-full bg-gradient-to-br ${project.color} flex items-center justify-center relative overflow-hidden`}>
-                        <div className="absolute inset-0 bg-black/10"></div>
-                        <Icon className="w-16 h-16 text-white opacity-90 relative z-10" />
-                        {/* Animated background pattern */}
-                        <div className="absolute inset-0 opacity-20">
-                          <div className="absolute top-4 left-4 w-8 h-8 border-2 border-white rounded-full"></div>
-                          <div className="absolute bottom-4 right-4 w-6 h-6 border-2 border-white rounded-full"></div>
+                  <div className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border h-full ${
+                    isActive ? 'border-blue-200 shadow-blue-500/20' : 'border-slate-100'
+                  }`}>
+                    
+                    {/* Image section */}
+                    <div className="relative h-32 overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className={`w-full h-full object-cover transition-transform duration-500 ${
+                          isHovered ? 'scale-110' : ''
+                        }`}
+                        loading="lazy"
+                      />
+                      
+                      {/* Status badge */}
+                      <div className="absolute top-3 left-3">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
+                          project.status === 'Live' 
+                            ? 'bg-green-100/90 text-green-700' 
+                            : 'bg-amber-100/90 text-amber-700'
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            project.status === 'Live' ? 'bg-green-500' : 'bg-amber-500'
+                          }`} />
+                          {project.status}
+                        </span>
+                      </div>
+
+                      {/* Icon overlay */}
+                      <div className="absolute top-3 right-3">
+                        <div className={`p-2 bg-white/80 backdrop-blur-sm rounded-lg transition-all duration-300 ${
+                          isHovered ? 'scale-110 rotate-12' : ''
+                        }`}>
+                          <Icon className="w-4 h-4 text-blue-600" />
                         </div>
                       </div>
-                    )}
-                    
-                    {/* Category badge */}
-                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
-                      <span className="text-xs font-semibold text-gray-800">{project.category}</span>
-                    </div>
-                    
-                    {/* Icon badge */}
-                    <div className={`absolute top-4 right-4 p-3 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 ${
-                      isHovered ? 'bg-white/95 scale-110' : 'bg-white/80'
-                    }`}>
-                      <Icon className={`w-6 h-6 text-gray-800 ${isHovered ? 'animate-pulse' : ''}`} />
-                    </div>
 
-                    {/* Hover overlay content */}
-                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                      isHovered ? 'opacity-100' : 'opacity-0'
-                    }`}>
-                      <div className="text-center text-white">
-                        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto backdrop-blur-sm">
-                          <ExternalLink className="w-6 h-6" />
-                        </div>
-                        <p className="text-sm font-medium">Click to explore</p>
+                      {/* Hover overlay */}
+                      <div className={`absolute inset-0 bg-blue-600/80 backdrop-blur-sm transition-opacity duration-300 flex items-center justify-center ${
+                        isHovered ? 'opacity-100' : 'opacity-0'
+                      }`}>
+                        <Eye className="w-6 h-6 text-white animate-pulse" />
                       </div>
                     </div>
-                  </div>
 
-                  {/* Content section with enhanced styling */}
-                  <div className="p-6 bg-gradient-to-b from-white to-white/95">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-bold text-gray-900 line-clamp-2 flex-1">{project.title}</h3>
-                      <div className={`ml-3 p-2 rounded-lg bg-gradient-to-br ${project.color} shadow-sm`}>
-                        <Icon className="w-5 h-5 text-white" />
+                    {/* Content section */}
+                    <div className="p-4 flex flex-col justify-between flex-1">
+                      <div>
+                        <h3 className="font-bold text-slate-900 text-sm mb-2 leading-tight line-clamp-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 mb-3 line-clamp-2">
+                          {project.description}
+                        </p>
                       </div>
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 mb-6 line-clamp-3 leading-relaxed">{project.description}</p>
-                    
-                    <div className="flex items-center justify-between">
+
+                      {/* Action button */}
                       {project.url !== '#' ? (
                         <a
                           href={project.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${project.color} text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 group`}
+                          className="group inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition-all duration-300 justify-center mt-auto"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform duration-300" />
-                          View Live
+                          <span>View Project</span>
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                         </a>
                       ) : (
-                        <span className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-400 to-gray-500 text-white rounded-xl font-semibold cursor-not-allowed opacity-75">
-                          <ExternalLink className="w-4 h-4" />
-                          Coming Soon
-                        </span>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-500 rounded-lg text-xs font-medium justify-center cursor-not-allowed mt-auto">
+                          <span>Coming Soon</span>
+                        </div>
                       )}
-                      
-                      {/* Interactive rating stars */}
-                      <div className="flex space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                        ))}
-                      </div>
                     </div>
                   </div>
+
+                  {/* Active indicator */}
+                  {isActive && (
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-500 rounded-full" />
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Enhanced dots navigation */}
-        <div className="flex justify-center mt-12 space-x-2">
+        {/* Progress indicators */}
+        <div className="flex justify-center py-4 space-x-2">
           {projects.map((_, index) => (
             <button
               key={index}
               onClick={() => scrollToProject(index)}
               className={`transition-all duration-300 rounded-full ${
                 currentIndex === index 
-                  ? 'w-12 h-4 bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg' 
-                  : 'w-4 h-4 bg-gray-300 hover:bg-gray-400'
+                  ? 'w-8 h-2 bg-blue-500' 
+                  : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
               }`}
-              aria-label={`Go to project ${index + 1}`}
             />
           ))}
         </div>
-
-        {/* Project counter */}
-        <div className="text-center mt-8">
-          <p className="text-lg text-gray-600 font-medium">
-            Project <span className="text-2xl font-bold text-blue-600">{currentIndex + 1}</span> of{' '}
-            <span className="text-2xl font-bold text-purple-600">{projects.length}</span>
-          </p>
-        </div>
       </div>
 
-      {/* Enhanced custom styles */}
       <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-        }
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        
-        /* Custom scrollbar */
-        .scrollbar-thin {
-          scrollbar-width: thin;
-        }
-        .scrollbar-thin::-webkit-scrollbar {
-          height: 8px;
-        }
-        .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
-          border-radius: 9999px;
-          background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-        }
-        .scrollbar-track-gray-200::-webkit-scrollbar-track {
-          background: #f3f4f6;
-          border-radius: 9999px;
-        }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-          .scrollbar-thin::-webkit-scrollbar {
-            height: 6px;
-          }
-        }
-
-        /* Smooth animations */
-        .group:hover .group-hover\\:rotate-45 {
-          transform: rotate(45deg);
-        }
-        
-        /* Glassmorphism effects */
-        .backdrop-blur-sm {
-          backdrop-filter: blur(8px);
         }
       `}</style>
     </section>
