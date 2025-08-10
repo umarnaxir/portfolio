@@ -17,10 +17,10 @@ export default function Navbar() {
   const navItems = [
     { label: 'HOME', id: 'home' },
     { label: 'ABOUT', id: 'about' },
+    { label: 'PROJECTS', id: 'projects' },
     { label: 'EDUCATION', id: 'education' },
     { label: 'SKILLS', id: 'skills' },
     { label: 'EXPERIENCE', id: 'experience' },
-    { label: 'PROJECTS', id: 'projects' }
   ];
 
   const toggleMenu = () => {

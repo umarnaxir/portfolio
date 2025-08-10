@@ -18,14 +18,13 @@ import {
   ArrowRight,
   Download,
 } from "lucide-react";
+import MouseFollower from "./MouseHover";
 
 const HeroSection = () => {
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [index, setIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
   const heroRef = useRef(null);
 
   const roles = [
@@ -83,37 +82,6 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, [text, isDeleting, index]);
 
-  // Mouse move handler for cloud effect
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
-
-    const heroElement = heroRef.current;
-    if (heroElement) {
-      heroElement.addEventListener("mousemove", handleMouseMove);
-      heroElement.addEventListener("mouseenter", handleMouseEnter);
-      heroElement.addEventListener("mouseleave", handleMouseLeave);
-    }
-
-    return () => {
-      if (heroElement) {
-        heroElement.removeEventListener("mousemove", handleMouseMove);
-        heroElement.removeEventListener("mouseenter", handleMouseEnter);
-        heroElement.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, []);
-
   return (
     <section
       ref={heroRef}
@@ -123,6 +91,9 @@ const HeroSection = () => {
       } h-[80vh] md:h-[100vh]`}
       aria-label="Hero section"
     >
+      {/* Mouse Follower */}
+      <MouseFollower />
+
       <video
         autoPlay
         loop
@@ -135,7 +106,8 @@ const HeroSection = () => {
       </video>
 
       <div className="absolute inset-0 bg-gradient-to-br from-black/45 via-black/85 to-black/40" />
-      {/* Animated Background Elements */}
+
+      {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden">
         <div
           className="absolute top-1/4 left-1/4 w-40 h-40 bg-blue-500/8 rounded-full blur-3xl animate-pulse"
@@ -148,50 +120,10 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:6rem_6rem] opacity-20" />
       </div>
 
-      {/* Simple Elegant Fog Effect */}
-      {isHovering && (
-        <>
-          {/* Main Fog Layer */}
-          <div
-            className="absolute pointer-events-none transition-all duration-700 ease-out opacity-0 animate-fade-in"
-            style={{
-              left: mousePosition.x - 100,
-              top: mousePosition.y - 60,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="fog-main" />
-          </div>
-
-          {/* Secondary Fog Layer */}
-          <div
-            className="absolute pointer-events-none transition-all duration-900 ease-out opacity-0 animate-fade-in-delayed"
-            style={{
-              left: mousePosition.x - 140,
-              top: mousePosition.y - 40,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="fog-secondary" />
-          </div>
-
-          {/* Trailing Fog */}
-          <div
-            className="absolute pointer-events-none transition-all duration-1100 ease-out opacity-0 animate-fade-in-late"
-            style={{
-              left: mousePosition.x + 60,
-              top: mousePosition.y - 20,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="fog-trailing" />
-          </div>
-        </>
-      )}
-
+      {/* Main Content */}
       <div className="relative z-20 w-full h-full flex flex-col justify-end pb-12 md:pb-16">
         <div className="w-full max-w-7xl mx-auto px-4">
-          {/* Desktop Layout */}
+          {/* ------- Desktop Layout ------- */}
           <div className="hidden md:flex w-full justify-between items-end gap-8">
             {/* Left Content */}
             <div className="flex-1 max-w-xl">
@@ -232,6 +164,7 @@ const HeroSection = () => {
                   </div>
                 </div>
 
+                {/* Stats */}
                 <div className="grid grid-cols-3 gap-3 mb-6">
                   {[
                     {
@@ -284,6 +217,7 @@ const HeroSection = () => {
                   ))}
                 </div>
 
+                {/* Social Links */}
                 <div className="flex gap-3 mb-2">
                   {[
                     {
@@ -325,7 +259,7 @@ const HeroSection = () => {
                   ))}
                 </div>
 
-                {/* Contact Info - Desktop Only */}
+                {/* Contact Info */}
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-4"></div>
                 <div className="flex items-center gap-6 text-sm text-gray-300">
                   <div className="flex items-center gap-2">
@@ -350,7 +284,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Right Side - Buttons */}
+            {/* Right Side Buttons */}
             <div
               className="flex flex-col gap-4"
               data-aos="fade-left"
@@ -373,7 +307,6 @@ const HeroSection = () => {
               </a>
             </div>
           </div>
-
           {/* Mobile Layout */}
           <div className="md:hidden text-center">
             <div className="mb-4 mt-14">

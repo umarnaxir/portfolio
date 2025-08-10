@@ -183,7 +183,8 @@ export const ProjectsCarousel = () => {
   `
 
   return (
-    <section className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 space-y-4 py-10 overflow-hidden">
+    <section id="projects"
+    className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 space-y-4 py-10 overflow-hidden">
       <style>{css}</style>
       <GeometricBackground />
       
@@ -242,7 +243,7 @@ export const ProjectsCarousel = () => {
                         {project.status}
                       </span>
                       <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                        <Icon className="w-5 h-5 text-white" />
+                        <Icon className="w-5 h-5 text-black" />
                       </div>
                     </div>
 

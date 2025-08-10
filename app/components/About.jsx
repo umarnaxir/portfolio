@@ -152,7 +152,7 @@ const About = () => {
   ];
 
   return (
-    <section 
+    <section id="about"
       ref={sectionRef}
       className="relative bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-hidden p-4 md:p-8"
       onMouseEnter={() => setIsHovered(true)}
