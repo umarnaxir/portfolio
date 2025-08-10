@@ -26,45 +26,70 @@ const About = () => {
 
   // Initialize AOS animations
   useEffect(() => {
-    // AOS alternative using Intersection Observer
-    const observeElements = () => {
-      const elementsToAnimate = document.querySelectorAll('[data-aos]');
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const element = entry.target;
-            const animationType = element.getAttribute('data-aos');
-            const delay = element.getAttribute('data-aos-delay') || 0;
-            
-            setTimeout(() => {
-              element.classList.add('aos-animate');
-            }, parseInt(delay));
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+    // Check for reduced motion preference
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      elementsToAnimate.forEach(element => {
+    const observeElements = () => {
+      if (reducedMotion) {
+        document.querySelectorAll('[data-aos]').forEach((element) => {
+          element.classList.add('aos-animate');
+        });
+        return () => {};
+      }
+
+      const elementsToAnimate = document.querySelectorAll('[data-aos]');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const element = entry.target;
+              const animationType = element.getAttribute('data-aos');
+              const delay = element.getAttribute('data-aos-delay') || 0;
+
+              setTimeout(() => {
+                element.classList.add('aos-animate');
+                observer.unobserve(element);
+              }, parseInt(delay));
+            }
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: '0px',
+        }
+      );
+
+      elementsToAnimate.forEach((element) => {
         observer.observe(element);
       });
 
+      const handleTouchMove = () => {
+        window.requestAnimationFrame(() => {
+          elementsToAnimate.forEach((element) => {
+            if (element.getBoundingClientRect().top < window.innerHeight) {
+              element.classList.add('aos-animate');
+            }
+          });
+        });
+      };
+
+      window.addEventListener('touchmove', handleTouchMove);
+
       return () => {
-        elementsToAnimate.forEach(element => {
+        elementsToAnimate.forEach((element) => {
           observer.unobserve(element);
         });
+        window.removeEventListener('touchmove', handleTouchMove);
       };
     };
 
-    // Add AOS styles
     const style = document.createElement('style');
     style.textContent = `
       [data-aos] {
         opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       }
       
       [data-aos].aos-animate {
@@ -73,15 +98,15 @@ const About = () => {
       }
       
       [data-aos="fade-up"] {
-        transform: translateY(30px);
+        transform: translateY(20px);
       }
       
       [data-aos="fade-left"] {
-        transform: translateX(30px);
+        transform: translateX(20px);
       }
       
       [data-aos="fade-right"] {
-        transform: translateX(-30px);
+        transform: translateX(-20px);
       }
       
       [data-aos="zoom-in"] {
@@ -89,23 +114,14 @@ const About = () => {
       }
       
       [data-aos="flip-left"] {
-        transform: perspective(2500px) rotateY(-100deg);
+        transform: rotate(10deg);
       }
       
-      [data-aos].aos-animate[data-aos="fade-left"] {
-        transform: translateX(0);
-      }
-      
-      [data-aos].aos-animate[data-aos="fade-right"] {
-        transform: translateX(0);
-      }
-      
-      [data-aos].aos-animate[data-aos="zoom-in"] {
-        transform: scale(1);
-      }
-      
+      [data-aos].aos-animate[data-aos="fade-left"],
+      [data-aos].aos-animate[data-aos="fade-right"],
+      [data-aos].aos-animate[data-aos="zoom-in"],
       [data-aos].aos-animate[data-aos="flip-left"] {
-        transform: perspective(2500px) rotateY(0);
+        transform: none;
       }
     `;
     document.head.appendChild(style);
@@ -121,7 +137,7 @@ const About = () => {
   // Mouse movement tracking for interactive background
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (sectionRef.current) {
+      if (sectionRef.current && window.innerWidth > 768) {
         const rect = sectionRef.current.getBoundingClientRect();
         setMousePosition({
           x: (e.clientX - rect.left) / rect.width,

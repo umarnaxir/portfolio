@@ -123,8 +123,8 @@ const ContactMe = () => {
     {
       icon: MapPin,
       label: "Location",
-      value: "Kashmir, India",
-      href: "#",
+      value: "Baramulla, J&K, India",
+      href: "https://www.google.com/maps/dir/34.0332625,74.8156194/baramulla/@34.1380531,74.2538096,75961m/data=!3m2!1e3!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x38e10768ae7739dd:0xc5cefc0b98abbd8!2m2!1d74.3499496!2d34.1990498!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MDgwNi4wIKXMDSoASAFQAw%3D%3D",
       color: "from-purple-500 to-pink-500",
       bgColor: "bg-purple-50",
     },
