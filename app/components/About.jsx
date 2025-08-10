@@ -147,7 +147,7 @@ const About = () => {
   const highlights = [
     { icon: GraduationCap, title: 'Education', desc: 'CSE, Gcet Kashmir' },
     { icon: Briefcase, title: 'Role', desc: 'Frontend Engineer' },
-    { icon: MapPin, title: 'Location', desc: 'Bramulla, J&K' },
+    { icon: MapPin, title: 'Location', desc: 'Baramulla, J&K' },
     { icon: Award, title: 'Focus', desc: 'Software Development' }
   ];
 
@@ -296,7 +296,7 @@ const About = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative text-slate-700 leading-relaxed text-sm">
                 <MapPin className="inline w-4 h-4 text-blue-500 mr-2 mb-1" />
-                I am from <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Bramulla, J&K, India</span>. 
+                I am from <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Baramulla, J&K, India</span>. 
                 I hold a degree in Computer Science Engineering from Government College of Engineering and Technology Kashmir.
               </div>
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -388,7 +388,7 @@ const About = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative text-slate-700 leading-relaxed">
                   <MapPin className="inline w-5 h-5 text-blue-500 mr-2 mb-1" />
-                  I am from <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Bramulla, J&K, India</span>. 
+                  I am from <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Baramulla, J&K, India</span>. 
                   I hold a degree in Computer Science Engineering from Government College of Engineering and Technology Kashmir.
                 </div>
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
