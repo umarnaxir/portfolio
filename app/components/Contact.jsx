@@ -330,7 +330,7 @@ const ContactMe = () => {
               </div>
 
               {/* Social Media Section */}
-              <div className="bg-white/80 p-4 rounded-2xl border border-gray-100 shadow-md sm:p-5">
+              <div className="bg-white/80 p-3 rounded-2xl border border-gray-100 shadow-md sm:p-5">
                 <h4 className="text-lg font-bold text-gray-900 mb-4 text-center sm:text-xl">
                   Follow Me
                 </h4>
@@ -360,7 +360,7 @@ const ContactMe = () => {
               </div>
 
               {/* Quote/CTA Card */}
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl text-white shadow-md" data-aos="fade-up" data-aos-delay="400">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-2xl text-white shadow-md" data-aos="fade-up" data-aos-delay="400">
                 <div className="text-center">
                   <h4 className="text-lg font-bold mb-2 sm:text-xl">Ready to Start?</h4>
                   <p className="text-xs opacity-90 mb-4 leading-relaxed sm:text-sm">
