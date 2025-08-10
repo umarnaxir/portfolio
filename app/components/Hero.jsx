@@ -30,7 +30,6 @@ const HeroSection = () => {
   const roles = [
     "Software Developer",
     "Frontend Specialist",
-    "Computer Science Engineer",
     "SEO Executive",
     "Tech Enthusiast",
   ];
@@ -155,11 +154,19 @@ const HeroSection = () => {
               </div>
 
               <div className="mb-6" data-aos="fade-up" data-aos-delay="700">
-                <div className="flex items-center gap-3 text-xl font-medium mb-6">
-                  <span className="text-gray-300">I'm a</span>
-                  <div className="flex items-center">
-                    <span className="text-white font-bold min-w-[200px] text-left">
+                <div className="flex items-center gap-3 text-4xl font-bold mb-6">
+                  <div className="flex items-center perspective-1000">
+                    <span
+                      className={`text-green-400 font-bold min-w-[350px] text-left pop-flip ${
+                        index % 2 === 0 ? "flip-up" : "flip-down"
+                      }`}
+                      style={{
+                        textShadow:
+                          "0 0 10px rgba(74, 222, 128, 0.5), 0 0 20px rgba(74, 222, 128, 0.3)",
+                      }}
+                    >
                       {text}
+                      <span className="cursor">|</span>
                     </span>
                   </div>
                 </div>
@@ -307,6 +314,7 @@ const HeroSection = () => {
               </a>
             </div>
           </div>
+
           {/* Mobile Layout */}
           <div className="md:hidden text-center">
             <div className="mb-4 mt-14">
@@ -337,11 +345,19 @@ const HeroSection = () => {
             </div>
 
             <div className="mb-4" data-aos="fade-up" data-aos-delay="700">
-              <div className="flex flex-col items-center gap-1 text-2xl font-medium mb-18">
-                <span className="text-gray-300">I'm a</span>
-                <div className="flex items-center">
-                  <span className="text-white font-bold min-w-[160px] text-left">
+              <div className="flex flex-col items-center gap-1 text-3xl font-bold mb-18">
+                <div className="flex items-center perspective-1000">
+                  <span
+                    className={`text-green-400 font-bold min-w-[250px] text-center pop-flip ${
+                      index % 2 === 0 ? "flip-up" : "flip-down"
+                    }`}
+                    style={{
+                      textShadow:
+                        "0 0 10px rgba(74, 222, 128, 0.5), 0 0 20px rgba(74, 222, 128, 0.3)",
+                    }}
+                  >
                     {text}
+                    <span className="cursor">|</span>
                   </span>
                 </div>
               </div>
@@ -445,6 +461,77 @@ const HeroSection = () => {
       </div>
 
       <style jsx>{`
+        /* Perspective for 3D effect */
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+
+        /* Popping Flip Animation */
+        .pop-flip {
+          display: inline-block;
+          animation: flipPop 0.6s ease-out forwards;
+          transform-style: preserve-3d;
+        }
+
+        .flip-up {
+          animation-name: flipUp;
+        }
+
+        .flip-down {
+          animation-name: flipDown;
+        }
+
+        @keyframes flipUp {
+          0% {
+            opacity: 0;
+            transform: rotateX(-90deg) scale(0.8);
+            transform-origin: bottom;
+          }
+          60% {
+            opacity: 1;
+            transform: rotateX(10deg) scale(1.1);
+          }
+          100% {
+            opacity: 1;
+            transform: rotateX(0) scale(1);
+          }
+        }
+
+        @keyframes flipDown {
+          0% {
+            opacity: 0;
+            transform: rotateX(90deg) scale(0.8);
+            transform-origin: top;
+          }
+          60% {
+            opacity: 1;
+            transform: rotateX(-10deg) scale(1.1);
+            transform-origin: top;
+          }
+          100% {
+            opacity: 1;
+            transform: rotateX(0) scale(1);
+          }
+        }
+
+        /* Cursor Animation */
+        .cursor {
+          display: inline-block;
+          animation: blink 0.7s infinite;
+          margin-left: 4px;
+          font-weight: normal;
+        }
+
+        @keyframes blink {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+
         /* Simple Fog Effects */
         .fog-main {
           width: 200px;
