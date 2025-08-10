@@ -11,7 +11,6 @@ import "swiper/css/navigation"
 
 import { ArrowRight, Heart, MapPin, Plane, Hotel, Truck, Zap, Building, Globe, Briefcase } from "lucide-react"
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules"
-import { Badge } from "@/components/ui/badge"
 
 const projects = [
   {
@@ -205,7 +204,7 @@ export const ProjectsCarousel = () => {
 
           {/* Swiper Carousel */}
           <Swiper
-            spaceBetween={40}
+            spaceBetween={60}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false
@@ -229,7 +228,7 @@ export const ProjectsCarousel = () => {
               const Icon = project.icon
               return (
                 <SwiperSlide key={index}>
-                  <div className="relative rounded-3xl bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-[420px] flex flex-col">
+                  <div className="relative rounded-3xl bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-[400px] flex flex-col">
                     {/* Status Label and Icon */}
                     <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
                       <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${

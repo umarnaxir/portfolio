@@ -247,6 +247,12 @@ const HeroSection = () => {
                       icon: <MessageSquare className="w-4 h-4" />,
                       label: "WhatsApp",
                     },
+                    {
+                      href: "mailto:erumarnazir@gmail.com",
+                      icon: <Mail />,
+                      label: "Email",
+                      color: "hover:text-red-500",
+                    },
                   ].map(({ href, icon, label }, idx) => (
                     <a
                       key={label}
@@ -437,6 +443,12 @@ const HeroSection = () => {
                   href: "https://wa.me/qr/JXOWE54MG6HWN1",
                   icon: <MessageSquare className="w-4 h-4" />,
                   label: "WhatsApp",
+                },
+                {
+                  href: "mailto:erumarnazir@gmail.com",
+                  icon: <Mail />,
+                  label: "Email",
+                  color: "hover:text-red-500",
                 },
               ].map(({ href, icon, label }, idx) => (
                 <a
