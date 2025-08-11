@@ -100,7 +100,7 @@ export default function Education() {
     <section 
       ref={sectionRef}
       id="education" 
-      className="relative bg-gradient-to-br from-slate-50 via-blue-50/50 to-purple-50/30 overflow-hidden py-16 px-4"
+      className="relative bg-gradient-to-br from-slate-50 via-blue-50/50 to-purple-50/30 overflow-hidden py-12 sm:py-16 px-4 min-h-[100svh] md:min-h-screen"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -186,23 +186,23 @@ export default function Education() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Modern Header */}
-        <div className={`text-center mb-12 transform transition-all duration-1000 ${
+        <div className={`text-center mb-8 sm:mb-12 transform transition-all duration-1000 ${
           isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 mb-4 relative">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 mb-3 sm:mb-4 relative">
             Education Background
-            <div className="absolute -top-2 -right-6 animate-bounce">
-              <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
+            <div className="absolute -top-1 sm:-top-2 -right-4 sm:-right-6 animate-bounce">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 animate-pulse" />
             </div>
           </h2>
           
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Building strong foundations through quality education and continuous learning
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {educationData.map((edu, index) => {
             const isExpanded = expandedCard === edu.id;
             
@@ -216,38 +216,38 @@ export default function Education() {
                 }`}
                 style={{ transitionDelay: `${300 + (index * 200)}ms` }}
               >
-                <div className={`group relative bg-white/80 backdrop-blur-sm rounded-3xl border border-white/50 shadow-lg hover:shadow-xl hover:shadow-blue-100/50 overflow-hidden transition-all duration-500 hover:scale-[1.02] ${isExpanded ? 'ring-2 ring-blue-200/50' : ''}`}>
+                <div className={`group relative bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white/50 shadow-lg hover:shadow-xl hover:shadow-blue-100/50 overflow-hidden transition-all duration-500 hover:scale-[1.02] ${isExpanded ? 'ring-2 ring-blue-200/50' : ''}`}>
                   
                   <button 
                     onClick={() => toggleExpand(edu.id)}
-                    className="w-full p-8 text-left focus:outline-none transition-all duration-300"
+                    className="w-full p-6 sm:p-8 text-left focus:outline-none transition-all duration-300"
                   >
-                    <div className="flex items-start gap-6">
+                    <div className="flex items-start gap-4 sm:gap-6">
                       {/* Enhanced Icon */}
                       <div className="flex-shrink-0">
-                        <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br ${edu.color} text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500`}>
+                        <div className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center bg-gradient-to-br ${edu.color} text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500`}>
                           {edu.icon}
-                          <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${edu.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                          <div className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br ${edu.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                         </div>
                       </div>
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4">
                           <div>
                             <div className="flex items-center gap-2 mb-2">
-                              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${edu.color} shadow-sm`}>
+                              <span className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${edu.color} shadow-sm`}>
                                 <Trophy className="w-3 h-3" />
                                 {edu.type}
                               </span>
                             </div>
                             
-                            <h3 className="text-xl md:text-2xl font-bold text-slate-800 leading-tight group-hover:text-blue-700 transition-colors duration-300 mb-2">
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-tight group-hover:text-blue-700 transition-colors duration-300 mb-2">
                               {edu.degree}
                             </h3>
                             
                             <div className="flex items-center gap-2 mb-3">
-                              <p className="text-slate-600 font-semibold truncate">
+                              <p className="text-slate-600 font-semibold text-sm sm:text-base truncate">
                                 {edu.shortName}
                               </p>
                               {edu.website !== "#" && (
@@ -269,16 +269,16 @@ export default function Education() {
                           </div>
                           
                           <div className="flex flex-wrap gap-2">
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50/70 text-blue-700 rounded-xl text-sm font-medium">
-                              <Calendar className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-blue-50/70 text-blue-700 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium">
+                              <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                               {edu.duration}
                             </div>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50/70 text-purple-700 rounded-xl text-sm font-medium">
-                              <MapPin className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-purple-50/70 text-purple-700 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium">
+                              <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                               {edu.location}
                             </div>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-50/70 text-green-700 rounded-xl text-sm font-medium">
-                              <Star className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-green-50/70 text-green-700 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium">
+                              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                               {edu.grade}
                             </div>
                           </div>
@@ -289,8 +289,8 @@ export default function Education() {
                       <div className={`flex-shrink-0 transition-all duration-500 ${
                         isExpanded ? 'rotate-180 text-blue-600' : 'text-slate-400 group-hover:text-blue-600'
                       }`}>
-                        <div className="w-10 h-10 rounded-full bg-slate-100/50 group-hover:bg-blue-100/50 flex items-center justify-center transition-colors duration-300">
-                          <ChevronDown className="w-5 h-5" />
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100/50 group-hover:bg-blue-100/50 flex items-center justify-center transition-colors duration-300">
+                          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                         </div>
                       </div>
                     </div>
@@ -300,16 +300,16 @@ export default function Education() {
                   <div className={`transition-all duration-500 ease-out ${
                     isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
                   } overflow-hidden`}>
-                    <div className="px-8 pb-8 border-t border-slate-100/50">
-                      <div className="pt-6 space-y-6">
+                    <div className="px-6 sm:px-8 pb-6 sm:pb-8 border-t border-slate-100/50">
+                      <div className="pt-4 sm:pt-6 space-y-4 sm:space-y-6">
                         <div>
-                          <h4 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
-                            <BookOpen className="w-5 h-5 text-blue-500" />
+                          <h4 className="text-base sm:text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
                             Key Highlights
                           </h4>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {edu.highlights.map((highlight, idx) => (
-                              <div key={idx} className="flex items-center gap-2 text-slate-600 bg-slate-50/80 px-3 py-2 rounded-xl">
+                              <div key={idx} className="flex items-center gap-2 text-slate-600 bg-slate-50/80 px-3 py-2 rounded-lg sm:rounded-xl">
                                 <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
                                 <span className="text-sm font-medium">{highlight}</span>
                               </div>
@@ -318,16 +318,16 @@ export default function Education() {
                         </div>
 
                         {/* Decorative element */}
-                        <div className="flex justify-center pt-4">
-                          <div className={`w-20 h-1 bg-gradient-to-r ${edu.color} rounded-full opacity-60`}></div>
+                        <div className="flex justify-center pt-2 sm:pt-4">
+                          <div className={`w-16 sm:w-20 h-1 bg-gradient-to-r ${edu.color} rounded-full opacity-60`}></div>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Floating elements */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`w-3 h-3 bg-gradient-to-r ${edu.color} rounded-full animate-pulse`}></div>
+                  <div className="absolute top-3 sm:top-4 right-3 sm:right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-r ${edu.color} rounded-full animate-pulse`}></div>
                   </div>
                 </div>
               </div>

@@ -87,7 +87,11 @@ const HeroSection = () => {
       id="home"
       className={`relative flex items-end justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 transition-all duration-1500 ${
         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      } h-[80vh] md:h-[100vh]`}
+      } min-h-[90vh] max-h-[90vh] h-[90vh] md:h-[90vh]`}
+      style={{
+        minHeight: 'calc(90vh - env(safe-area-inset-top))',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
       aria-label="Hero section"
     >
       {/* Mouse Follower */}
@@ -120,8 +124,8 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-20 w-full h-full flex flex-col justify-end pb-12 md:pb-16">
-        <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="relative z-20 w-full h-full flex flex-col justify-end pb-6 sm:pb-8 md:pb-16">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
           {/* ------- Desktop Layout ------- */}
           <div className="hidden md:flex w-full justify-between items-end gap-8">
             {/* Left Content */}
@@ -321,158 +325,180 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Mobile Layout */}
-          <div className="md:hidden text-center">
-            <div className="mb-4 mt-14">
-              <div
-                className="inline-block mb-2"
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <span className="text-blue-400 text-xl font-medium tracking-wide">
-                  Hello, I'm
-                </span>
+          {/* Mobile Layout - Enhanced for all screen sizes */}
+          <div className="block md:hidden text-center">
+            {/* Main Content Container */}
+            <div className="flex flex-col justify-center min-h-[calc(90vh-12rem)] py-4">
+              
+              {/* Header Section */}
+              <div className="mb-4 sm:mb-6">
+                <div
+                  className="inline-block mb-2"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  <span className="text-blue-400 text-lg sm:text-xl font-medium tracking-wide">
+                    Hello, I'm
+                  </span>
+                </div>
+
+                <h1
+                  className="text-white text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mb-3 leading-tight"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                >
+                  Umar Nazir
+                </h1>
+
+                <div
+                  className="w-12 sm:w-16 h-0.5 bg-gradient-to-r from-blue-500 to-blue-400 mx-auto rounded-full"
+                  data-aos="scale-x"
+                  data-aos-delay="600"
+                  data-aos-duration="800"
+                />
               </div>
 
-              <h1
-                className="text-white text-5xl font-bold tracking-tight mb-2 leading-tight"
-                data-aos="fade-up"
-                data-aos-delay="400"
-              >
-                Umar Nazir
-              </h1>
+              {/* Typing Animation Section */}
+              <div className="mb-6 sm:mb-8" data-aos="fade-up" data-aos-delay="700">
+                <div className="flex flex-col items-center gap-2 text-2xl xs:text-3xl sm:text-4xl font-bold mb-6 sm:mb-8">
+                  <div className="flex items-center perspective-1000">
+                    <span
+                      className={`text-green-400 font-bold min-w-[280px] xs:min-w-[320px] sm:min-w-[380px] text-center pop-flip ${
+                        index % 2 === 0 ? "flip-up" : "flip-down"
+                      }`}
+                      style={{
+                        textShadow:
+                          "0 0 10px rgba(74, 222, 128, 0.5), 0 0 20px rgba(74, 222, 128, 0.3)",
+                      }}
+                    >
+                      {text}
+                      <span className="cursor">|</span>
+                    </span>
+                  </div>
+                </div>
 
-              <div
-                className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-blue-400 mx-auto rounded-full"
-                data-aos="scale-x"
-                data-aos-delay="600"
-                data-aos-duration="800"
-              />
-            </div>
-
-            <div className="mb-4" data-aos="fade-up" data-aos-delay="700">
-              <div className="flex flex-col items-center gap-1 text-3xl font-bold mb-18">
-                <div className="flex items-center perspective-1000">
-                  <span
-                    className={`text-green-400 font-bold min-w-[250px] text-center pop-flip ${
-                      index % 2 === 0 ? "flip-up" : "flip-down"
-                    }`}
-                    style={{
-                      textShadow:
-                        "0 0 10px rgba(74, 222, 128, 0.5), 0 0 20px rgba(74, 222, 128, 0.3)",
-                    }}
-                  >
-                    {text}
-                    <span className="cursor">|</span>
-                  </span>
+                {/* Stats Grid - Consistent sizing */}
+                <div className="grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 mb-6 sm:mb-8 px-2 xs:px-4">
+                  {[
+                    {
+                      icon: <GraduationCap className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "GCET",
+                      value: "Kashmir",
+                    },
+                    {
+                      icon: <Clock className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "EXP",
+                      value: "2+ Yrs",
+                    },
+                    {
+                      icon: <Building2 className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "COMPANIES",
+                      value: "4+",
+                    },
+                    {
+                      icon: <Folder className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "PROJECTS",
+                      value: "50+",
+                    },
+                    {
+                      icon: <Laptop className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "FRONTEND",
+                      value: "Expert",
+                    },
+                    {
+                      icon: <Search className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      title: "SEO",
+                      value: "Executive",
+                    },
+                  ].map((stat, index) => (
+                    <div
+                      key={index}
+                      className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-md p-2 xs:p-2.5 sm:p-3 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-blue-400/30"
+                    >
+                      <div className="flex items-center justify-center text-blue-400 mb-1">
+                        {stat.icon}
+                      </div>
+                      <div className="text-center">
+                        <h3 className="text-gray-400 text-[9px] xs:text-[10px] sm:text-xs font-medium uppercase tracking-wider leading-tight">
+                          {stat.title}
+                        </h3>
+                        <p className="text-white text-xs xs:text-sm font-bold group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
+                          {stat.value}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 mb-10 px-4">
-                {[
-                  {
-                    icon: <GraduationCap className="w-4 h-4" />,
-                    title: "Gcet",
-                    value: "Kashmir",
-                  },
-                  {
-                    icon: <Clock className="w-4 h-4" />,
-                    title: "EXP",
-                    value: "2+ Yrs",
-                  },
-                  {
-                    icon: <Building2 className="w-4 h-4" />,
-                    title: "COMPANIES",
-                    value: "4+",
-                  },
-                  {
-                    icon: <Folder className="w-4 h-4" />,
-                    title: "PROJECTS",
-                    value: "50+",
-                  },
-                  {
-                    icon: <Laptop className="w-4 h-4" />,
-                    title: "FRONTEND",
-                    value: "Expert",
-                  },
-                  {
-                    icon: <Search className="w-4 h-4" />,
-                    title: "SEO",
-                    value: "Executive",
-                  },
-                ].map((stat, index) => (
-                  <div
-                    key={index}
-                    className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-md p-1.5 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-blue-400/30"
-                  >
-                    <div className="flex items-center justify-center text-blue-400 mb-0.5">
-                      {stat.icon}
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-gray-400 text-[10px] font-medium uppercase tracking-wider">
-                        {stat.title}
-                      </h3>
-                      <p className="text-white text-xs font-bold group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
-                        {stat.value}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              {/* Social Links Section */}
+              <div className="mb-6">
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-4"></div>
+                <div className="flex justify-center gap-2.5 xs:gap-3 sm:gap-4 mb-4">
+                  {[
+                    {
+                      href: "https://github.com/umarnaxir",
+                      icon: <Github className="w-4 h-4 xs:w-4.5 xs:h-4.5" />,
+                      label: "GitHub",
+                    },
+                    {
+                      href: "https://www.linkedin.com/in/umar-nazir19/",
+                      icon: <Linkedin className="w-4 h-4 xs:w-4.5 xs:h-4.5" />,
+                      label: "LinkedIn",
+                    },
+                    {
+                      href: "https://www.instagram.com/umar_naxir/",
+                      icon: <Instagram className="w-4 h-4 xs:w-4.5 xs:h-4.5" />,
+                      label: "Instagram",
+                    },
+                    {
+                      href: "https://wa.me/qr/JXOWE54MG6HWN1",
+                      icon: <MessageSquare className="w-4 h-4 xs:w-4.5 xs:h-4.5" />,
+                      label: "WhatsApp",
+                    },
+                    {
+                      href: "mailto:erumarnazir@gmail.com",
+                      icon: <Mail className="w-4 h-4 xs:w-4.5 xs:h-4.5" />,
+                      label: "Email",
+                    },
+                  ].map(({ href, icon, label }, idx) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="group w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30 hover:scale-110 active:scale-95"
+                      data-aos="zoom-in"
+                      data-aos-delay={1100 + idx * 80}
+                    >
+                      {React.cloneElement(icon, {
+                        className:
+                          "text-gray-300 group-hover:text-blue-400 transition-colors duration-300",
+                      })}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-3"></div>
-            <div className="flex justify-center gap-3 mb-2">
-              {[
-                {
-                  href: "https://github.com/umarnaxir",
-                  icon: <Github className="w-4 h-4" />,
-                  label: "GitHub",
-                },
-                {
-                  href: "https://www.linkedin.com/in/umar-nazir19/",
-                  icon: <Linkedin className="w-4 h-4" />,
-                  label: "LinkedIn",
-                },
-                {
-                  href: "https://www.instagram.com/umar_naxir/",
-                  icon: <Instagram className="w-4 h-4" />,
-                  label: "Instagram",
-                },
-                {
-                  href: "https://wa.me/qr/JXOWE54MG6HWN1",
-                  icon: <MessageSquare className="w-4 h-4" />,
-                  label: "WhatsApp",
-                },
-                {
-                  href: "mailto:erumarnazir@gmail.com",
-                  icon: <Mail />,
-                  label: "Email",
-                  color: "hover:text-red-500",
-                },
-              ].map(({ href, icon, label }, idx) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="group w-9 h-9 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30 hover:scale-110 active:scale-95"
-                  data-aos="zoom-in"
-                  data-aos-delay={1100 + idx * 80}
-                >
-                  {React.cloneElement(icon, {
-                    className:
-                      "w-3.5 h-3.5 text-gray-300 group-hover:text-blue-400 transition-colors duration-300",
-                  })}
-                </a>
-              ))}
             </div>
           </div>
         </div>
       </div>
 
       <style jsx>{`
+        /* Enhanced responsive styles */
+        @media (max-width: 320px) {
+          .text-4xl { font-size: 2rem; }
+          .text-3xl { font-size: 1.75rem; }
+          .min-w-[280px] { min-width: 260px; }
+        }
+        
+        @media (min-width: 375px) {
+          .xs\:text-5xl { font-size: 3rem; }
+          .xs\:text-4xl { font-size: 2.25rem; }
+          .xs\:min-w-[320px] { min-width: 320px; }
+        }
+
         /* Perspective for 3D effect */
         .perspective-1000 {
           perspective: 1000px;
@@ -643,6 +669,14 @@ const HeroSection = () => {
 
         .animate-fade-in-late {
           animation: fade-in-late 1.2s ease-out 0.6s forwards;
+        }
+
+        /* Safe area support for iOS devices */
+        @supports (padding: env(safe-area-inset-top)) {
+          .section {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+          }
         }
       `}</style>
     </section>

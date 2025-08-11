@@ -148,46 +148,61 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="fixed top-0 left-0 w-full h-full z-30 md:hidden flex flex-col transition-all duration-500 ease-in-out overflow-hidden"
-             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+        <div className="fixed top-0 left-0 w-full z-30 md:hidden flex flex-col transition-all duration-500 ease-in-out overflow-hidden mobile-menu"
+             style={{ 
+               position: 'fixed', 
+               top: 0, 
+               left: 0, 
+               right: 0, 
+               bottom: 0,
+               height: '100vh',
+               minHeight: '100vh',
+               maxHeight: '100vh'
+             }}>
           {/* Background with overlay and image */}
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/comming.png')`
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/comming.png')`,
+              minHeight: '100vh',
+              height: '100vh'
             }}
           />
           
           {/* Animated particles */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden w-full h-full">
             <div className="floating-particles">
-              <Sparkles className="absolute top-20 left-10 w-4 h-4 text-white/40 animate-pulse" />
-              <Zap className="absolute top-32 right-16 w-5 h-5 text-yellow-300/60 animate-bounce" />
-              <Heart className="absolute top-48 left-20 w-4 h-4 text-pink-300/50 animate-pulse" />
-              <Code className="absolute bottom-64 right-12 w-5 h-5 text-purple-300/60 animate-pulse" />
-              <Coffee className="absolute bottom-80 left-14 w-4 h-4 text-orange-300/50 animate-bounce" />
-              <Rocket className="absolute top-64 right-20 w-4 h-4 text-blue-300/60 animate-pulse" />
+              <Sparkles className="absolute top-[15vh] left-[8vw] w-4 h-4 text-white/40 animate-pulse" />
+              <Zap className="absolute top-[25vh] right-[12vw] w-5 h-5 text-yellow-300/60 animate-bounce" />
+              <Heart className="absolute top-[35vh] left-[15vw] w-4 h-4 text-pink-300/50 animate-pulse" />
+              <Code className="absolute bottom-[30vh] right-[10vw] w-5 h-5 text-purple-300/60 animate-pulse" />
+              <Coffee className="absolute bottom-[40vh] left-[12vw] w-4 h-4 text-orange-300/50 animate-bounce" />
+              <Rocket className="absolute top-[45vh] right-[18vw] w-4 h-4 text-blue-300/60 animate-pulse" />
             </div>
           </div>
           
           {/* Content Container */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 py-4 min-h-screen">
+          <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-2 mobile-content"
+               style={{
+                 height: '100vh',
+                 minHeight: '100vh',
+                 maxHeight: '100vh',
+                 width: '100vw',
+                 minWidth: '100vw',
+                 maxWidth: '100vw'
+               }}>
             
-            {/* Header Section */}
+            {/* Header Section - Removed for more space */}
             <div 
-              className="text-center"
+              className="text-center mb-2"
               style={{
                 animation: isOpen ? 'fadeInUp 0.8s ease-out forwards' : 'none'
               }}
             >
-              {/* <h2 className="text-3xl font-bold text-white mb-2 tracking-wide">
-                Welcome to My World
-              </h2> */}
-              {/* <div className="w-20 h-1 bg-gradient-to-r from-yellow-400 to-pink-400 mx-auto rounded-full"></div> */}
             </div>
 
             {/* Navigation Grid */}
-            <div className="grid grid-cols-2 gap-4 mb-8 w-full max-w-sm">
+            <div className="grid grid-cols-2 gap-3 mb-4 w-full max-w-[85vw] sm:max-w-sm">
               {navItems.map((item, index) => (
                 <div
                   key={item.id}
@@ -206,11 +221,18 @@ export default function Navbar() {
                       document.body.style.position = '';
                       document.body.style.width = '';
                     }}
-                    className="w-full text-center bg-white/15 backdrop-blur-lg border border-white/25 rounded-2xl px-4 py-3 text-white font-semibold text-sm uppercase tracking-wider transform hover:scale-110 hover:bg-white/25 hover:border-white/40 transition-all duration-400 shadow-lg hover:shadow-2xl hover:rotate-1 active:scale-95"
+                    className="w-full text-center bg-white/15 backdrop-blur-lg border border-white/25 rounded-2xl px-2 py-2.5 text-white font-semibold text-xs sm:text-sm uppercase tracking-wider transform hover:scale-110 hover:bg-white/25 hover:border-white/40 transition-all duration-400 shadow-lg hover:shadow-2xl hover:rotate-1 active:scale-95"
+                    style={{
+                      minHeight: '8vh',
+                      maxHeight: '10vh',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
                   >
                     <div className="flex flex-col items-center space-y-1">
-                      <span>{item.label}</span>
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-blue-300 to-purple-300 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                      <span className="leading-none">{item.label}</span>
+                      <div className="w-6 h-0.5 bg-gradient-to-r from-blue-300 to-purple-300 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   </a>
                 </div>
@@ -219,7 +241,7 @@ export default function Navbar() {
 
             {/* Action Buttons Grid */}
             <div 
-              className="grid grid-cols-2 gap-4 w-full max-w-sm mb-8"
+              className="grid grid-cols-2 gap-3 w-full max-w-[85vw] sm:max-w-sm mb-4"
               style={{
                 animationDelay: '1000ms',
                 animation: isOpen ? 'fadeInUp 0.8s ease-out forwards' : 'none'
@@ -234,10 +256,18 @@ export default function Navbar() {
                   document.body.style.position = '';
                   document.body.style.width = '';
                 }}
-                className="text-center bg-gradient-to-r from-white to-gray-100 text-blue-700 hover:from-blue-50 hover:to-white px-4 py-4 rounded-2xl transition-all duration-400 transform hover:scale-110 hover:-rotate-1 shadow-lg hover:shadow-2xl font-bold uppercase tracking-wider text-sm active:scale-95"
+                className="text-center bg-gradient-to-r from-white to-gray-100 text-blue-700 hover:from-blue-50 hover:to-white px-2 py-3 rounded-2xl transition-all duration-400 transform hover:scale-110 hover:-rotate-1 shadow-lg hover:shadow-2xl font-bold uppercase tracking-wider text-xs sm:text-sm active:scale-95"
+                style={{
+                  minHeight: '8vh',
+                  maxHeight: '10vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
-                <Heart className="w-5 h-5 mx-auto mb-1" />
-                CONTACT ME
+                <Heart className="w-4 h-4 mb-1" />
+                <span className="leading-none">CONTACT ME</span>
               </a>
               <a
                 href="/cv/Umar Nazir.pdf"
@@ -249,39 +279,54 @@ export default function Navbar() {
                   document.body.style.position = '';
                   document.body.style.width = '';
                 }}
-                className="text-center bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 text-white hover:from-purple-700 hover:via-pink-700 hover:to-red-600 px-4 py-4 rounded-2xl transition-all duration-400 transform hover:scale-110 hover:rotate-1 shadow-lg hover:shadow-2xl font-bold uppercase tracking-wider text-sm active:scale-95"
+                className="text-center bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 text-white hover:from-purple-700 hover:via-pink-700 hover:to-red-600 px-2 py-3 rounded-2xl transition-all duration-400 transform hover:scale-110 hover:rotate-1 shadow-lg hover:shadow-2xl font-bold uppercase tracking-wider text-xs sm:text-sm active:scale-95"
+                style={{
+                  minHeight: '8vh',
+                  maxHeight: '10vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
-                <Rocket className="w-5 h-5 mx-auto mb-1" />
-                DOWNLOAD CV
+                <Rocket className="w-4 h-4 mb-1" />
+                <span className="leading-none">DOWNLOAD CV</span>
               </a>
             </div>
 
             {/* Contact Information */}
             <div 
-              className="text-center mb-8 space-y-3"
+              className="text-center mb-4 space-y-2 w-full max-w-[85vw]"
               style={{
                 animationDelay: '1200ms',
                 animation: isOpen ? 'fadeInUp 0.8s ease-out forwards' : 'none'
               }}
             >
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-20 py-4">
-                <p className="text-white/90 text-sm font-medium mb-2 flex items-center justify-center">
-                  <Coffee className="w-4 h-4 mr-2" />
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-4 py-3"
+                   style={{
+                     minHeight: '12vh',
+                     maxHeight: '15vh',
+                     display: 'flex',
+                     flexDirection: 'column',
+                     justifyContent: 'center'
+                   }}>
+                <p className="text-white/90 text-xs sm:text-sm font-medium mb-2 flex items-center justify-center">
+                  <Coffee className="w-3 h-3 mr-2" />
                   Get In Touch
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <a 
                     href="tel:+917051732616" 
-                    className=" text-white hover:text-yellow-300 transition-colors duration-300 text-sm font-mono flex items-center justify-center"
+                    className="text-white hover:text-yellow-300 transition-colors duration-300 text-xs font-mono flex items-center justify-center"
                   >
-                    <Phone className="w-4 h-4 mr-2" />
+                    <Phone className="w-3 h-3 mr-2" />
                     +91 705-173-2616
                   </a>
                   <a 
                     href="mailto:erumarnazir@gmail.com" 
-                    className=" text-white hover:text-yellow-300 transition-colors duration-300 text-sm font-mono flex items-center justify-center"
+                    className="text-white hover:text-yellow-300 transition-colors duration-300 text-xs font-mono flex items-center justify-center break-all"
                   >
-                    <Mail className="w-4 h-4 mr-2" />
+                    <Mail className="w-3 h-3 mr-2 flex-shrink-0" />
                     erumarnazir@gmail.com
                   </a>
                 </div>
@@ -290,7 +335,7 @@ export default function Navbar() {
               
             {/* Social Media Icons */}
             <div 
-              className="flex items-center gap-3 mb-8" 
+              className="flex items-center gap-2 mb-4" 
               style={{
                 animationDelay: '1400ms',
                 animation: isOpen ? 'fadeInUp 0.8s ease-out forwards' : 'none'
@@ -300,9 +345,9 @@ export default function Navbar() {
                 href="https://github.com/umarnaxir"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
+                className="w-10 h-10 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4 text-white">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.263.82-.583 0-.287-.01-1.045-.015-2.052-3.338.726-4.042-1.61-4.042-1.61-.546-1.386-1.333-1.756-1.333-1.756-1.09-.744.082-.729.082-.729 1.205.085 1.84 1.24 1.84 1.24 1.07 1.835 2.807 1.305 3.492.998.107-.775.42-1.305.763-1.605-2.665-.3-5.466-1.333-5.466-5.93 0-1.31.47-2.38 1.235-3.22-.125-.303-.535-1.523.115-3.176 0 0 1.005-.322 3.3 1.23a11.5 11.5 0 0 1 3.005-.404c1.02.005 2.045.137 3.005.404 2.28-1.552 3.285-1.23 3.285-1.23.655 1.653.245 2.873.12 3.176.77.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.37.82 1.1.82 2.22 0 1.606-.015 2.898-.015 3.293 0 .32.21.698.825.58C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
                 </svg>
               </a>
@@ -311,9 +356,9 @@ export default function Navbar() {
                 href="https://www.linkedin.com/in/umar-nazir19/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
+                className="w-10 h-10 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4 text-white">
                   <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 8.75h4v12.5H3V8.75zm7.5 0H15v1.71h.06c.49-.93 1.68-1.9 3.44-1.9 3.68 0 4.5 2.42 4.5 5.56v6.63h-4V14.4c0-1.45-.03-3.31-2.02-3.31-2.02 0-2.33 1.58-2.33 3.2v7H10.5V8.75z"/>
                 </svg>
               </a>
@@ -322,9 +367,9 @@ export default function Navbar() {
                 href="https://www.instagram.com/umar_naxir/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
+                className="w-10 h-10 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4 text-white">
                   <path d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5zM4 7.75a3.75 3.75 0 0 1 3.75-3.75h8.5A3.75 3.75 0 0 1 20 7.75v8.5a3.75 3.75 0 0 1-3.75 3.75h-8.5A3.75 3.75 0 0 1 4 16.25v-8.5zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.25-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
                 </svg>
               </a>
@@ -333,9 +378,9 @@ export default function Navbar() {
                 href="https://wa.me/qr/JXOWE54MG6HWN1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
+                className="w-10 h-10 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center hover:bg-white/25 hover:border-white/40 transition-all duration-400 hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4 text-white">
                   <path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 .01 5.35.01 11.98c0 2.11.56 4.17 1.63 6.01L0 24l6.19-1.63A11.96 11.96 0 0 0 12 24c6.63 0 12-5.36 12-12 0-3.2-1.24-6.21-3.48-8.52zM12 22c-1.7 0-3.37-.43-4.84-1.25l-.34-.18-3.67.97.98-3.57-.22-.36A9.94 9.94 0 0 1 2 11.98C2 6.46 6.46 2 12 2s10 4.46 10 9.98c0 5.53-4.46 10-10 10zm5.04-7.24c-.27-.14-1.6-.79-1.85-.88-.25-.1-.43-.14-.6.14-.18.27-.7.87-.85 1.05-.16.18-.31.2-.58.07-.27-.14-1.13-.42-2.15-1.33-.79-.7-1.32-1.56-1.47-1.83-.15-.27-.02-.42.12-.55.13-.13.29-.34.43-.51.15-.17.2-.29.3-.48.1-.2.05-.37-.03-.51-.08-.14-.6-1.44-.82-1.97-.22-.53-.45-.46-.6-.47-.16 0-.33-.01-.5-.01-.17 0-.45.06-.69.28-.24.21-.9.87-.9 2.12 0 1.25.92 2.45 1.05 2.62.13.17 1.8 2.74 4.37 3.84.61.26 1.09.41 1.46.52.61.19 1.17.16 1.61.1.49-.07 1.6-.65 1.82-1.27.23-.62.23-1.15.16-1.27-.07-.12-.25-.19-.52-.34z"/>
                 </svg>
               </a>
@@ -350,18 +395,18 @@ export default function Navbar() {
               }}
             >
               <div className="flex items-center justify-center space-x-2 text-white/80">
-                <Sparkles className="w-4 h-4 animate-spin" />
-                <span className="text-sm font-medium">Fully Animated Experience</span>
-                <Sparkles className="w-4 h-4 animate-spin" />
+                <Sparkles className="w-3 h-3 animate-spin" />
+                <span className="text-xs sm:text-sm font-medium">Fully Animated Experience</span>
+                <Sparkles className="w-3 h-3 animate-spin" />
               </div>
-              <p className="text-white/70 text-sm font-light leading-relaxed max-w-xs mx-auto">
+              <p className="text-white/70 text-xs font-light leading-relaxed max-w-[80vw] mx-auto">
                 Have an idea? Let's create something amazing together! 
                 <span className="inline-block animate-bounce ml-1">✨</span>
               </p>
               <div className="flex items-center justify-center space-x-1 mt-2">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></div>
+                <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
               </div>
             </div>
           </div>
@@ -400,6 +445,59 @@ export default function Navbar() {
           50% { transform: translateY(-10px) rotate(180deg); }
         }
 
+        /* Mobile Menu Responsive Styles */
+        .mobile-menu {
+          width: 100vw !important;
+          height: 100vh !important;
+          min-height: 100vh !important;
+          max-height: 100vh !important;
+        }
+
+        .mobile-content {
+          padding-top: env(safe-area-inset-top, 0px) !important;
+          padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        }
+
+        /* iPhone specific adjustments */
+        @supports (padding: max(0px)) {
+          .mobile-content {
+            padding-top: max(env(safe-area-inset-top), 20px) !important;
+            padding-bottom: max(env(safe-area-inset-bottom), 20px) !important;
+          }
+        }
+
+        /* Android and other devices */
+        @media screen and (max-height: 600px) {
+          .mobile-content {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+          }
+          
+          .mobile-content > div {
+            margin-bottom: 0.5rem !important;
+          }
+        }
+
+        /* Very small screens */
+        @media screen and (max-height: 500px) {
+          .mobile-content {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+          }
+          
+          .mobile-content > div {
+            margin-bottom: 0.25rem !important;
+          }
+        }
+
+        /* Large screens mobile */
+        @media screen and (min-height: 800px) {
+          .mobile-content {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+          }
+        }
+
         /* Custom scrollbar for mobile menu */
         .overflow-y-auto::-webkit-scrollbar {
           width: 4px;
@@ -417,6 +515,14 @@ export default function Navbar() {
 
         .overflow-y-auto::-webkit-scrollbar-thumb:hover {
           background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Prevent text scaling on mobile */
+        * {
+          -webkit-text-size-adjust: 100%;
+          -moz-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
         }
       `}</style>
     </>
