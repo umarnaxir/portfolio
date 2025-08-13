@@ -161,10 +161,10 @@ const About = () => {
   ];
 
   const highlights = [
-    { icon: GraduationCap, title: 'Education', desc: 'CSE, Gcet Kashmir' },
-    { icon: Briefcase, title: 'Role', desc: 'Frontend Engineer' },
     { icon: MapPin, title: 'Location', desc: 'Baramulla, J&K' },
-    { icon: Award, title: 'Focus', desc: 'Software Development' }
+    { icon: GraduationCap, title: 'Education', desc: 'CSE, Gcet Kashmir' },
+    { icon: Award, title: 'Focus', desc: 'Software Development' },
+    { icon: Briefcase, title: 'Role', desc: 'Frontend Engineer & SEO Executive' },
   ];
 
   return (
@@ -251,7 +251,7 @@ const About = () => {
           {/* Badge */}
           <div className="text-start mb-4 sm:mb-6" data-aos="fade-up" data-aos-delay="100">
             <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 backdrop-blur-sm text-blue-700 rounded-full text-sm font-semibold border border-blue-200/50 hover:bg-blue-500/20 transition-all duration-300">
-              <Heart className="w-4 h-4 animate-pulse text-red-500" />
+              <Heart className="w-5 h-5 animate-pulse text-red-500" />
               About Me
             </span>
           </div>
@@ -271,11 +271,11 @@ const About = () => {
 
               {/* Floating Icons - Responsive positioning */}
               <div className="absolute -top-2 xs:-top-3 -right-2 xs:-right-3 bg-white/90 backdrop-blur-sm rounded-2xl p-2 xs:p-2.5 shadow-lg border border-blue-100 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
-                <Code className="w-4 h-4 xs:w-5 xs:h-5 text-blue-600" />
+                <Code className="w-5 h-5 xs:w-5 xs:h-5 text-blue-600" />
               </div>
               
               <div className="absolute -bottom-2 xs:-bottom-3 -left-2 xs:-left-3 bg-white/90 backdrop-blur-sm rounded-2xl p-2 xs:p-2.5 shadow-lg border border-blue-100 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-500">
-                <Palette className="w-4 h-4 xs:w-5 xs:h-5 text-blue-600" />
+                <Palette className="w-5 h-5 xs:w-5 xs:h-5 text-blue-600" />
               </div>
 
               {/* Top Badge */}
@@ -299,11 +299,11 @@ const About = () => {
                 data-aos="fade-up"
                 data-aos-delay={400 + index * 100}
               >
-                <div className={`w-5 h-5 xs:w-6 xs:h-6 ${achievement.color} rounded-lg flex items-center justify-center mx-auto mb-1 xs:mb-2 group-hover:scale-125 transition-transform duration-400`}>
-                  <achievement.icon className="w-2.5 h-2.5 xs:w-3 xs:h-3 text-white" />
+                <div className={`w-10 h-10 xs:w-10 xs:h-10 ${achievement.color} rounded-lg flex items-center justify-center mx-auto mb-1 xs:mb-2 group-hover:scale-125 transition-transform duration-400`}>
+                  <achievement.icon className="w-5 h-5 xs:w-5 xs:h-5 text-white" />
                 </div>
                 <div className="text-xs xs:text-sm font-bold text-slate-900 mb-0.5">{achievement.text}</div>
-                <div className="text-[10px] xs:text-xs text-slate-600 font-medium">{achievement.label}</div>
+                <div className="text-[15px] xs:text-xs text-slate-600 font-medium">{achievement.label}</div>
                 
                 <div className="absolute inset-0 bg-blue-50/0 group-hover:bg-blue-50/50 rounded-xl transition-colors duration-400"></div>
               </div>
@@ -314,25 +314,25 @@ const About = () => {
           <div className="space-y-3 xs:space-y-4 mb-4 sm:mb-6 px-2">
             <div className="group relative bg-white/80 backdrop-blur-sm border border-blue-100/50 rounded-2xl p-4 xs:p-5 hover:bg-white/90 hover:border-blue-200/70 hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-500 cursor-pointer" data-aos="fade-up" data-aos-delay="500">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative text-slate-700 leading-relaxed text-sm xs:text-base">
-                <MapPin className="inline w-4 h-4 text-blue-500 mr-2 mb-1" />
+              <div className="relative text-slate-700 leading-relaxed text-l xs:text-base">
+                <MapPin className="inline w-5 h-5 text-blue-500 mr-2 mb-1" />
                 I am from <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Baramulla, J&K, India</span>. 
                 I hold a degree in Computer Science Engineering from Government College of Engineering and Technology Kashmir.
               </div>
               <div className="absolute top-3 xs:top-4 right-3 xs:right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Sparkles className="w-4 h-4 text-blue-400" />
+                <Sparkles className="w-5 h-5 text-blue-400" />
               </div>
             </div>
 
             <div className="group relative bg-white/80 backdrop-blur-sm border border-blue-100/50 rounded-2xl p-4 xs:p-5 hover:bg-white/90 hover:border-blue-200/70 hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-500 cursor-pointer" data-aos="fade-up" data-aos-delay="600">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative text-slate-700 leading-relaxed text-sm xs:text-base">
-                <Code className="inline w-4 h-4 text-blue-500 mr-2 mb-1" />
+              <div className="relative text-slate-700 leading-relaxed text-l xs:text-base">
+                <Code className="inline w-5 h-5 text-blue-500 mr-2 mb-1" />
                 Currently working as a <span className="font-semibold text-slate-900 bg-blue-50/50 px-1 rounded">Frontend Engineer</span>, 
                 providing freelance digital solutions including Software Development and SEO optimization.
               </div>
               <div className="absolute top-3 xs:top-4 right-3 xs:right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Brain className="w-4 h-4 text-blue-400" />
+                <Brain className="w-5 h-5 text-blue-400" />
               </div>
             </div>
           </div>
@@ -348,11 +348,11 @@ const About = () => {
               >
                 <div className="flex items-center gap-2 xs:gap-3">
                   <div className="p-1.5 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300 flex-shrink-0">
-                    <highlight.icon className="w-3 h-3 xs:w-4 xs:h-4 text-blue-600" />
+                    <highlight.icon className="w-5 h-5 xs:w-5 xs:h-5 text-blue-600" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-medium text-blue-600 mb-0.5">{highlight.title}</div>
-                    <div className="text-xs xs:text-sm text-slate-700 font-medium truncate">{highlight.desc}</div>
+                    <div className="text-[16px] font-medium text-blue-600 mb-0.5">{highlight.title}</div>
+                    <div className="text-[14px] xs:text-sm text-slate-700 font-medium truncate">{highlight.desc}</div>
                   </div>
                 </div>
               </div>
@@ -381,7 +381,7 @@ const About = () => {
                 </div>
                 <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 xs:px-4 py-2 rounded-full text-sm font-medium group-hover:bg-white/30 group-hover:scale-105 transition-all duration-300">
                   <a href='#contact'><span>Get in touch</span></a>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </div>
@@ -397,7 +397,7 @@ const About = () => {
             {/* Badge */}
             <div className="inline-block" data-aos="fade-right" data-aos-delay="100">
               <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 backdrop-blur-sm text-blue-700 rounded-full text-sm font-semibold border border-blue-200/50 hover:bg-blue-500/20 transition-all duration-300">
-                <Heart className="w-4 h-4 animate-pulse text-red-500" />
+                <Heart className="w-5 h-5 animate-pulse text-red-500" />
                 About Me
               </span>
             </div>
@@ -440,7 +440,7 @@ const About = () => {
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300 flex-shrink-0">
-                      <highlight.icon className="w-4 h-4 text-blue-600" />
+                      <highlight.icon className="w-5 h-5 text-blue-600" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="text-xs font-medium text-blue-600 mb-0.5">{highlight.title}</div>
@@ -530,7 +530,7 @@ const About = () => {
                 </div>
                 <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium group-hover:bg-white/30 group-hover:scale-105 transition-all duration-300">
                   <a href='#contact'> <span>Get in touch</span></a>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </div>

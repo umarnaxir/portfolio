@@ -82,18 +82,18 @@ const HeroSection = () => {
   }, [text, isDeleting, index]);
 
   return (
-    <section
-      ref={heroRef}
-      id="home"
-      className={`relative flex items-end justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 transition-all duration-1500 ${
-        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      } min-h-[90vh] max-h-[90vh] h-[90vh] md:h-[90vh]`}
-      style={{
-        minHeight: 'calc(90vh - env(safe-area-inset-top))',
-        paddingBottom: 'env(safe-area-inset-bottom)',
-      }}
-      aria-label="Hero section"
-    >
+<section       
+  ref={heroRef}       
+  id="home"       
+  className={`relative flex items-end justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 transition-all duration-1500 ${         
+    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"       
+  } md:h-[100vh] md:min-h-[100vh] md:max-h-[100vh]`}       
+  style={{         
+    minHeight: 'calc(90vh - env(safe-area-inset-top))',         
+    paddingBottom: 'env(safe-area-inset-bottom)',       
+  }}       
+  aria-label="Hero section"
+  >
       {/* Mouse Follower */}
       <MouseFollower />
 
@@ -381,32 +381,32 @@ const HeroSection = () => {
                 <div className="grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 mb-6 sm:mb-8 px-2 xs:px-4">
                   {[
                     {
-                      icon: <GraduationCap className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <GraduationCap className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "GCET",
                       value: "Kashmir",
                     },
                     {
-                      icon: <Clock className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <Clock className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "EXP",
                       value: "2+ Yrs",
                     },
                     {
-                      icon: <Building2 className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <Building2 className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "COMPANIES",
                       value: "4+",
                     },
                     {
-                      icon: <Folder className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <Folder className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "PROJECTS",
                       value: "50+",
                     },
                     {
-                      icon: <Laptop className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <Laptop className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "FRONTEND",
                       value: "Expert",
                     },
                     {
-                      icon: <Search className="w-3.5 h-3.5 xs:w-4 xs:h-4" />,
+                      icon: <Search className="w-5 h-5 xs:w-5 xs:h-5" />,
                       title: "SEO",
                       value: "Executive",
                     },

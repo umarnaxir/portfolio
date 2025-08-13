@@ -61,7 +61,7 @@ export default function Navbar() {
     <>
       {/* Main Navbar */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md py-2 ${montserrat.variable} font-sans ${
+        className={`fixed left-1/2 -translate-x-1/2 w-[90%] max-w-6xl z-50 transition-all duration-300 mt-4 rounded-3xl backdrop-blur-md py-2 ${montserrat.variable} font-sans ${
           scrolled ? "bg-white/95 shadow-lg" : "bg-black/30"
         }`}
       >
@@ -71,7 +71,7 @@ export default function Navbar() {
             <img 
               src="/fevicon.png" 
               alt="Logo" 
-              className="w-15 h-15 rounded-full object-cover transition-all duration-300 hover:scale-110 cursor-pointer shadow-lg"
+              className="w-13 h-13 rounded-full object-cover transition-all duration-300 hover:scale-110 cursor-pointer shadow-lg"
             />
           </div>
 
