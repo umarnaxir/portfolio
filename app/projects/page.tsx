@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { TagChip } from '@/components/ui/TagChip';
-import { ArrowUpRight } from '@/components/ui/Icons';
+import { ArrowLeft, ArrowUpRight } from '@/components/ui/Icons';
 import { projects } from '@/data/projects';
 import { Container } from '@/styles/primitives';
 
@@ -294,7 +294,8 @@ export default function ProjectsPage() {
       <Container>
         <PageHeader>
           <Link href="/" className="back-link">
-            <span>← Back to Portfolio</span>
+            <ArrowLeft size="0.95rem" />
+            <span>Back to Portfolio</span>
           </Link>
           <Eyebrow variant="dark">Project Archive</Eyebrow>
           <h1>All Engineered Works</h1>

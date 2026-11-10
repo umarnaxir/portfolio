@@ -14,13 +14,13 @@ The interface combines near-white content surfaces (`#ffffff`, `#f1f0ee`), high-
   - Full-bleed cursor-following sunset-orange liquid canvas trail and dual-layer radial spotlights.
   - Centered transparent portrait (`/images/umar.png`) anchored at the bottom with subtle hover lighting transitions and locked positioning.
   - Background `UMAR` watermark, left-aligned hero headline (`Software Engineer & SEO Executive`), social links, and an interactive highlight carousel card.
+- **Live GitHub Contributions (`GitHubContributionsSection.tsx` & `/api/github-contributions`)**: Real-time animated GitHub activity card placed right after The Engineer section, fetching live daily commit contributions and year filters directly from GitHub with responsive horizontal mobile swipe support.
 - **The Engineer Statement (`AboutSection.tsx`)**: Features the `/images/umar.jpeg` portrait in a 3D tilt card alongside a GSAP ScrollTrigger word-by-word animated statement.
 - **Engineering Methodology (`CreativeBand.tsx`)**: "From Conception to Search Dominance" showcase with four-stage interactive methodology cards (`Think`, `Design`, `Build`, `Grow`), asymmetric corners, ScrollTrigger entrance, and cursor-driven 3D tilt.
 - **Featured Projects (`ProjectsSection.tsx` & `/projects`)**: Desktop horizontal ScrollTrigger-pinned showcase displaying 70/30 image-to-detail project cards, responsive stacked cards on mobile/tablet, plus a full category-filterable directory at `/projects`.
 - **Work Experience & Leadership (`ExperienceSection.tsx`)**: Sticky milestone sidebar paired with vertically stacking ScrollTrigger career cards covering NexGen Developers, Vipthra Technologies, Saibbyweb, and Harmukh Technologies.
 - **Services & Stats (`ServicesSection.tsx` & `StatsSection.tsx`)**: Interactive full-width service rows covering Web Development, Full-Stack Systems, Mobile Apps, E-Commerce, Technical SEO, and AI/ML Solutions, followed by a dark metrics panel with scroll-driven counters.
 - **Footer & Inquiry Flow (`Footer.tsx`, `ContactModal.tsx`, `app/api/contact/route.ts`)**: Direct contact channel cards (WhatsApp, LinkedIn, GitHub, Email, Phone), watermark typography, and an inquiry modal backed by a Next.js API endpoint (`/api/contact`).
-- **Articles / Writing (`app/blogs/page.tsx`, `app/blogs/[slug]/page.tsx`)**: Dedicated technical blog routes powered by `data/blogs.ts`.
 
 ## Tech Stack
 
@@ -37,8 +37,8 @@ The interface combines near-white content surfaces (`#ffffff`, `#f1f0ee`), high-
 ```text
 nexgen/
 ├── app/
-│   ├── api/contact/route.ts     # Contact inquiry POST endpoint
-│   ├── blogs/                   # Technical blog listing & dynamic article route
+│   ├── api/contact/route.ts                # Contact inquiry POST endpoint
+│   ├── api/github-contributions/route.ts   # Real-time GitHub contributions proxy API
 │   ├── projects/                # Filterable full projects showcase page
 │   ├── layout.tsx               # Root layout, metadata, OpenGraph & StyledComponentsRegistry
 │   └── page.tsx                 # Main portfolio landing page
@@ -52,8 +52,7 @@ nexgen/
 │   ├── personal.ts              # Bio, stats, contact details & social URLs
 │   ├── projects.ts              # Project entries and screenshots
 │   ├── experience.ts            # Career timeline milestones
-│   ├── services.ts              # Service capabilities catalog
-│   └── blogs.ts                 # Technical articles content
+│   └── services.ts              # Service capabilities catalog
 ├── hooks/
 │   ├── useAdaptiveGrid.ts       # Viewport-based root rem scaling
 │   └── useLiveClock.ts          # Real-time local studio time & date
@@ -117,7 +116,7 @@ npm run lint
 ## Customization
 
 - **Profile & Socials**: Update `data/personal.ts` for contact numbers, email, location, and social URLs.
-- **Projects, Experience & Services**: Edit `data/projects.ts`, `data/experience.ts`, `data/services.ts`, and `data/blogs.ts`.
+- **Projects, Experience & Services**: Edit `data/projects.ts`, `data/experience.ts`, and `data/services.ts`.
 - **Visual Assets**: Replace portrait imagery in `public/images/` (`umar.png`, `umar.jpeg`) and project previews in `public/images/projects/`.
 - **Theme Colors & Typography**: Modify design tokens in `styles/theme.ts`.
 - **Contact Form Delivery**: Connect an email or webhook provider (such as Resend or SendGrid) inside `app/api/contact/route.ts` for production email delivery.
@@ -135,5 +134,6 @@ Deploy directly with [Vercel](https://vercel.com) or any Node.js hosting provide
 - **Name**: Umar Nazir
 - **Email**: `erumarnazir@gmail.com`
 - **GitHub**: [@umarnaxir](https://github.com/umarnaxir)
-- **LinkedIn**: [/in/umarnazir](https://linkedin.com/in/umarnazir)
+- **LinkedIn**: [/in/umar-nazir19](https://www.linkedin.com/in/umar-nazir19/)
+- **X**: [@umr_nazir](https://x.com/umr_nazir)
 - **Live Site**: [https://umarnazir.vercel.app](https://umarnazir.vercel.app)

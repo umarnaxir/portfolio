@@ -4,9 +4,10 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useScroll } from '../providers/SmoothScrollProvider';
 import { LiquidRevealCanvas } from './LiquidRevealCanvas';
+import { ProjectShowcaseMarquee } from './ProjectShowcaseMarquee';
 import { HeroCardCarousel } from './HeroCardCarousel';
 import { PillButton } from '../ui/PillButton';
-import { GitHubIcon, LinkedInIcon, CloseIcon } from '../ui/Icons';
+import { ArrowDown, GitHubIcon, LinkedInIcon, CloseIcon } from '../ui/Icons';
 import { personalInfo } from '@/data/personal';
 import { Container } from '@/styles/primitives';
 
@@ -127,18 +128,18 @@ const HeroShell = styled(Container)`
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  padding-top: 7rem;
+  padding-top: 8.5rem;
   padding-bottom: 0;
 
   @media (min-width: 1024px) {
-    padding-top: 8.5rem;
+    padding-top: 9.25rem;
   }
 
   @media (max-width: 767px) {
     min-height: 100vh;
     min-height: 100svh;
     justify-content: flex-end;
-    padding-top: 4.5rem;
+    padding-top: 6.75rem;
     padding-bottom: 2.25rem;
   }
 `;
@@ -501,6 +502,7 @@ export function HeroSection() {
       <Watermark $revealed={isReady} aria-hidden="true">
         UMAR
       </Watermark>
+      <ProjectShowcaseMarquee revealed={isReady} />
 
       <HeroShell>
         <HeroMainGrid>
@@ -578,7 +580,7 @@ export function HeroSection() {
           <div className="center-text">Baramulla / Srinagar • Remote Worldwide</div>
           <div className="right-text">
             <span>Scroll to explore</span>
-            <span>↓</span>
+            <ArrowDown size="0.85rem" />
           </div>
         </StatusBar>
       </HeroShell>

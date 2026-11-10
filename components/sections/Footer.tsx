@@ -360,7 +360,7 @@ const CONTACT_CHANNELS = [
   {
     id: 'linkedin',
     title: 'LinkedIn',
-    value: '/in/umarnazir',
+    value: '/in/umar-nazir19',
     link: personalInfo.socials.linkedin,
     icon: LinkedInIcon,
     label: 'Professional Network',

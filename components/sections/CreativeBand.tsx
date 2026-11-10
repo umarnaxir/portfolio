@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from '../ui/Icons';
+import { ArrowRight, Code2, DraftingCompass, PenTool, TrendingUp } from 'lucide-react';
 import { Container } from '@/styles/primitives';
 import { useMobileCarousel } from '@/hooks/useMobileCarousel';
 import { MobileCarouselControls } from '../ui/MobileCarouselControls';
@@ -174,6 +174,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
           color: ${theme.colors.ink};
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
           &::before { border-color: rgba(17, 17, 17, 0.15); }
+          .step-symbol {
+            background: rgba(177, 95, 44, 0.09);
+            border-color: rgba(177, 95, 44, 0.24);
+            color: ${theme.colors.accent};
+          }
           &:hover {
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.09);
             border-color: rgba(177, 95, 44, 0.4);
@@ -185,6 +190,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
           color: #ffffff;
           border-color: rgba(255, 255, 255, 0.2);
           box-shadow: 0 12px 35px rgba(177, 95, 44, 0.28);
+          .step-symbol {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.32);
+            color: #ffffff;
+          }
           &:hover {
             box-shadow: 0 24px 50px rgba(177, 95, 44, 0.4);
             border-color: rgba(255, 255, 255, 0.4);
@@ -196,6 +206,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
           color: #ffffff;
           border-color: rgba(255, 255, 255, 0.12);
           box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+          .step-symbol {
+            background: rgba(207, 128, 71, 0.14);
+            border-color: rgba(207, 128, 71, 0.32);
+            color: ${theme.colors.accentFrom};
+          }
           &:hover {
             box-shadow: 0 24px 55px rgba(0, 0, 0, 0.5);
             border-color: rgba(177, 95, 44, 0.5);
@@ -208,6 +223,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
           color: ${theme.colors.foreground};
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
           &::before { border-color: rgba(17, 17, 17, 0.15); }
+          .step-symbol {
+            background: rgba(17, 17, 17, 0.05);
+            border-color: rgba(17, 17, 17, 0.14);
+            color: ${theme.colors.foreground};
+          }
           &:hover {
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
             border-color: rgba(177, 95, 44, 0.4);
@@ -233,20 +253,25 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
   }
 
   .step-symbol {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 8px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
     display: grid;
     place-items: center;
-    font-size: 0.9rem;
     border: 1px solid currentColor;
-    opacity: 0.6;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.92;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+
+    @media (max-width: 767px) {
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 8px;
+    }
   }
 
   &:hover .step-symbol {
     opacity: 1;
-    transform: scale(1.1) rotate(6deg);
+    transform: scale(1.08) rotate(4deg);
   }
 
   .card-body {
@@ -334,7 +359,7 @@ const STEPS = [
     title: 'Think',
     subtitle: 'Architecture & Strategy',
     desc: 'Uncompromising system planning, entity-relationship mapping, database architecture, and technical SEO blueprints.',
-    symbol: '📐',
+    icon: DraftingCompass,
     variant: 'light' as const,
     radius: '28px 8px 22px 10px',
   },
@@ -343,7 +368,7 @@ const STEPS = [
     title: 'Design',
     subtitle: 'UI/UX & Design Systems',
     desc: 'Bespoke interfaces with rem-based adaptive grids, tactile spring motion, visual hierarchy, and sub-second perceived speed.',
-    symbol: '✦',
+    icon: PenTool,
     variant: 'accent' as const,
     radius: '10px 28px 12px 24px',
   },
@@ -352,7 +377,7 @@ const STEPS = [
     title: 'Build',
     subtitle: 'Full-Stack Execution',
     desc: 'Type-safe React, Next.js App Router, clean microservices, resilient APIs, and automated cloud deployments.',
-    symbol: '⚡',
+    icon: Code2,
     variant: 'dark' as const,
     radius: '22px 12px 28px 8px',
   },
@@ -361,7 +386,7 @@ const STEPS = [
     title: 'Grow',
     subtitle: 'SEO & Search Dominance',
     desc: 'Structured JSON-LD schema, Core Web Vitals optimization, semantic hierarchy, and search conversion dominance.',
-    symbol: '📈',
+    icon: TrendingUp,
     variant: 'surface' as const,
     radius: '12px 22px 8px 30px',
   },
@@ -483,40 +508,45 @@ export function CreativeBand() {
         </SectionHeader>
 
         <FlowGrid ref={trackRef} onScroll={handleScroll}>
-          {STEPS.map((step, idx) => (
-            <CardWrapper
-              key={step.title}
-              ref={(el) => {
-                cardsRef.current[idx] = el;
-                setSlideRef(idx)(el);
-              }}
-            >
-              <OrganicCard
-                $radius={step.radius}
-                $variant={step.variant}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
+          {STEPS.map((step, idx) => {
+            const StepIcon = step.icon;
+            return (
+              <CardWrapper
+                key={step.title}
+                ref={(el) => {
+                  cardsRef.current[idx] = el;
+                  setSlideRef(idx)(el);
+                }}
               >
-                <div className="card-top">
-                  <span className="step-index">{step.num}</span>
-                  <span className="step-symbol">{step.symbol}</span>
-                </div>
-
-                <div className="card-body">
-                  <h3 className="step-title">{step.title}</h3>
-                  <div className="step-subtitle">{step.subtitle}</div>
-                </div>
-
-                <div className="card-bottom">
-                  <div>{step.desc}</div>
-                  <div className="action-arrow">
-                    <span>Phase Detail</span>
-                    <ArrowRight size="0.875rem" />
+                <OrganicCard
+                  $radius={step.radius}
+                  $variant={step.variant}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="card-top">
+                    <span className="step-index">{step.num}</span>
+                    <span className="step-symbol">
+                      <StepIcon size={18} strokeWidth={1.85} aria-hidden="true" />
+                    </span>
                   </div>
-                </div>
-              </OrganicCard>
-            </CardWrapper>
-          ))}
+
+                  <div className="card-body">
+                    <h3 className="step-title">{step.title}</h3>
+                    <div className="step-subtitle">{step.subtitle}</div>
+                  </div>
+
+                  <div className="card-bottom">
+                    <div>{step.desc}</div>
+                    <div className="action-arrow">
+                      <span>Phase Detail</span>
+                      <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+                    </div>
+                  </div>
+                </OrganicCard>
+              </CardWrapper>
+            );
+          })}
         </FlowGrid>
 
         <MobileCarouselControls

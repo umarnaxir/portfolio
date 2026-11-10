@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { ArrowRight } from './Icons';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const ControlsWrapper = styled.div`
   display: flex;
@@ -120,9 +120,7 @@ export function MobileCarouselControls({
           onClick={() => onSelect(activeIndex - 1)}
           aria-label={`Previous ${labelPrefix.toLowerCase()}`}
         >
-          <span style={{ transform: 'rotate(180deg)', display: 'grid', placeItems: 'center' }}>
-            <ArrowRight size="0.85rem" />
-          </span>
+          <ArrowLeft size="0.85rem" strokeWidth={2} aria-hidden="true" />
         </ArrowBtn>
         <ArrowBtn
           type="button"
@@ -131,7 +129,7 @@ export function MobileCarouselControls({
           onClick={() => onSelect(activeIndex + 1)}
           aria-label={`Next ${labelPrefix.toLowerCase()}`}
         >
-          <ArrowRight size="0.85rem" />
+          <ArrowRight size="0.85rem" strokeWidth={2} aria-hidden="true" />
         </ArrowBtn>
       </RightGroup>
     </ControlsWrapper>

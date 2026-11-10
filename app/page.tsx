@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
+import { GitHubContributionsSection } from '@/components/sections/GitHubContributionsSection';
 import { CreativeBand } from '@/components/sections/CreativeBand';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ExperienceSection } from '@/components/sections/ExperienceSection';
@@ -19,6 +20,7 @@ export default function HomePage() {
     <Main id="main">
       <HeroSection />
       <AboutSection />
+      <GitHubContributionsSection />
       <CreativeBand />
       <ProjectsSection />
       <ExperienceSection />

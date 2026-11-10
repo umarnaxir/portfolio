@@ -17,8 +17,8 @@ export const personalInfo: PersonalInfo = {
   projectsCount: '30+',
   socials: {
     github: 'https://github.com/umarnaxir',
-    linkedin: 'https://linkedin.com/in/umarnazir',
-    twitter: 'https://twitter.com/umarnaxir',
+    linkedin: 'https://www.linkedin.com/in/umar-nazir19/',
+    twitter: 'https://x.com/umr_nazir',
     email: 'mailto:erumarnazir@gmail.com',
     phone: 'tel:+917051732616',
   },

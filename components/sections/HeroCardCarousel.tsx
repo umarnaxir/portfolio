@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ArrowRight } from '../ui/Icons';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const HeroCardWrapper = styled.div<{ $revealed: boolean }>`
   width: 100%;
@@ -187,14 +187,10 @@ export function HeroCardCarousel({ revealed }: { revealed: boolean }) {
             </Dashes>
             <NavButtons>
               <NavBtn type="button" onClick={prev} aria-label="Previous slide">
-                <span style={{ transform: 'rotate(180deg)', display: 'grid', placeItems: 'center' }}>
-                  <ArrowRight size="0.75rem" />
-                </span>
+                <ArrowLeft size="0.75rem" strokeWidth={2} aria-hidden="true" />
               </NavBtn>
               <NavBtn type="button" onClick={next} aria-label="Next slide">
-                <span style={{ display: 'grid', placeItems: 'center' }}>
-                  <ArrowRight size="0.75rem" />
-                </span>
+                <ArrowRight size="0.75rem" strokeWidth={2} aria-hidden="true" />
               </NavBtn>
             </NavButtons>
           </BottomRow>

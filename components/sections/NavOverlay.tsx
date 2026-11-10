@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useScroll } from '../providers/SmoothScrollProvider';
 import { useLiveClock } from '@/hooks/useLiveClock';
-import { LogoMark, CloseIcon } from '../ui/Icons';
+import { LogoMark, CloseIcon, ArrowRight } from '../ui/Icons';
 import { personalInfo } from '@/data/personal';
 import { Container } from '@/styles/primitives';
 
@@ -136,6 +136,9 @@ const BottomBar = styled(Container)`
   }
 
   .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     color: rgba(255, 255, 255, 0.7);
     transition: color 0.2s ease;
     cursor: pointer;
@@ -222,7 +225,8 @@ export function NavOverlay() {
             setTimeout(() => openModal(), 120);
           }}
         >
-          Start a project / Enquiry →
+          <span>Start a project / Enquiry</span>
+          <ArrowRight size="0.875rem" />
         </button>
       </BottomBar>
     </Overlay>

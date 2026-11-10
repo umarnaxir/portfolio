@@ -32,17 +32,6 @@ export interface Service {
   deliverables?: string[];
 }
 
-export interface Blog {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  category: string;
-  content?: string;
-}
-
 export interface StatItem {
   target: number;
   suffix?: string;
