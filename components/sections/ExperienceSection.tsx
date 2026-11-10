@@ -4,9 +4,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Eyebrow } from '../ui/Eyebrow';
 import { experiences } from '@/data/experience';
 import { Container } from '@/styles/primitives';
+import { useMobileCarousel } from '@/hooks/useMobileCarousel';
+import { MobileCarouselControls } from '../ui/MobileCarouselControls';
 
 const pulse = keyframes`
   0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.7); }
@@ -25,6 +26,12 @@ const SectionWrapper = styled.section`
     padding-top: 4rem;
     padding-bottom: 5.5rem;
   }
+
+  @media (max-width: 767px) {
+    padding-top: 2.25rem;
+    padding-bottom: 2.5rem;
+    overflow-x: clip;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -33,6 +40,12 @@ const SectionHeader = styled.div`
   align-items: center;
   text-align: center;
   margin-bottom: 2.75rem;
+
+  @media (max-width: 767px) {
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 1.25rem;
+  }
 `;
 
 const SectionH2 = styled.h2`
@@ -45,6 +58,12 @@ const SectionH2 = styled.h2`
   @media (min-width: 640px) {
     font-size: ${({ theme }) => theme.fontSizes['5xl']};
   }
+
+  @media (max-width: 767px) {
+    margin-top: 0;
+    font-size: clamp(1.55rem, 6.5vw, 1.95rem);
+    line-height: 1.18;
+  }
 `;
 
 const Subtitle = styled.p`
@@ -53,6 +72,12 @@ const Subtitle = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   color: rgba(17, 17, 17, 0.65);
   line-height: 1.6;
+
+  @media (max-width: 767px) {
+    margin-top: 0.45rem;
+    font-size: 0.875rem;
+    line-height: 1.48;
+  }
 `;
 
 /* Two-column layout: 280px Sidebar + Expanded Wide Experience Cards with 2rem balanced gap */
@@ -65,6 +90,50 @@ const ExperienceLayout = styled.div`
     grid-template-columns: 280px 1fr;
     gap: 2rem;
     align-items: start;
+  }
+
+  @media (max-width: 767px) {
+    gap: 0.85rem;
+    min-width: 0;
+  }
+`;
+
+const MobileChapterTabs = styled.div`
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const MobileTabButton = styled.button<{ $active: boolean }>`
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid
+    ${({ $active, theme }) => ($active ? theme.colors.accent : 'rgba(17, 17, 17, 0.12)')};
+  background: ${({ $active, theme }) => ($active ? theme.colors.ink : theme.colors.surface)};
+  color: ${({ $active }) => ($active ? '#ffffff' : 'rgba(17, 17, 17, 0.72)')};
+  transition: all 0.25s ease;
+
+  .tab-idx {
+    font-family: monospace;
+    font-size: 0.68rem;
+    color: ${({ $active, theme }) => ($active ? theme.colors.accentFrom : 'rgba(17, 17, 17, 0.45)')};
   }
 `;
 
@@ -136,7 +205,7 @@ const MilestoneItem = styled.button<{ $active: boolean }>`
   position: relative;
   z-index: 1;
 
-  ${({ $active, theme }) =>
+  ${({ $active }) =>
     $active
       ? `
         background: rgba(177, 95, 44, 0.09);
@@ -156,7 +225,7 @@ const MilestoneItem = styled.button<{ $active: boolean }>`
     background: ${({ $active, theme }) => ($active ? theme.colors.accent : '#ffffff')};
     transition: all 0.3s ease;
     flex-shrink: 0;
-    box-shadow: ${({ $active, theme }) =>
+    box-shadow: ${({ $active }) =>
       $active ? `0 0 0 4px rgba(177, 95, 44, 0.2)` : 'none'};
   }
 
@@ -186,7 +255,7 @@ const MilestoneItem = styled.button<{ $active: boolean }>`
   }
 `;
 
-/* Vertical Cards Stacking Container */
+/* Vertical Cards Stacking Container (becomes 1-card horizontal swipe carousel on mobile) */
 const VerticalCardsDeck = styled.div`
   display: flex;
   flex-direction: column;
@@ -196,6 +265,23 @@ const VerticalCardsDeck = styled.div`
 
   @media (min-width: 1024px) {
     gap: 0;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding-block: 0.25rem 0.65rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -221,9 +307,11 @@ const StackingCard = styled.div<{ $index: number }>`
   transform-style: preserve-3d;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
-  &:hover {
-    border-color: rgba(177, 95, 44, 0.55);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 28px rgba(177, 95, 44, 0.16);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: rgba(177, 95, 44, 0.55);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 28px rgba(177, 95, 44, 0.16);
+    }
   }
 
   @media (min-width: 1024px) {
@@ -234,6 +322,16 @@ const StackingCard = styled.div<{ $index: number }>`
     min-height: 28rem;
   }
 
+  @media (max-width: 767px) {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    padding: 1.25rem 1.15rem;
+    gap: 1rem;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+    transform-style: flat;
+  }
+
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -242,6 +340,11 @@ const StackingCard = styled.div<{ $index: number }>`
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 1.5rem;
     flex-wrap: wrap;
+
+    @media (max-width: 767px) {
+      gap: 0.65rem;
+      padding-bottom: 0.85rem;
+    }
   }
 
   .company-role-block {
@@ -258,6 +361,10 @@ const StackingCard = styled.div<{ $index: number }>`
       color: ${({ theme }) => theme.colors.accentFrom};
       text-transform: uppercase;
       letter-spacing: 0.08em;
+
+      @media (max-width: 767px) {
+        font-size: 0.68rem;
+      }
     }
 
     h3 {
@@ -266,6 +373,10 @@ const StackingCard = styled.div<{ $index: number }>`
       color: #ffffff !important;
       letter-spacing: -0.02em;
       line-height: 1.2;
+
+      @media (max-width: 767px) {
+        font-size: 1.22rem;
+      }
     }
 
     .meta-location {
@@ -279,6 +390,13 @@ const StackingCard = styled.div<{ $index: number }>`
     flex-direction: column;
     align-items: flex-end;
     gap: 0.5rem;
+
+    @media (max-width: 767px) {
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+    }
   }
 
   .period-badge {
@@ -295,6 +413,11 @@ const StackingCard = styled.div<{ $index: number }>`
     color: #ffffff !important;
     letter-spacing: 0.02em;
 
+    @media (max-width: 767px) {
+      padding: 0.3rem 0.65rem;
+      font-size: 0.68rem;
+    }
+
     .live-dot {
       width: 7px;
       height: 7px;
@@ -310,6 +433,10 @@ const StackingCard = styled.div<{ $index: number }>`
     font-weight: 700;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 0.1em;
+
+    @media (max-width: 767px) {
+      font-size: 0.68rem;
+    }
   }
 
   .description-text {
@@ -317,6 +444,11 @@ const StackingCard = styled.div<{ $index: number }>`
     line-height: 1.65;
     color: #ffffff !important;
     opacity: 0.95;
+
+    @media (max-width: 767px) {
+      font-size: 0.84rem;
+      line-height: 1.52;
+    }
   }
 
   .highlights-block {
@@ -324,12 +456,20 @@ const StackingCard = styled.div<{ $index: number }>`
     flex-direction: column;
     gap: 0.75rem;
 
+    @media (max-width: 767px) {
+      gap: 0.5rem;
+    }
+
     .highlight-heading {
       font-size: ${({ theme }) => theme.fontSizes.xs};
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.7);
+
+      @media (max-width: 767px) {
+        font-size: 0.68rem;
+      }
     }
 
     ul {
@@ -339,6 +479,10 @@ const StackingCard = styled.div<{ $index: number }>`
       padding-left: 0;
       list-style: none;
 
+      @media (max-width: 767px) {
+        gap: 0.45rem;
+      }
+
       li {
         position: relative;
         padding-left: 1.5rem;
@@ -346,6 +490,12 @@ const StackingCard = styled.div<{ $index: number }>`
         color: #ffffff !important;
         opacity: 0.9;
         line-height: 1.55;
+
+        @media (max-width: 767px) {
+          padding-left: 1.1rem;
+          font-size: 0.8rem;
+          line-height: 1.48;
+        }
 
         &::before {
           content: '→';
@@ -366,6 +516,11 @@ const StackingCard = styled.div<{ $index: number }>`
     flex-wrap: wrap;
     align-items: center;
     gap: 0.55rem;
+
+    @media (max-width: 767px) {
+      padding-top: 0.85rem;
+      gap: 0.38rem;
+    }
   }
 `;
 
@@ -383,10 +538,17 @@ const SkillBadge = styled.span`
   letter-spacing: 0.02em;
   transition: all 0.25s ease;
 
-  &:hover {
-    border-color: #cf8047;
-    background: rgba(177, 95, 44, 0.2);
-    color: #ffffff !important;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: #cf8047;
+      background: rgba(177, 95, 44, 0.2);
+      color: #ffffff !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.72rem;
   }
 `;
 
@@ -394,6 +556,17 @@ export function ExperienceSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+
+  const {
+    trackRef: mobileTrackRef,
+    setSlideRef,
+    activeIndex: mobileActiveIdx,
+    goToSlide,
+    handleScroll: handleMobileScroll,
+  } = useMobileCarousel(experiences.length, {
+    align: 'start',
+    enableCardScale: true,
+  });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -434,8 +607,8 @@ export function ExperienceSection() {
       });
     });
 
-    // Mobile / Tablet: Active state tracking
-    mm.add('(max-width: 1023px)', () => {
+    // Tablet: Vertical active state tracking (768px-1023px)
+    mm.add('(min-width: 768px) and (max-width: 1023px)', () => {
       cards.forEach((card, i) => {
         ScrollTrigger.create({
           trigger: card,
@@ -463,6 +636,9 @@ export function ExperienceSection() {
   };
 
   const handleCardTilt = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -481,6 +657,9 @@ export function ExperienceSection() {
   };
 
   const handleCardTiltReset = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     gsap.to(e.currentTarget, {
       rotateX: 0,
       rotateY: 0,
@@ -527,56 +706,82 @@ export function ExperienceSection() {
             </SidebarCard>
           </StickySidebar>
 
-          {/* Vertical GSAP Stacking Deck with Expanded Width */}
-          <VerticalCardsDeck>
-            {experiences.map((exp, i) => (
-              <StackingCard
-                key={exp.id}
-                $index={i}
-                ref={(el) => {
-                  cardsRef.current[i] = el;
-                }}
-                onMouseMove={handleCardTilt}
-                onMouseLeave={handleCardTiltReset}
-              >
-                <div className="card-header">
-                  <div className="company-role-block">
-                    <span className="company-tag">
-                      {exp.company} • {exp.location}
-                    </span>
-                    <h3>{exp.role}</h3>
-                  </div>
+          {/* Mobile Quick Chapter Tabs + Desktop Stacking / Mobile Horizontal Carousel */}
+          <div style={{ minWidth: 0 }}>
+            <MobileChapterTabs role="tablist" aria-label="Experience milestones">
+              {experiences.map((exp, i) => (
+                <MobileTabButton
+                  key={exp.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={mobileActiveIdx === i}
+                  $active={mobileActiveIdx === i}
+                  onClick={() => goToSlide(i)}
+                >
+                  <span className="tab-idx">0{i + 1}</span>
+                  <span>{exp.company}</span>
+                </MobileTabButton>
+              ))}
+            </MobileChapterTabs>
 
-                  <div className="badge-col">
-                    <div className="period-badge">
-                      {exp.current && <span className="live-dot" />}
-                      <span>{exp.period}</span>
+            <VerticalCardsDeck ref={mobileTrackRef} onScroll={handleMobileScroll}>
+              {experiences.map((exp, i) => (
+                <StackingCard
+                  key={exp.id}
+                  $index={i}
+                  ref={(el) => {
+                    cardsRef.current[i] = el;
+                    setSlideRef(i)(el);
+                  }}
+                  onMouseMove={handleCardTilt}
+                  onMouseLeave={handleCardTiltReset}
+                >
+                  <div className="card-header">
+                    <div className="company-role-block">
+                      <span className="company-tag">
+                        {exp.company} • {exp.location}
+                      </span>
+                      <h3>{exp.role}</h3>
                     </div>
-                    <span className="index-watermark">0{i + 1} / 0{experiences.length}</span>
+
+                    <div className="badge-col">
+                      <div className="period-badge">
+                        {exp.current && <span className="live-dot" />}
+                        <span>{exp.period}</span>
+                      </div>
+                      <span className="index-watermark">0{i + 1} / 0{experiences.length}</span>
+                    </div>
                   </div>
-                </div>
 
-                <p className="description-text">{exp.description}</p>
+                  <p className="description-text">{exp.description}</p>
 
-                <div className="highlights-block">
-                  <span className="highlight-heading">Key Achievements &amp; Impact</span>
-                  <ul>
-                    {exp.highlights.map((highlight, hi) => (
-                      <li key={hi}>{highlight}</li>
+                  <div className="highlights-block">
+                    <span className="highlight-heading">Key Achievements &amp; Impact</span>
+                    <ul>
+                      {exp.highlights.map((highlight, hi) => (
+                        <li key={hi}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="skills-row">
+                    {exp.skills.map((skill, si) => (
+                      <SkillBadge key={si}>
+                        {skill}
+                      </SkillBadge>
                     ))}
-                  </ul>
-                </div>
+                  </div>
+                </StackingCard>
+              ))}
+            </VerticalCardsDeck>
 
-                <div className="skills-row">
-                  {exp.skills.map((skill, si) => (
-                    <SkillBadge key={si}>
-                      {skill}
-                    </SkillBadge>
-                  ))}
-                </div>
-              </StackingCard>
-            ))}
-          </VerticalCardsDeck>
+            <MobileCarouselControls
+              total={experiences.length}
+              activeIndex={mobileActiveIdx}
+              onSelect={goToSlide}
+              labelPrefix="Role"
+            />
+          </div>
         </ExperienceLayout>
       </Container>
     </SectionWrapper>

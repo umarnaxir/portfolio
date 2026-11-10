@@ -13,6 +13,10 @@ const StatsWrapper = styled.section`
   @media (min-width: 1024px) {
     padding-bottom: 4.5rem;
   }
+
+  @media (max-width: 767px) {
+    padding-bottom: 2.25rem;
+  }
 `;
 
 const StatsPanel = styled.div<{ $revealed: boolean }>`
@@ -31,6 +35,11 @@ const StatsPanel = styled.div<{ $revealed: boolean }>`
   @media (min-width: 768px) {
     padding-inline: 4rem;
   }
+
+  @media (max-width: 767px) {
+    padding: 1.75rem 1.25rem;
+    border-radius: 1.35rem;
+  }
 `;
 
 const StatsH2 = styled.h2<{ $revealed: boolean }>`
@@ -44,6 +53,12 @@ const StatsH2 = styled.h2<{ $revealed: boolean }>`
 
   @media (min-width: 768px) {
     font-size: ${({ theme }) => theme.fontSizes['4xl']};
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 0.65rem;
+    font-size: clamp(1.4rem, 6vw, 1.75rem);
+    line-height: 1.2;
   }
 
   .line-inner {
@@ -63,6 +78,12 @@ const StatsGrid = styled.ul`
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 1.65rem;
+    column-gap: 1rem;
+    row-gap: 1.35rem;
   }
 `;
 
@@ -87,12 +108,21 @@ const StatItem = styled.li<{ $revealed: boolean; $delay: number }>`
     @media (min-width: 768px) {
       font-size: ${({ theme }) => theme.fontSizes['7xl']};
     }
+
+    @media (max-width: 767px) {
+      font-size: clamp(2rem, 8.5vw, 2.5rem);
+    }
   }
 
   .stat-label {
     margin-top: 0.75rem;
     font-size: ${({ theme }) => theme.fontSizes.sm};
     color: rgba(255, 255, 255, 0.55);
+
+    @media (max-width: 767px) {
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+    }
   }
 `;
 

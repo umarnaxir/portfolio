@@ -25,6 +25,11 @@ const AboutShell = styled(Container)`
   @media (min-width: 1024px) {
     padding-block: 4.5rem;
   }
+
+  @media (max-width: 767px) {
+    padding-block: 2.25rem;
+    gap: 1.5rem;
+  }
 `;
 
 const StatementGrid = styled.div`
@@ -42,6 +47,10 @@ const StatementGrid = styled.div`
     grid-template-columns: 460px 1fr;
     gap: 4.5rem;
   }
+
+  @media (max-width: 767px) {
+    gap: 1.35rem;
+  }
 `;
 
 const EngineerBlock = styled.div`
@@ -49,6 +58,10 @@ const EngineerBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+
+  @media (max-width: 767px) {
+    gap: 0.85rem;
+  }
 `;
 
 const ProfileCardWrap = styled.div`
@@ -69,12 +82,29 @@ const ProfileCardWrap = styled.div`
     height: 420px;
   }
 
+  @media (max-width: 767px) {
+    height: clamp(245px, 66vw, 310px);
+    max-width: 100%;
+    border-radius: 14px;
+  }
+
   &:hover {
     border-color: rgba(177, 95, 44, 0.5);
     box-shadow: 0 24px 50px rgba(177, 95, 44, 0.2), 0 8px 24px rgba(0, 0, 0, 0.1);
 
     .engineer-img {
       transform: scale(1.05);
+    }
+  }
+
+  @media (hover: none) {
+    &:hover {
+      border-color: rgba(17, 17, 17, 0.1);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+
+      .engineer-img {
+        transform: none;
+      }
     }
   }
 
@@ -116,6 +146,14 @@ const ProfileCardWrap = styled.div`
     color: #ffffff;
     font-size: ${({ theme }) => theme.fontSizes.xs};
 
+    @media (max-width: 767px) {
+      bottom: 0.85rem;
+      left: 0.85rem;
+      right: 0.85rem;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.7rem;
+    }
+
     .status-dot {
       display: inline-flex;
       align-items: center;
@@ -152,6 +190,10 @@ const EngineerInfo = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.sm};
     color: rgba(17, 17, 17, 0.7);
     line-height: 1.5;
+
+    @media (max-width: 767px) {
+      font-size: 0.8125rem;
+    }
   }
 `;
 
@@ -159,6 +201,10 @@ const Statement = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 767px) {
+    gap: 1.25rem;
+  }
 `;
 
 const AboutH2 = styled.h2`
@@ -167,6 +213,11 @@ const AboutH2 = styled.h2`
   line-height: 1.35;
   letter-spacing: -0.015em;
   color: #111111;
+
+  @media (max-width: 767px) {
+    font-size: clamp(1.22rem, 5.1vw, 1.48rem);
+    line-height: 1.38;
+  }
 
   .word-wrap {
     display: inline-block;
@@ -199,6 +250,11 @@ const FooterRow = styled.div`
   gap: 1.5rem;
   border-top: 1px solid ${({ theme }) => theme.colors.line};
   padding-top: 1.5rem;
+
+  @media (max-width: 767px) {
+    gap: 1rem;
+    padding-top: 1.15rem;
+  }
 `;
 
 const SocialGroup = styled.div`
@@ -250,18 +306,15 @@ const SocialChip = styled.a<{ $accent?: boolean }>`
   }
 `;
 
+const STATEMENT_TEXT =
+  'I partner with ambitious teams and founders to build scalable web platforms, enterprise systems, and technical SEO strategies that drive organic dominance.';
+const STATEMENT_WORDS = STATEMENT_TEXT.split(' ');
+
 export function AboutSection() {
   const { scrollTo } = useScroll();
   const statementRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const cardRef = useRef<HTMLDivElement>(null);
-
-  // Exact statement text as specified:
-  // "I partner with ambitious teams and founders to build scalable web platforms, enterprise systems, and technical SEO strategies that drive organic dominance."
-  const statementText =
-    'I partner with ambitious teams and founders to build scalable web platforms, enterprise systems, and technical SEO strategies that drive organic dominance.';
-
-  const words = statementText.split(' ');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -270,7 +323,13 @@ export function AboutSection() {
     const el = statementRef.current;
     if (!el) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const wordElements = wordsRef.current.filter(Boolean);
+
+    if (prefersReducedMotion) {
+      gsap.set(wordElements, { y: '0%', opacity: 1 });
+      return;
+    }
 
     const ctx = gsap.context(() => {
       // Elegant typography GSAP staggered reveal
@@ -288,7 +347,7 @@ export function AboutSection() {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 82%',
+            start: 'top 84%',
             toggleActions: 'play none none none',
           },
         }
@@ -296,9 +355,12 @@ export function AboutSection() {
     }, el);
 
     return () => ctx.revert();
-  }, [words]);
+  }, []);
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -363,7 +425,7 @@ export function AboutSection() {
           {/* Right Column: Word-by-word animated statement */}
           <Statement ref={statementRef}>
             <AboutH2>
-              {words.map((word, i) => {
+              {STATEMENT_WORDS.map((word, i) => {
                 const isAccent =
                   word.toLowerCase().includes('scalable') ||
                   word.toLowerCase().includes('technical') ||

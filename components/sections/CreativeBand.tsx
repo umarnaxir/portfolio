@@ -6,6 +6,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from '../ui/Icons';
 import { Container } from '@/styles/primitives';
+import { useMobileCarousel } from '@/hooks/useMobileCarousel';
+import { MobileCarouselControls } from '../ui/MobileCarouselControls';
 
 const SectionWrapper = styled.section`
   background: ${({ theme }) => theme.colors.background};
@@ -15,6 +17,10 @@ const SectionWrapper = styled.section`
 
   @media (min-width: 1024px) {
     padding-block: 4.5rem;
+  }
+
+  @media (max-width: 767px) {
+    padding-block: 2.25rem;
   }
 `;
 
@@ -28,6 +34,11 @@ const SectionHeader = styled.div`
     margin-bottom: 3.5rem;
   }
 
+  @media (max-width: 767px) {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
   h2 {
     font-size: clamp(2rem, 3.8vw, 3.4rem);
     font-weight: 600;
@@ -39,6 +50,12 @@ const SectionHeader = styled.div`
     @media (min-width: 1024px) {
       white-space: nowrap;
     }
+
+    @media (max-width: 767px) {
+      font-size: clamp(1.5rem, 6.4vw, 1.85rem);
+      line-height: 1.18;
+      margin-inline: 0;
+    }
   }
 
   p {
@@ -49,6 +66,11 @@ const SectionHeader = styled.div`
 
     @media (min-width: 768px) {
       white-space: nowrap;
+    }
+
+    @media (max-width: 767px) {
+      margin-top: 0.45rem;
+      font-size: 0.875rem;
     }
   }
 `;
@@ -67,12 +89,39 @@ const FlowGrid = styled.div`
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
   }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    margin-inline: -1.125rem;
+    padding: 0.25rem 1.125rem 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    perspective: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const CardWrapper = styled.div`
   transform-style: preserve-3d;
   will-change: transform, opacity;
   height: 100%;
+
+  @media (max-width: 767px) {
+    flex: 0 0 82%;
+    max-width: 20rem;
+    scroll-snap-align: start;
+    scroll-margin-left: 1.125rem;
+    height: auto;
+  }
 `;
 
 const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' | 'dark' | 'surface' }>`
@@ -93,6 +142,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
   @media (min-width: 1024px) {
     min-height: 24rem;
     padding: 2.25rem 1.75rem;
+  }
+
+  @media (max-width: 767px) {
+    min-height: 15.5rem;
+    padding: 1.35rem 1.25rem;
   }
 
   /* Decorative sketch-like outline */
@@ -198,6 +252,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
   .card-body {
     transform: translateZ(35px);
     margin-block: 2rem;
+
+    @media (max-width: 767px) {
+      transform: none;
+      margin-block: 1.05rem;
+    }
   }
 
   .step-title {
@@ -210,6 +269,11 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
     @media (min-width: 1024px) {
       font-size: ${({ theme }) => theme.fontSizes['5xl']};
     }
+
+    @media (max-width: 767px) {
+      font-size: 1.85rem;
+      margin-bottom: 0.45rem;
+    }
   }
 
   .step-subtitle {
@@ -218,6 +282,10 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
     text-transform: uppercase;
     letter-spacing: 0.06em;
     opacity: 0.85;
+
+    @media (max-width: 767px) {
+      font-size: 0.72rem;
+    }
   }
 
   .card-bottom {
@@ -227,6 +295,13 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
     border-top: 1px solid currentColor;
     opacity: 0.8;
     padding-top: 1.25rem;
+
+    @media (max-width: 767px) {
+      transform: none;
+      font-size: 0.8125rem;
+      line-height: 1.48;
+      padding-top: 0.85rem;
+    }
   }
 
   .action-arrow {
@@ -239,10 +314,17 @@ const OrganicCard = styled.div<{ $radius: string; $variant: 'light' | 'accent' |
     text-transform: uppercase;
     letter-spacing: 0.08em;
     transition: transform 0.3s ease;
+
+    @media (max-width: 767px) {
+      margin-top: 0.55rem;
+      font-size: 0.6875rem;
+    }
   }
 
-  &:hover .action-arrow {
-    transform: translateX(6px);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover .action-arrow {
+      transform: translateX(6px);
+    }
   }
 `;
 
@@ -289,16 +371,29 @@ export function CreativeBand() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  const {
+    trackRef,
+    setSlideRef,
+    activeIndex,
+    goToSlide,
+    handleScroll,
+  } = useMobileCarousel(STEPS.length, {
+    align: 'start',
+    enableCardScale: true,
+  });
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.registerPlugin(ScrollTrigger);
 
     const container = containerRef.current;
     if (!container) return;
 
     const cards = cardsRef.current.filter(Boolean);
+    const mm = gsap.matchMedia();
 
-    const ctx = gsap.context(() => {
+    mm.add('(min-width: 768px)', () => {
       gsap.fromTo(
         cards,
         {
@@ -322,12 +417,34 @@ export function CreativeBand() {
           },
         }
       );
-    }, container);
+    });
 
-    return () => ctx.revert();
+    mm.add('(max-width: 767px)', () => {
+      gsap.fromTo(
+        cards,
+        { y: 24 },
+        {
+          y: 0,
+          stagger: 0.08,
+          duration: 0.65,
+          ease: 'power2.out',
+          clearProps: 'y',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    });
+
+    return () => mm.revert();
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -346,6 +463,9 @@ export function CreativeBand() {
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     gsap.to(e.currentTarget, {
       rotateX: 0,
       rotateY: 0,
@@ -362,12 +482,13 @@ export function CreativeBand() {
           <p>Disciplined Four-Stage Engineering Methodology</p>
         </SectionHeader>
 
-        <FlowGrid>
+        <FlowGrid ref={trackRef} onScroll={handleScroll}>
           {STEPS.map((step, idx) => (
             <CardWrapper
               key={step.title}
               ref={(el) => {
                 cardsRef.current[idx] = el;
+                setSlideRef(idx)(el);
               }}
             >
               <OrganicCard
@@ -397,6 +518,13 @@ export function CreativeBand() {
             </CardWrapper>
           ))}
         </FlowGrid>
+
+        <MobileCarouselControls
+          total={STEPS.length}
+          activeIndex={activeIndex}
+          onSelect={goToSlide}
+          labelPrefix="Phase"
+        />
       </Container>
     </SectionWrapper>
   );

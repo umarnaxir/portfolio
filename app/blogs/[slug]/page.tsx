@@ -13,12 +13,22 @@ const ArticleWrapper = styled.main`
   padding-top: 8rem;
   padding-bottom: 7rem;
   min-height: 100vh;
+
+  @media (max-width: 767px) {
+    padding-top: 5.25rem;
+    padding-bottom: 3rem;
+  }
 `;
 
 const ArticleHeader = styled.div`
   margin-bottom: 3.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.line};
   padding-bottom: 2.5rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
+  }
 
   .back-link {
     display: inline-flex;
@@ -32,6 +42,11 @@ const ArticleHeader = styled.div`
     &:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 767px) {
+      margin-bottom: 0.85rem;
+      font-size: 0.8125rem;
+    }
   }
 
   .meta {
@@ -42,6 +57,11 @@ const ArticleHeader = styled.div`
     color: rgba(17, 17, 17, 0.5);
     margin-top: 1rem;
     margin-bottom: 1.5rem;
+
+    @media (max-width: 767px) {
+      margin-bottom: 0;
+      font-size: 0.78rem;
+    }
   }
 
   h1 {
@@ -53,6 +73,10 @@ const ArticleHeader = styled.div`
     @media (min-width: 640px) {
       font-size: ${({ theme }) => theme.fontSizes['5xl']};
     }
+
+    @media (max-width: 767px) {
+      font-size: clamp(1.65rem, 6.8vw, 2.05rem);
+    }
   }
 `;
 
@@ -61,6 +85,11 @@ const ArticleBody = styled.article`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   color: rgba(17, 17, 17, 0.85);
   line-height: 1.8;
+
+  @media (max-width: 767px) {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
 
   h2, h3 {
     margin-top: 2.5rem;

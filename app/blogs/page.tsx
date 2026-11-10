@@ -13,10 +13,19 @@ const PageWrapper = styled.main`
   padding-top: 8rem;
   padding-bottom: 7rem;
   min-height: 100vh;
+
+  @media (max-width: 767px) {
+    padding-top: 5.25rem;
+    padding-bottom: 3rem;
+  }
 `;
 
 const PageHeader = styled.div`
   margin-bottom: 3.5rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.75rem;
+  }
 
   .back-link {
     display: inline-flex;
@@ -30,6 +39,11 @@ const PageHeader = styled.div`
     &:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 767px) {
+      margin-bottom: 0.85rem;
+      font-size: 0.8125rem;
+    }
   }
 
   h1 {
@@ -41,6 +55,11 @@ const PageHeader = styled.div`
     @media (min-width: 640px) {
       font-size: ${({ theme }) => theme.fontSizes['6xl']};
     }
+
+    @media (max-width: 767px) {
+      font-size: clamp(1.75rem, 7.2vw, 2.15rem);
+      margin-top: 0.65rem;
+    }
   }
 
   p {
@@ -49,6 +68,11 @@ const PageHeader = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.lg};
     color: rgba(17, 17, 17, 0.65);
     line-height: 1.5;
+
+    @media (max-width: 767px) {
+      margin-top: 0.6rem;
+      font-size: 0.875rem;
+    }
   }
 `;
 
@@ -59,6 +83,10 @@ const BlogsGrid = styled.div`
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 767px) {
+    gap: 1.15rem;
   }
 `;
 
@@ -72,14 +100,20 @@ const BlogCard = styled(Link)`
   justify-content: space-between;
   transition: all 0.3s ease;
 
-  &:hover {
-    background: #ffffff;
-    border-color: rgba(17, 17, 17, 0.25);
-    transform: translateY(-4px);
+  @media (max-width: 767px) {
+    padding: 1.35rem 1.25rem;
   }
 
-  &:hover .badge-shift {
-    transform: translate(2px, -2px);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: #ffffff;
+      border-color: rgba(17, 17, 17, 0.25);
+      transform: translateY(-4px);
+    }
+
+    &:hover .badge-shift {
+      transform: translate(2px, -2px);
+    }
   }
 `;
 

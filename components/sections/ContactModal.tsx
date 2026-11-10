@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useScroll } from '../providers/SmoothScrollProvider';
 import { PillButton } from '../ui/PillButton';
-import { CloseIcon, LogoMark, GitHubIcon, LinkedInIcon } from '../ui/Icons';
+import { CloseIcon, LogoMark } from '../ui/Icons';
 import { personalInfo } from '@/data/personal';
 
 const Backdrop = styled.div<{ $open: boolean }>`
@@ -169,6 +169,11 @@ const Field = styled.div`
     color: ${({ theme }) => theme.colors.foreground};
     transition: border-color 0.2s ease, background 0.2s ease;
 
+    @media (max-width: 767px) {
+      padding: 0.65rem 0.875rem;
+      font-size: 16px;
+    }
+
     &:focus {
       border-color: rgba(17, 17, 17, 0.3);
       background: #ffffff;
@@ -243,7 +248,7 @@ export function ContactModal() {
     email: '',
     phone: '',
     projectType: 'Full-Stack Web Application',
-    budget: '$3k – $5k',
+    budget: '$3k - $5k',
     description: '',
   });
 
@@ -279,8 +284,9 @@ export function ContactModal() {
       }
 
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please email directly.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Something went wrong. Please email directly.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -296,7 +302,7 @@ export function ContactModal() {
         email: '',
         phone: '',
         projectType: 'Full-Stack Web Application',
-        budget: '$3k – $5k',
+        budget: '$3k - $5k',
         description: '',
       });
     }, 300);

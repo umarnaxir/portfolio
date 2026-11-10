@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import gsap from 'gsap';
 
 const FullBleedLiquidWrap = styled.div<{ $revealed: boolean }>`
   position: absolute;
@@ -14,6 +13,10 @@ const FullBleedLiquidWrap = styled.div<{ $revealed: boolean }>`
   overflow: hidden;
   opacity: ${({ $revealed }) => ($revealed ? 1 : 0)};
   transition: opacity 1s ease;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const FullBleedCanvas = styled.canvas`
@@ -66,6 +69,14 @@ const PortraitFrame = styled.div`
     height: 86vh;
     max-height: 900px;
   }
+
+  @media (max-width: 767px) {
+    height: 88vh;
+    height: 88svh;
+    max-height: none;
+    max-width: none;
+    pointer-events: none;
+  }
 `;
 
 const BaseImage = styled.img<{ $isHovered?: boolean; $isHeroActive?: boolean }>`
@@ -87,6 +98,10 @@ const BaseImage = styled.img<{ $isHovered?: boolean; $isHeroActive?: boolean }>`
       ? 'drop-shadow(0 16px 36px rgba(210, 95, 30, 0.42)) drop-shadow(0 0 25px rgba(255, 140, 50, 0.28)) brightness(1.04)'
       : 'drop-shadow(0 14px 28px rgba(0, 0, 0, 0.12)) brightness(1)'};
   transition: filter 0.35s ease;
+
+  @media (max-width: 767px) {
+    max-width: none;
+  }
 `;
 
 interface LiquidRevealCanvasProps {
@@ -260,16 +275,16 @@ export function LiquidRevealCanvas({
     };
   }, []);
 
-  // React to mouse movement across entire Hero section
+  // React to mouse movement across entire Hero section (desktop & tablet hover only)
   useEffect(() => {
     const wrap = wrapRef.current;
     const frame = frameRef.current;
     if (!wrap || !frame) return;
 
-    if (!heroMouse || !heroMouse.active) {
-      setIsHovered(false);
+    if (!heroMouse || !heroMouse.active || window.innerWidth < 768) {
       lastPointRef.current = null;
-      return;
+      const raf = requestAnimationFrame(() => setIsHovered(false));
+      return () => cancelAnimationFrame(raf);
     }
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -307,7 +322,8 @@ export function LiquidRevealCanvas({
       heroMouse.clientY >= frameRect.top - 20 &&
       heroMouse.clientY <= frameRect.bottom + 20;
 
-    setIsHovered(inBounds);
+    const raf = requestAnimationFrame(() => setIsHovered(inBounds));
+    return () => cancelAnimationFrame(raf);
   }, [heroMouse]);
 
   return (

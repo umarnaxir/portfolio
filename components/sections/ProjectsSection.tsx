@@ -5,21 +5,28 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Eyebrow } from '../ui/Eyebrow';
 import { TagChip } from '../ui/TagChip';
 import { ArrowUpRight, ArrowRight } from '../ui/Icons';
 import { projects } from '@/data/projects';
 import { Container } from '@/styles/primitives';
+import { useMobileCarousel } from '@/hooks/useMobileCarousel';
+import { MobileCarouselControls } from '../ui/MobileCarouselControls';
 
 const ProjectsWrapper = styled.section`
   background: ${({ theme }) => theme.colors.background};
   padding-top: 3.5rem;
   padding-bottom: 4.5rem;
   position: relative;
+  overflow-x: clip;
 
   @media (min-width: 1024px) {
     padding-top: 4rem;
     padding-bottom: 5rem;
+  }
+
+  @media (max-width: 767px) {
+    padding-top: 2.25rem;
+    padding-bottom: 2.5rem;
   }
 `;
 
@@ -29,6 +36,12 @@ const HeaderBox = styled.div`
   align-items: center;
   margin-bottom: 2.75rem;
   text-align: center;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    text-align: left;
+  }
 `;
 
 const ProjectsH2 = styled.h2`
@@ -41,6 +54,11 @@ const ProjectsH2 = styled.h2`
   @media (min-width: 640px) {
     font-size: ${({ theme }) => theme.fontSizes['5xl']};
   }
+
+  @media (max-width: 767px) {
+    font-size: clamp(1.55rem, 6.5vw, 1.95rem);
+    margin-top: 0;
+  }
 `;
 
 const SubtitleText = styled.p`
@@ -49,6 +67,12 @@ const SubtitleText = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   color: rgba(17, 17, 17, 0.65);
   line-height: 1.5;
+
+  @media (max-width: 767px) {
+    margin-top: 0.45rem;
+    font-size: 0.875rem;
+    line-height: 1.48;
+  }
 `;
 
 const DesktopScrollHint = styled.div`
@@ -95,14 +119,43 @@ const HorizontalTrack = styled.div`
   will-change: transform;
 `;
 
-/* Mobile / Tablet Vertical List */
-const MobileProjectsList = styled.ul`
+/* Tablet Vertical List & Mobile Horizontal Touch Carousel */
+const MobileProjectsList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
   @media (min-width: 1024px) {
     display: none;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: row;
+    gap: 0.75rem;
+    margin-inline: -1.125rem;
+    padding: 0.25rem 1.125rem 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+`;
+
+const MobileProjectSlide = styled.div`
+  width: 100%;
+
+  @media (max-width: 767px) {
+    flex: 0 0 85%;
+    max-width: 21rem;
+    scroll-snap-align: start;
+    scroll-margin-left: 1.125rem;
+    display: flex;
   }
 `;
 
@@ -133,37 +186,46 @@ const ProjectCard = styled.div`
     min-height: 30rem;
   }
 
-  &:hover {
-    border-color: rgba(177, 95, 44, 0.65);
-    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.48), 0 0 35px rgba(177, 95, 44, 0.2);
+  @media (max-width: 767px) {
+    min-height: auto;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    transform-style: flat;
   }
 
-  &:hover .preview-img {
-    transform: scale(1.1) translateY(-4px);
-    filter: contrast(1.05) brightness(1.03);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: rgba(177, 95, 44, 0.65);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.48), 0 0 35px rgba(177, 95, 44, 0.2);
+    }
 
-  &:hover .hover-glow-shimmer {
-    opacity: 1;
-  }
+    &:hover .preview-img {
+      transform: scale(1.1) translateY(-4px);
+      filter: contrast(1.05) brightness(1.03);
+    }
 
-  &:hover .image-reveal-tag {
-    opacity: 1;
-    transform: translateY(0);
-    border-color: rgba(177, 95, 44, 0.5);
-  }
+    &:hover .hover-glow-shimmer {
+      opacity: 1;
+    }
 
-  &:hover .badge-rotate {
-    transform: rotate(45deg) scale(1.1);
-    background: ${({ theme }) => theme.colors.accent};
-    color: #ffffff;
-  }
+    &:hover .image-reveal-tag {
+      opacity: 1;
+      transform: translateY(0);
+      border-color: rgba(177, 95, 44, 0.5);
+    }
 
-  &:hover .card-action-btn {
-    background: ${({ theme }) => theme.colors.accent};
-    border-color: ${({ theme }) => theme.colors.accentFrom};
-    color: #ffffff;
-    box-shadow: 0 4px 18px rgba(177, 95, 44, 0.4);
+    &:hover .badge-rotate {
+      transform: rotate(45deg) scale(1.1);
+      background: ${({ theme }) => theme.colors.accent};
+      color: #ffffff;
+    }
+
+    &:hover .card-action-btn {
+      background: ${({ theme }) => theme.colors.accent};
+      border-color: ${({ theme }) => theme.colors.accentFrom};
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(177, 95, 44, 0.4);
+    }
   }
 `;
 
@@ -181,6 +243,10 @@ const CardImageContainer = styled.div`
     border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
 
+  @media (max-width: 767px) {
+    height: 185px;
+  }
+
   .preview-img {
     width: 100%;
     height: 100%;
@@ -189,6 +255,13 @@ const CardImageContainer = styled.div`
     display: block;
     will-change: transform;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+
+    @media (max-width: 767px) {
+      width: 110%;
+      max-width: none;
+      margin-left: -5%;
+      transition: none;
+    }
   }
 
   .hover-glow-shimmer {
@@ -223,6 +296,13 @@ const CardImageContainer = styled.div`
     opacity: 0.85;
     transition: all 0.3s ease;
     z-index: 2;
+
+    @media (max-width: 767px) {
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.625rem;
+    }
 
     .dot {
       width: 6px;
@@ -261,11 +341,20 @@ const CardContent = styled.div`
     border-left: 1px solid rgba(255, 255, 255, 0.04);
   }
 
+  @media (max-width: 767px) {
+    flex: 1;
+    padding: 1.15rem 1.1rem;
+  }
+
   .meta-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.85rem;
+
+    @media (max-width: 767px) {
+      margin-bottom: 0.55rem;
+    }
   }
 
   .category-pill {
@@ -278,12 +367,21 @@ const CardContent = styled.div`
     border: 1px solid rgba(177, 95, 44, 0.3);
     padding: 0.3rem 0.75rem;
     border-radius: 6px;
+
+    @media (max-width: 767px) {
+      font-size: 0.65rem;
+      padding: 0.25rem 0.55rem;
+    }
   }
 
   .year-tag {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.45);
     font-family: monospace;
+
+    @media (max-width: 767px) {
+      font-size: 0.72rem;
+    }
   }
 
   .title-row {
@@ -292,6 +390,11 @@ const CardContent = styled.div`
     align-items: baseline;
     gap: 0.75rem;
     margin-bottom: 0.75rem;
+
+    @media (max-width: 767px) {
+      margin-bottom: 0.45rem;
+      gap: 0.5rem;
+    }
   }
 
   h3 {
@@ -300,12 +403,22 @@ const CardContent = styled.div`
     letter-spacing: -0.02em;
     color: #ffffff;
     line-height: 1.25;
+
+    @media (max-width: 767px) {
+      font-size: 1.15rem;
+      line-height: 1.22;
+    }
   }
 
   p {
     font-size: ${({ theme }) => theme.fontSizes.sm};
     color: rgba(255, 255, 255, 0.68);
     line-height: 1.55;
+
+    @media (max-width: 767px) {
+      font-size: 0.8125rem;
+      line-height: 1.48;
+    }
   }
 
   .tags-and-link {
@@ -315,12 +428,22 @@ const CardContent = styled.div`
     gap: 1.25rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 1.25rem;
+
+    @media (max-width: 767px) {
+      margin-top: 0.9rem;
+      padding-top: 0.85rem;
+      gap: 0.8rem;
+    }
   }
 
   .tags-group {
     display: flex;
     flex-wrap: wrap;
     gap: 0.45rem;
+
+    @media (max-width: 767px) {
+      gap: 0.35rem;
+    }
   }
 
   .card-action-btn {
@@ -338,11 +461,24 @@ const CardContent = styled.div`
     text-decoration: none;
     transition: all 0.25s ease;
 
-    &:hover {
+    @media (max-width: 767px) {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    &:active {
       background: ${({ theme }) => theme.colors.accent};
       border-color: ${({ theme }) => theme.colors.accentFrom};
       color: #ffffff;
-      box-shadow: 0 4px 18px rgba(177, 95, 44, 0.4);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: ${({ theme }) => theme.colors.accent};
+        border-color: ${({ theme }) => theme.colors.accentFrom};
+        color: #ffffff;
+        box-shadow: 0 4px 18px rgba(177, 95, 44, 0.4);
+      }
     }
   }
 `;
@@ -359,12 +495,22 @@ const CardBadge = styled.span`
   font-size: 1.1rem;
   transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   flex-shrink: 0;
+
+  @media (max-width: 767px) {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.9rem;
+  }
 `;
 
 const ViewMoreBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 4.5rem;
+
+  @media (max-width: 767px) {
+    margin-top: 1.5rem;
+  }
 `;
 
 const ViewAllLink = styled(Link)`
@@ -380,19 +526,37 @@ const ViewAllLink = styled(Link)`
   text-decoration: none;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.72rem 1.5rem;
+    font-size: 0.8125rem;
   }
 `;
+
+const FEATURED_PROJECTS = projects.slice(0, 4);
 
 export function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinSectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Show strictly first 4 projects as requested
-  const featuredProjects = projects.slice(0, 4);
+  const {
+    trackRef: mobileTrackRef,
+    setSlideRef,
+    activeIndex,
+    goToSlide,
+    handleScroll,
+  } = useMobileCarousel(FEATURED_PROJECTS.length, {
+    align: 'start',
+    enableImageParallax: true,
+    enableCardScale: true,
+  });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -432,9 +596,12 @@ export function ProjectsSection() {
     });
 
     return () => mm.revert();
-  }, [featuredProjects]);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -453,6 +620,9 @@ export function ProjectsSection() {
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches)) {
+      return;
+    }
     gsap.to(e.currentTarget, {
       rotateX: 0,
       rotateY: 0,
@@ -480,7 +650,7 @@ export function ProjectsSection() {
       <DesktopTrackWrapper ref={pinSectionRef}>
         <HorizontalPinSection>
           <HorizontalTrack ref={trackRef}>
-            {featuredProjects.map((project) => (
+            {FEATURED_PROJECTS.map((project) => (
               <ProjectCard
                 key={project.id}
                 onMouseMove={handleMouseMove}
@@ -546,11 +716,11 @@ export function ProjectsSection() {
         </HorizontalPinSection>
       </DesktopTrackWrapper>
 
-      {/* Mobile & Tablet Responsive List */}
+      {/* Tablet Vertical List & Mobile Touch Horizontal Carousel */}
       <Container>
-        <MobileProjectsList>
-          {featuredProjects.map((project) => (
-            <li key={project.id}>
+        <MobileProjectsList ref={mobileTrackRef} onScroll={handleScroll} role="list">
+          {FEATURED_PROJECTS.map((project, idx) => (
+            <MobileProjectSlide key={project.id} ref={setSlideRef(idx)} role="listitem">
               <ProjectCard>
                 <CardImageContainer>
                   {project.image && (
@@ -558,10 +728,11 @@ export function ProjectsSection() {
                       src={project.image}
                       alt={project.title}
                       className="preview-img"
+                      data-carousel-img
                       loading="lazy"
                     />
                   )}
-                  <div className="hover-glow-shimmer" />
+                  <div className="hover-glow-shimmer" data-carousel-glow />
                   <div className="image-reveal-tag">
                     <span className="dot" />
                     <span>Featured Work</span>
@@ -607,9 +778,16 @@ export function ProjectsSection() {
                   </div>
                 </CardContent>
               </ProjectCard>
-            </li>
+            </MobileProjectSlide>
           ))}
         </MobileProjectsList>
+
+        <MobileCarouselControls
+          total={FEATURED_PROJECTS.length}
+          activeIndex={activeIndex}
+          onSelect={goToSlide}
+          labelPrefix="Project"
+        />
 
         <ViewMoreBox>
           <ViewAllLink href="/projects">

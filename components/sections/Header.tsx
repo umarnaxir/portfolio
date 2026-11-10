@@ -27,6 +27,10 @@ const HeaderInner = styled.div`
   @media (min-width: 640px) {
     padding-block: 2rem;
   }
+
+  @media (max-width: 767px) {
+    padding-block: 0.95rem;
+  }
 `;
 
 const BrandButton = styled.button`
@@ -44,6 +48,17 @@ const BrandButton = styled.button`
   &:hover {
     transform: scale(1.02);
     opacity: 0.8;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 1rem;
+  }
+
+  @media (hover: none) {
+    &:hover {
+      transform: none;
+      opacity: 1;
+    }
   }
 `;
 
@@ -66,7 +81,7 @@ const ClockChip = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   color: rgba(17, 17, 17, 0.75);
 
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     display: inline-flex;
   }
 
@@ -113,6 +128,22 @@ const MenuButton = styled.button`
     color: #ffffff;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.7rem;
+    gap: 0.4rem;
+  }
+
+  @media (hover: none) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.65);
+      border-color: rgba(230, 229, 226, 0.9);
+      color: ${({ theme }) => theme.colors.ink};
+      transform: none;
+      box-shadow: none;
+    }
   }
 `;
 

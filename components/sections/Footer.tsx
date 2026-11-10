@@ -21,6 +21,10 @@ const FooterWrapper = styled.footer`
   border-radius: 2rem 2rem 0 0;
   background: ${({ theme }) => theme.colors.ink};
   color: #ffffff;
+
+  @media (max-width: 767px) {
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
 `;
 
 const FooterShell = styled(Container)`
@@ -32,6 +36,11 @@ const FooterShell = styled(Container)`
   @media (min-width: 1024px) {
     padding-top: 5rem;
     padding-bottom: 3rem;
+  }
+
+  @media (max-width: 767px) {
+    padding-top: 2.15rem;
+    padding-bottom: 1.5rem;
   }
 `;
 
@@ -50,6 +59,11 @@ const CtaRow = styled.div`
     justify-content: space-between;
     padding-bottom: 5rem;
   }
+
+  @media (max-width: 767px) {
+    gap: 1.15rem;
+    padding-bottom: 1.5rem;
+  }
 `;
 
 const CtaTextWrap = styled.div`
@@ -63,6 +77,11 @@ const CtaEyebrow = styled.div`
   letter-spacing: 0.12em;
   color: ${({ theme }) => theme.colors.accentFrom};
   margin-bottom: 1rem;
+
+  @media (max-width: 767px) {
+    font-size: 0.65rem;
+    margin-bottom: 0.45rem;
+  }
 `;
 
 const FooterH2 = styled.h2`
@@ -76,6 +95,11 @@ const FooterH2 = styled.h2`
   .accent-word {
     color: ${({ theme }) => theme.colors.accentFrom};
   }
+
+  @media (max-width: 767px) {
+    font-size: clamp(1.42rem, 6vw, 1.8rem);
+    line-height: 1.18;
+  }
 `;
 
 const CtaButtonCol = styled.div`
@@ -85,6 +109,10 @@ const CtaButtonCol = styled.div`
 /* 5-Channel Contact Grid */
 const ContactSection = styled.div`
   padding-block: 4rem;
+
+  @media (max-width: 767px) {
+    padding-block: 1.35rem;
+  }
 `;
 
 const ContactSectionHeader = styled.div`
@@ -94,6 +122,10 @@ const ContactSectionHeader = styled.div`
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 1rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 0.85rem;
+  }
 
   .heading-block {
     display: flex;
@@ -105,11 +137,19 @@ const ContactSectionHeader = styled.div`
       font-weight: 600;
       letter-spacing: -0.01em;
       color: #ffffff;
+
+      @media (max-width: 767px) {
+        font-size: 0.95rem;
+      }
     }
 
     p {
       font-size: ${({ theme }) => theme.fontSizes.xs};
       color: rgba(255, 255, 255, 0.5);
+
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
   }
 `;
@@ -126,6 +166,14 @@ const ContactGrid = styled.div`
   @media (min-width: 1024px) {
     grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem;
   }
 `;
 
@@ -186,25 +234,67 @@ const ContactCard = styled.a`
     }
   }
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(177, 95, 44, 0.5);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(177, 95, 44, 0.15);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(177, 95, 44, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(177, 95, 44, 0.15);
 
-    .icon-box {
-      background: ${({ theme }) => theme.colors.accent};
-      color: #ffffff;
-      border-color: ${({ theme }) => theme.colors.accentFrom};
+      .icon-box {
+        background: ${({ theme }) => theme.colors.accent};
+        color: #ffffff;
+        border-color: ${({ theme }) => theme.colors.accentFrom};
+      }
+
+      .arrow-indicator {
+        transform: translate(3px, -3px);
+        color: ${({ theme }) => theme.colors.accentFrom};
+      }
+
+      .contact-value {
+        color: rgba(255, 255, 255, 0.85);
+      }
+    }
+  }
+
+  &:active {
+    border-color: rgba(177, 95, 44, 0.6);
+    background: rgba(177, 95, 44, 0.16);
+    transform: scale(0.96);
+  }
+
+  @media (max-width: 767px) {
+    flex: 1;
+    max-width: 4rem;
+    height: 3.1rem;
+    padding: 0;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+
+    .icon-row {
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+
+      .icon-box {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        border-radius: 12px;
+      }
+
+      .arrow-indicator {
+        display: none;
+      }
     }
 
-    .arrow-indicator {
-      transform: translate(3px, -3px);
-      color: ${({ theme }) => theme.colors.accentFrom};
-    }
-
-    .contact-value {
-      color: rgba(255, 255, 255, 0.85);
+    .info-block {
+      display: none;
     }
   }
 `;
@@ -222,6 +312,14 @@ const LegalBar = styled.div`
 
   @media (min-width: 640px) {
     flex-direction: row;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 1.15rem;
+    gap: 0.35rem;
+    font-size: 0.7rem;
   }
 
   .founder-tag {
@@ -243,6 +341,11 @@ const Watermark = styled.div`
   color: rgba(255, 255, 255, 0.04);
   white-space: nowrap;
   letter-spacing: -0.04em;
+
+  @media (max-width: 767px) {
+    font-size: clamp(5rem, 23vw, 7.5rem);
+    bottom: -0.65rem;
+  }
 `;
 
 const CONTACT_CHANNELS = [

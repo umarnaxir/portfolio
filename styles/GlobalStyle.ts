@@ -16,17 +16,18 @@ export const GlobalStyle = createGlobalStyle`
     scroll-behavior: auto;
   }
 
-  /* Adaptive Grid media queries */
+  /* Adaptive Grid media queries (tablet & desktop preserved; mobile capped proportionally) */
   @media (max-width: 1920px) { html { font-size: 0.833333vw; } }
   @media (max-width: 1440px) { html { font-size: 1.111111vw; } }
   @media (max-width: 1024px) { html { font-size: 1.5625vw; } }
-  @media (max-width: 640px)  { html { font-size: 4.444444vw; } }
+  @media (max-width: 767px)  { html { font-size: clamp(14px, 3.85vw, 15.5px); } }
 
   body {
     background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.foreground};
     font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100vh;
   }
 

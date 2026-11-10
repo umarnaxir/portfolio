@@ -52,7 +52,7 @@ export const Container = styled(Box)`
   max-width: ${({ theme }) => theme.maxContainer};
   margin-inline: auto;
   width: 100%;
-  padding-inline: 1.5rem;
+  padding-inline: 1.125rem;
 
   @media (min-width: 640px) {
     padding-inline: 2rem;

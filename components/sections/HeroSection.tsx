@@ -23,6 +23,12 @@ const HeroWrapper = styled.section`
   border-radius: 0 0 2rem 2rem;
   background: ${({ theme }) => theme.colors.heroTo};
   min-height: 100vh;
+
+  @media (max-width: 767px) {
+    min-height: 100vh;
+    min-height: 100svh;
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
 `;
 
 const HeroOrangeSpotlight = styled.div<{ $visible: boolean; $x: number; $y: number }>`
@@ -39,6 +45,10 @@ const HeroOrangeSpotlight = styled.div<{ $visible: boolean; $x: number; $y: numb
     rgba(177, 95, 44, 0.08) 60%,
     transparent 75%
   );
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const HeroOrangeGlow = styled.div<{ $visible: boolean; $x: number; $y: number }>`
@@ -56,6 +66,10 @@ const HeroOrangeGlow = styled.div<{ $visible: boolean; $x: number; $y: number }>
     transparent 75%
   );
   mix-blend-mode: overlay;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const HeroVignette = styled.div`
@@ -69,6 +83,17 @@ const HeroVignette = styled.div`
     transparent 35%,
     rgba(0, 0, 0, 0.08) 100%
   );
+
+  @media (max-width: 767px) {
+    z-index: 8;
+    background: linear-gradient(
+      to top,
+      rgba(152, 154, 156, 0.94) 0%,
+      rgba(152, 154, 156, 0.8) 28%,
+      rgba(152, 154, 156, 0.3) 48%,
+      transparent 72%
+    );
+  }
 `;
 
 const Watermark = styled.div<{ $revealed: boolean }>`
@@ -87,6 +112,12 @@ const Watermark = styled.div<{ $revealed: boolean }>`
   transition: color 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   letter-spacing: -0.04em;
+
+  @media (max-width: 767px) {
+    bottom: 11rem;
+    font-size: clamp(6rem, 30vw, 9.5rem);
+    color: ${({ $revealed }) => ($revealed ? 'rgba(255, 255, 255, 0.32)' : 'rgba(255, 255, 255, 0)')};
+  }
 `;
 
 const HeroShell = styled(Container)`
@@ -101,6 +132,14 @@ const HeroShell = styled(Container)`
 
   @media (min-width: 1024px) {
     padding-top: 8.5rem;
+  }
+
+  @media (max-width: 767px) {
+    min-height: 100vh;
+    min-height: 100svh;
+    justify-content: flex-end;
+    padding-top: 4.5rem;
+    padding-bottom: 2.25rem;
   }
 `;
 
@@ -119,6 +158,13 @@ const HeroMainGrid = styled.div`
     align-items: center;
     padding-bottom: 4rem;
   }
+
+  @media (max-width: 767px) {
+    flex: 0 1 auto;
+    gap: 0;
+    padding-bottom: 0;
+    justify-content: flex-end;
+  }
 `;
 
 const HeroLeftCol = styled.div`
@@ -128,6 +174,12 @@ const HeroLeftCol = styled.div`
 
   @media (min-width: 1024px) {
     grid-column: span 7;
+  }
+
+  @media (max-width: 767px) {
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.75rem;
   }
 `;
 
@@ -140,6 +192,10 @@ const TopBadgesRow = styled.div<{ $revealed: boolean }>`
   transform: translateY(${({ $revealed }) => ($revealed ? '0' : '10px')});
   transition: opacity 0.7s ease, transform 0.7s ease;
   transition-delay: 180ms;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const AvailabilityChip = styled.div`
@@ -179,11 +235,19 @@ const HeroH1 = styled.h1`
   @media (min-width: 768px) {
     font-size: ${({ theme }) => theme.fontSizes['6xl']};
   }
+
+  @media (max-width: 767px) {
+    max-width: 100%;
+    font-size: clamp(2rem, 8.6vw, 2.55rem);
+    line-height: 1.03;
+    text-align: left;
+  }
 `;
 
 const RevealLineWrap = styled.span<{ $indent?: boolean }>`
   display: block;
   overflow: hidden;
+  padding-bottom: 0.08em;
   ${({ $indent }) =>
     $indent &&
     `
@@ -197,6 +261,11 @@ const RevealLineInner = styled.span<{ $revealed: boolean; $delay: number }>`
   opacity: ${({ $revealed }) => ($revealed ? 1 : 0)};
   transition: transform 900ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 900ms cubic-bezier(0.215, 0.61, 0.355, 1);
   transition-delay: ${({ $delay }) => `${$delay}ms`};
+
+  @media (max-width: 767px) {
+    transition-duration: 550ms;
+    transition-delay: ${({ $delay }) => `${Math.min($delay, 180)}ms`};
+  }
 `;
 
 const IntroParagraph = styled.p<{ $revealed: boolean }>`
@@ -208,6 +277,16 @@ const IntroParagraph = styled.p<{ $revealed: boolean }>`
   transform: translateY(${({ $revealed }) => ($revealed ? '0' : '10px')});
   transition: opacity 0.7s ease, transform 0.7s ease;
   transition-delay: 550ms;
+
+  @media (max-width: 767px) {
+    font-size: 0.875rem;
+    line-height: 1.48;
+    color: rgba(17, 17, 17, 0.9);
+    max-width: 34ch;
+    margin-inline: 0;
+    transition-duration: 500ms;
+    transition-delay: 240ms;
+  }
 `;
 
 const RatingRow = styled.div<{ $revealed: boolean }>`
@@ -231,6 +310,10 @@ const RatingRow = styled.div<{ $revealed: boolean }>`
     font-weight: 500;
     color: rgba(17, 17, 17, 0.75);
   }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const CtaAndSocialRow = styled.div<{ $revealed: boolean }>`
@@ -242,12 +325,32 @@ const CtaAndSocialRow = styled.div<{ $revealed: boolean }>`
   transform: translateY(${({ $revealed }) => ($revealed ? '0' : '10px')});
   transition: opacity 0.7s ease, transform 0.7s ease;
   transition-delay: 750ms;
+
+  @media (max-width: 767px) {
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 0.25rem;
+    transition-duration: 500ms;
+    transition-delay: 320ms;
+  }
 `;
 
 const CtaGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+
+  @media (max-width: 767px) {
+    justify-content: flex-start;
+    gap: 0.625rem;
+
+    .hero-outline-btn {
+      background: rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-color: rgba(17, 17, 17, 0.28);
+    }
+  }
 `;
 
 const HeroRightCol = styled.div`
@@ -259,6 +362,10 @@ const HeroRightCol = styled.div`
   @media (min-width: 1024px) {
     grid-column: span 5;
     align-items: flex-end;
+  }
+
+  @media (max-width: 767px) {
+    display: none;
   }
 `;
 
@@ -328,6 +435,10 @@ const StatusBar = styled.div<{ $revealed: boolean }>`
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  @media (max-width: 767px) {
+    display: none;
   }
 `;
 
@@ -431,7 +542,12 @@ export function HeroSection() {
                 <PillButton variant="dark" arrow="right" onClick={openModal}>
                   Let&apos;s Talk
                 </PillButton>
-                <PillButton variant="outline" arrow="none" onClick={() => scrollTo('projects')}>
+                <PillButton
+                  variant="outline"
+                  arrow="none"
+                  className="hero-outline-btn"
+                  onClick={() => scrollTo('projects')}
+                >
                   View Projects
                 </PillButton>
               </CtaGroup>

@@ -92,6 +92,12 @@ const NavItemBtn = styled.button<{ $open: boolean; $delay: number }>`
     font-size: ${({ theme }) => theme.fontSizes['6xl']};
   }
 
+  @media (max-width: 767px) {
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+    padding-block: 0.4rem;
+    gap: 0.75rem;
+  }
+
   .idx {
     font-size: ${({ theme }) => theme.fontSizes.base};
     font-weight: 400;

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { TagChip } from '@/components/ui/TagChip';
-import { ArrowUpRight, ArrowRight } from '@/components/ui/Icons';
+import { ArrowUpRight } from '@/components/ui/Icons';
 import { projects } from '@/data/projects';
 import { Container } from '@/styles/primitives';
 
@@ -14,10 +14,19 @@ const PageWrapper = styled.main`
   padding-top: 8rem;
   padding-bottom: 7rem;
   min-height: 100vh;
+
+  @media (max-width: 767px) {
+    padding-top: 5.25rem;
+    padding-bottom: 3rem;
+  }
 `;
 
 const PageHeader = styled.div`
   margin-bottom: 3.5rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.75rem;
+  }
 
   .back-link {
     display: inline-flex;
@@ -33,6 +42,11 @@ const PageHeader = styled.div`
     &:hover {
       transform: translateX(-3px);
     }
+
+    @media (max-width: 767px) {
+      margin-bottom: 0.85rem;
+      font-size: 0.8125rem;
+    }
   }
 
   h1 {
@@ -44,6 +58,11 @@ const PageHeader = styled.div`
     @media (min-width: 640px) {
       font-size: ${({ theme }) => theme.fontSizes['6xl']};
     }
+
+    @media (max-width: 767px) {
+      font-size: clamp(1.75rem, 7.2vw, 2.15rem);
+      margin-top: 0.65rem;
+    }
   }
 
   p {
@@ -52,6 +71,12 @@ const PageHeader = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.lg};
     color: rgba(17, 17, 17, 0.65);
     line-height: 1.6;
+
+    @media (max-width: 767px) {
+      margin-top: 0.6rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
   }
 `;
 
@@ -60,6 +85,21 @@ const FilterRow = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 3rem;
+
+  @media (max-width: 767px) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -1.125rem;
+    padding-inline: 1.125rem;
+    padding-bottom: 0.25rem;
+    margin-bottom: 1.5rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const FilterBtn = styled.button<{ $active: boolean }>`
@@ -69,6 +109,12 @@ const FilterBtn = styled.button<{ $active: boolean }>`
   font-weight: 500;
   cursor: pointer;
   transition: all 0.25s ease;
+
+  @media (max-width: 767px) {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+  }
 
   ${({ $active, theme }) =>
     $active
@@ -112,20 +158,22 @@ const Card = styled.a`
   text-decoration: none;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
 
-  &:hover {
-    transform: translateY(-6px);
-    border-color: rgba(177, 95, 44, 0.5);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-6px);
+      border-color: rgba(177, 95, 44, 0.5);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    }
 
-  &:hover .card-preview-img {
-    transform: scale(1.05);
-  }
+    &:hover .card-preview-img {
+      transform: scale(1.05);
+    }
 
-  &:hover .badge-rotate {
-    transform: rotate(45deg) scale(1.1);
-    background: ${({ theme }) => theme.colors.accent};
-    color: #ffffff;
+    &:hover .badge-rotate {
+      transform: rotate(45deg) scale(1.1);
+      background: ${({ theme }) => theme.colors.accent};
+      color: #ffffff;
+    }
   }
 `;
 
@@ -136,6 +184,10 @@ const CardImage = styled.div`
   background: #111111;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  @media (max-width: 767px) {
+    height: 185px;
+  }
 
   .card-preview-img {
     width: 100%;
@@ -153,6 +205,10 @@ const CardContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+
+  @media (max-width: 767px) {
+    padding: 1.25rem 1.15rem;
+  }
 
   .top-meta {
     display: flex;

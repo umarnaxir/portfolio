@@ -15,6 +15,10 @@ const ServicesWrapper = styled.section`
   @media (min-width: 1024px) {
     padding-block: 4.5rem;
   }
+
+  @media (max-width: 767px) {
+    padding-block: 2.25rem;
+  }
 `;
 
 const ServicesH2 = styled.h2<{ $revealed: boolean }>`
@@ -29,6 +33,12 @@ const ServicesH2 = styled.h2<{ $revealed: boolean }>`
   @media (min-width: 640px) {
     margin-bottom: 3.5rem;
     font-size: ${({ theme }) => theme.fontSizes['5xl']};
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 0.65rem;
+    margin-bottom: 1.35rem;
+    font-size: clamp(1.55rem, 6.5vw, 1.95rem);
   }
 
   .line-inner {
@@ -92,6 +102,27 @@ const ServiceRow = styled.button`
       padding-left: 1.5rem !important;
       padding-right: 1.5rem !important;
     }
+
+    &:hover .badge-shift {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    gap: 0.75rem;
+    padding-block: 1rem;
+    padding-inline: 0.5rem;
+
+    @media (hover: none) {
+      &:hover {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+
+    &:active {
+      background: rgba(241, 240, 238, 1);
+    }
   }
 `;
 
@@ -104,6 +135,11 @@ const ServiceIndex = styled.span`
 
   @media (min-width: 640px) {
     width: 2.5rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 1.35rem;
+    font-size: 0.75rem;
   }
 `;
 
@@ -120,6 +156,11 @@ const ServiceTitle = styled.h3`
 
   @media (min-width: 768px) {
     font-size: ${({ theme }) => theme.fontSizes['4xl']};
+  }
+
+  @media (max-width: 767px) {
+    font-size: 1.125rem;
+    line-height: 1.25;
   }
 `;
 
@@ -150,6 +191,12 @@ const ServiceBadge = styled.span`
   @media (min-width: 640px) {
     width: 3rem;
     height: 3rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 2.15rem;
+    height: 2.15rem;
+    font-size: 0.95rem;
   }
 `;
 
